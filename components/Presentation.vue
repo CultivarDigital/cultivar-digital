@@ -11,3 +11,8 @@
     </v-container>
   </section>
 </template>
+<style lang="sass" scoped>
+.v-application .secondary
+  background-color: rgba(59, 59, 59, 0.8) !important
+
+</style>

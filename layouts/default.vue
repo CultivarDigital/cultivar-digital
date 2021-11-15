@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
     <client-only>
-      <vue-particles color="#A2248F" :particles-number="150" :particle-opacity="0.2" :line-opacity="0.4" :move-speed="2"></vue-particles>
+      <vue-particles color="#A2248F" :particles-number="180" :particle-opacity="0.1" :line-opacity="0.1" :move-speed="2"></vue-particles>
     </client-only>
     <!-- <v-navigation-drawer
       v-model="drawer"
