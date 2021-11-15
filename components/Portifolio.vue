@@ -1,7 +1,7 @@
 <template>
   <section id="portfolio" class="py-16">
     <v-container>
-      <h3 class="text-h3 mb-3">Portifólio</h3>
+      <h3 class="text-h3 mb-6">Portifólio</h3>
       <div class="details">
         <p><a href="https://www.cultivarbrasil.com" target="_blank"><strong>Cultivar</strong></a>: aplicativo para celular em português focado no Brasil que foi desenvolvido com o objetivo de facilitar o aprendizado sobre cultivo do própro alimento.</p>
         <p><a href="https://www.redeagroflorestal.com.br" target="_blank"><strong>Rede Agroflorestal</strong></a>: plataforma de construção colaborativa de conhecimento sobre Agroflorestas.</p>
