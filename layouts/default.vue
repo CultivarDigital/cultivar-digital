@@ -3,7 +3,7 @@
     <client-only>
       <vue-particles color="#A2248F" :particles-number="150" :particle-opacity="0.2" :line-opacity="0.4" :move-speed="2"></vue-particles>
     </client-only>
-    <v-navigation-drawer
+    <!-- <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
       :clipped="clipped"
@@ -26,14 +26,16 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
     <v-app-bar :clipped-left="clipped" fixed app>
       <img :src="require('~/assets/img/cultivar-digital-logo.png')" class="logo" />
       <span class="ml-3"><strong>Cultivar</strong> digital</span>
       <v-spacer />
-      <v-btn color="primary" icon @click.stop="drawer = !drawer">
+      <v-btn text href="#presentation">O que fazemos</v-btn>
+      <v-btn text href="#services">Serviços</v-btn>
+      <!-- <v-btn color="primary" icon @click.stop="drawer = !drawer">
         <v-icon>mdi-menu</v-icon>
-      </v-btn>
+      </v-btn> -->
     </v-app-bar>
     <v-main style="background-color: #2b2b2b">
       <Nuxt />
@@ -56,7 +58,7 @@ export default {
   data() {
     return {
       clipped: false,
-      drawer: false,
+      // drawer: false,
       fixed: false,
       items: [
         {
