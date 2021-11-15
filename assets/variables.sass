@@ -3,8 +3,22 @@
 // The variables you want to modify
 // $font-size-root: 20px;
 
+html
+  scroll-behavior: smooth
+  scroll-padding-top: 56px
 section
   min-height: calc(100vh - 112px)
+  @media (max-width: 960px)
+    min-height: calc(100vh - 108px)
 
 .tertiary--text
   opacity: .4
+
+.logo
+  width: 42px
+  @media (min-width: 960px)
+    width: 64px
+
+.nav-btn
+  @media (max-width: 960px)
+    display: none

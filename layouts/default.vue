@@ -6,7 +6,6 @@
     <!-- <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
-      :clipped="clipped"
       fixed
       app
     >
@@ -27,12 +26,15 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer> -->
-    <v-app-bar :clipped-left="clipped" fixed app>
-      <img :src="require('~/assets/img/cultivar-digital-logo.png')" class="logo" />
+    <v-app-bar fixed app>
+      <img :src="require('~/assets/img/logo.png')" class="logo" />
       <span class="ml-3"><strong>Cultivar</strong> digital</span>
       <v-spacer />
-      <v-btn text href="#presentation">O que fazemos</v-btn>
-      <v-btn text href="#services">Serviços</v-btn>
+      <div class="d-none d-md-block">
+        <v-btn class="font-weight-light" text small href="#presentation">Oferecemos</v-btn>
+        <v-btn class="font-weight-light" text small href="#services">Serviços</v-btn>
+        <v-btn class="font-weight-light" text small href="#services">Produtos</v-btn>
+      </div>
       <!-- <v-btn color="primary" icon @click.stop="drawer = !drawer">
         <v-icon>mdi-menu</v-icon>
       </v-btn> -->
@@ -42,12 +44,9 @@
     </v-main>
 
     <v-footer fixed app class="pa-3">
-      <span class="">
-        Tem uma boa idéia?
-      </span>
       <v-spacer />
-      <v-btn color="accent">
-        Nós te ajudamos!
+      <v-btn color="accent" small>
+        Fale conosco
       </v-btn>
     </v-footer>
   </v-app>
@@ -57,7 +56,6 @@
 export default {
   data() {
     return {
-      clipped: false,
       // drawer: false,
       fixed: false,
       items: [
@@ -86,6 +84,5 @@ export default {
   left: 0
   width: 100%
   height: 100%
-.logo
-  width: 42px
+
 </style>
