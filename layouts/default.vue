@@ -31,7 +31,7 @@
       <img :src="require('~/assets/img/cultivar-digital-logo.png')" class="logo" />
       <span class="ml-3"><strong>Cultivar</strong> digital</span>
       <v-spacer />
-      <v-btn color="primary" icon @click.stop="rightDrawer = !rightDrawer">
+      <v-btn color="primary" icon @click.stop="drawer = !drawer">
         <v-icon>mdi-menu</v-icon>
       </v-btn>
     </v-app-bar>
