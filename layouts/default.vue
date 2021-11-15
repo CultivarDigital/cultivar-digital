@@ -1,5 +1,8 @@
 <template>
   <v-app dark>
+    <client-only>
+      <vue-particles color="#A2248F" :particles-number="150" :particle-opacity="0.2" :line-opacity="0.4" :move-speed="2"></vue-particles>
+    </client-only>
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
@@ -25,25 +28,25 @@
       </v-list>
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
-      <img
-        :src="require('~/assets/img/cultivar-digital-logo.png')"
-        width="80px"
-      />
+      <img :src="require('~/assets/img/cultivar-digital-logo.png')" class="logo" />
       <span class="ml-3"><strong>Cultivar</strong> digital</span>
       <v-spacer />
       <v-btn color="primary" icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>mdi-menu</v-icon>
       </v-btn>
     </v-app-bar>
-    <v-main>
+    <v-main style="background-color: #2b2b2b">
       <Nuxt />
     </v-main>
-    <v-footer elevation app class="pa-3">
-      <span class="font-weight-light">
-        Tem uma boa idéia? Vamos desenvolver justos!
+
+    <v-footer fixed app class="pa-3">
+      <span class="">
+        Tem uma boa idéia?
       </span>
       <v-spacer />
-      <v-btn color="primary" large>Peça um orçamento</v-btn>
+      <v-btn color="accent">
+        Nós te ajudamos!
+      </v-btn>
     </v-footer>
   </v-app>
 </template>
@@ -74,3 +77,13 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+#particles-js
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+.logo
+  width: 42px
+</style>

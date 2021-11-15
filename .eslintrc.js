@@ -14,6 +14,7 @@ module.exports = {
     'prettier'
   ],
   plugins: [
+    'prettier'
   ],
   // add your custom rules here
   rules: {}
