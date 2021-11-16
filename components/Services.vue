@@ -1,5 +1,5 @@
 <template>
-  <section id="services">
+  <section id="services" class="mb-16">
     <v-container>
       <div id="design" class="pt-16">
         <v-row align="center">
