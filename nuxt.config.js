@@ -23,9 +23,6 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    { src: '~/plugins/particles.js', ssr: false }
-  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -73,7 +70,7 @@ export default {
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
-          success: colors.green.accent3,
+          success: '#009D6B',
           background: '#fff',
         },
       },

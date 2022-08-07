@@ -1,0 +1,138 @@
+[
+    {
+        "title": "Full",
+        "description": "Uma maquina linux com aplicação, api, banco de dados e armazenamento no mesmo lugar",
+        "resources": [
+            {
+                "title": "Maquina Linux (EC2)",
+                "price": 14.40,
+                "descriptions": [
+                    "2 GB / 1 AMD CPU",
+                    "50 GB NVMe SSDs",
+                    "2 TB transfer"
+                ]
+            }
+        ],
+        "pros": [
+            "Menor custo de hospedagem",
+            "Maior poder de customização"
+        ],
+        "cons": [
+            "Maior custo de suporte",
+            "Maior custo com segurança",
+            "Gerenciar atualizações",
+            "Cuidar de problemas de Sistema operacional",
+            "Menos disponibilidade",
+            "Menos performance",
+            "Menos escalabilidade",
+            "Custo com implementação e armazenamento de backup",
+            "Custo com implementação manutenção de logs",
+            "Maior possibilidade de falhas por erro humano",
+        ]
+    },
+    {
+        "title": "Mix",
+        "description": "Uma maquina linux com aplicação e api, banco de dados e armazenamento como serviço",
+        "resources": [
+            {
+                "title": "Maquina Linux (EC2)",
+                "price": 14.40,
+                "descriptions": [
+                    "2 GB / 1 AMD CPU",
+                    "50 GB NVMe SSDs",
+                    "2 TB transfer"
+                ]
+            },
+            {
+                "title": "Banco de dados (Databases)",
+                "price": 15,
+                "descriptions": [
+                    "1 GB RAM",
+                    "1 vCPU",
+                    "15 GB Disk"
+                ]
+            },
+            {
+                "title": "Armazenamento (Spaces)",
+                "price": 5,
+                "descriptions": [
+                    "250 GB Disk",
+                    "1 TB transfer"
+                ]
+            }
+        ],
+        "pros": [
+            "Menos custo de suporte com backup scripts migração",
+            "Mais segurança dos dados do banco e arquivos",
+            "Maior poder de customização",
+            "Mais disponibilidade",
+            "Mais performance",
+            "Mais escalabilidade",
+            "Não precisa implementar backup de dados e arquivo",
+            "Menor risco de perda de dados/arquivos por erro humano",
+        ],
+        "cons": [
+            "Maior custo de suporte com a aplicação",
+            "Custo com segurança do linux e aplicação",
+            "Gerenciar atualizações",
+            "Cuidar de problemas de sistema operacional",
+            "Menos disponibilidade da aplicação",
+            "Menos performance da aplicação",
+            "Menos escalabilidade da aplicação",
+            "Custo com backup do sistema operacional",
+            "Custo com implementação manutenção de logs",
+            "Maior possibilidade de falhas na aplicação por erro humano ",
+        ]
+    },
+    {
+        "title": "Hosting as a service",
+        "description": "Frontend em CDN, Backend no Apps, banco de dados e armazenamento como serviço",
+        "resources": [
+            {
+                "title": "Frontend estático - Apps",
+                "price": 5,
+                "descriptions": [
+                    "40 GB transfer"
+                ]
+            },
+            {
+                "title": "Backend (Apps)",
+                "price": 12,
+                "descriptions": [
+                    "100 GB transfer"
+                ]
+            },
+            {
+                "title": "Banco de dados (Databases)",
+                "price": 12,
+                "descriptions": [
+                    "1 GB RAM",
+                    "1 vCPU",
+                    "15 GB Disk"
+                ]
+            },
+            {
+                "title": "Armazenamento (Spaces)",
+                "price": 5,
+                "descriptions": [
+                    "250 GB Disk",
+                    "1 TB transfer"
+                ]
+            }
+        ],
+        "pros": [
+            "Menos custo de suporte com backup, scripts, migração, atualizações, sistema operacional",
+            "Maior segurança dos dados do banco e arquivos",
+            "Maior disponibilidade",
+            "Maior performance",
+            "Maior escalabilidade",
+            "Não precisa implementar backup",
+            "Mais facilidade de identificar problemas",
+            "Reduz consideravelmente problemas por erros humanos",
+        ],
+        "cons": [
+            "Maior complexidade na implementação",
+            "Maior custo",
+        ]
+    }
+]

@@ -1,8 +1,5 @@
 <template>
   <v-app dark>
-    <client-only>
-      <vue-particles color="#A2248F" :particles-number="180" :particle-opacity="0.1" :line-opacity="0.1" :move-speed="2"></vue-particles>
-    </client-only>
     <!-- <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
@@ -31,9 +28,15 @@
       <span class="ml-3"><strong>Cultivar</strong> digital</span>
       <v-spacer />
       <div class="d-none d-md-block">
-        <v-btn class="font-weight-light" text small href="#presentation">Oferecemos</v-btn>
-        <v-btn class="font-weight-light" text small href="#services">Serviços</v-btn>
-        <v-btn class="font-weight-light" text small href="#portifolio">Portifolio</v-btn>
+        <v-btn class="font-weight-light" text small href="#presentation"
+          >Oferecemos</v-btn
+        >
+        <v-btn class="font-weight-light" text small href="#services"
+          >Serviços</v-btn
+        >
+        <v-btn class="font-weight-light" text small href="#portfolio"
+          >Portfólio</v-btn
+        >
       </div>
       <!-- <v-btn color="primary" icon @click.stop="drawer = !drawer">
         <v-icon>mdi-menu</v-icon>
@@ -43,11 +46,26 @@
       <Nuxt />
     </v-main>
 
-    <v-footer fixed app class="pa-3">
-      <v-spacer />
-      <v-btn color="accent" small>
-        Fale conosco
+    <v-footer fixed app class="pa-3 justify-center">
+      <div class="text-center">
+        <div class="mb-2">Vamos conversar?</div>
+      <v-btn v-if="!show_contact" color="success" block @click="show_contact = !show_contact">
+        Fale com a gente
       </v-btn>
+      <div v-if="show_contact" class="text-center">
+        <h5 class="tertiary--text pt-3">
+          Envie uma mensagem para:
+        </h5>
+        <h5 class="text-h6 mb-6">
+          <a href="mailto:atendimento@cultivarbrasil.com" class="dark text-decoration-none white--text">
+            atendimento@cultivarbrasil.com
+          </a>
+        </h5>
+        <v-btn class="text-primary tertiary--text" icon @click="show_contact = !show_contact">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </div>
+      </div>
     </v-footer>
   </v-app>
 </template>
@@ -58,6 +76,7 @@ export default {
     return {
       // drawer: false,
       fixed: false,
+      show_contact: false,
       items: [
         {
           icon: 'mdi-apps',
@@ -77,12 +96,3 @@ export default {
   },
 }
 </script>
-<style lang="sass" scoped>
-#particles-js
-  position: absolute
-  top: 0
-  left: 0
-  width: 100%
-  height: 100%
-
-</style>

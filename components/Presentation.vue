@@ -5,9 +5,8 @@
         <strong>Sites, aplicativos e sistemas</strong>
       </h4>
       <h5 class="text-h4">
-        Oferecemos hospedagem, manutenção e consultoria
+        Entendemos seu problema, desenvolvemos, hospedamos tudo e ainda te ajudamos com o conteúdo do seu negócio.
       </h5>
-      
     </v-container>
   </section>
 </template>

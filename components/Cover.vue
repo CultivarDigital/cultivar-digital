@@ -2,6 +2,7 @@
   <section class="d-flex justify-center align-center page-cover">
     <v-container>
       <div class="text-h2 text-md-h1 font-weight-light cover font-weight-bold">
+        <div><a style="font-size: 18px; letter-spacing: 1.5px;" href="#design" class="font-weight-light">Oferecemos serviços de</a></div>
         <div class="mb-6"><a href="#design">Design,</a></div>
         <div class="mb-6"><a href="#code">Código &</a></div>
         <div class="mb-6"><a href="#content">Conteúdo!</a></div>
