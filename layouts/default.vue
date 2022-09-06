@@ -57,8 +57,8 @@
           Envie uma mensagem para:
         </h5>
         <h5 class="text-h6 mb-6">
-          <a href="mailto:atendimento@cultivarbrasil.com" class="dark text-decoration-none white--text">
-            atendimento@cultivarbrasil.com
+          <a href="mailto:atendimento@cultivardigital.com.br" class="dark text-decoration-none white--text">
+            atendimento@cultivardigital.com.br
           </a>
         </h5>
         <v-btn class="text-primary tertiary--text" icon @click="show_contact = !show_contact">
