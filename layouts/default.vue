@@ -48,23 +48,51 @@
 
     <v-footer fixed app class="pa-3 justify-center">
       <div class="text-center">
-        <div class="mb-2">Vamos conversar?</div>
-      <v-btn v-if="!show_contact" color="success" block @click="show_contact = !show_contact">
-        Fale com a gente
-      </v-btn>
-      <div v-if="show_contact" class="text-center">
-        <h5 class="tertiary--text pt-3">
-          Envie uma mensagem para:
-        </h5>
-        <h5 class="text-h6 mb-6">
-          <a href="mailto:atendimento@cultivardigital.com.br" class="dark text-decoration-none white--text">
-            atendimento@cultivardigital.com.br
-          </a>
-        </h5>
-        <v-btn class="text-primary tertiary--text" icon @click="show_contact = !show_contact">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </div>
+        <div v-if="!show_contact">
+          <div class="mb-2"><small>Vamos conversar?</small></div>
+          <v-btn color="success" block @click="show_contact = !show_contact">
+            <v-icon left>mdi-chat</v-icon>
+            Fale com a gente
+          </v-btn>
+        </div>
+        <div v-if="show_contact" class="text-center">
+          <div class="mb-3">Fale com a gente pelo WhatsApp</div>
+          <v-btn
+            color="primary"
+            x-large
+            target="_blank"
+            href="https://api.whatsapp.com/send?phone=5562999159008"
+            class="text-decoration-none mb-3"
+          >
+            <v-icon left>mdi-whatsapp</v-icon>
+            62 99915-9008
+          </v-btn>
+          <h5 class="tertiary--text pt-3">Ou envie um email para:</h5>
+          <h5 class="text-h6 mb-6">
+            <a
+              class="dark text-decoration-none white--text"
+              @click="copy('atendimento@cultivardigital.com.br')"
+            >
+              atendimento@cultivardigital.com.br
+            </a>
+          </h5>
+          <v-alert
+            v-if="success"
+            type="success"
+            outlined
+            class="text-left"
+            small
+          >
+            {{ success }}
+          </v-alert>
+          <v-btn
+            class="text-primary tertiary--text mt-3"
+            icon
+            @click="show_contact = !show_contact"
+          >
+            <v-icon>mdi-chevron-down</v-icon>
+          </v-btn>
+        </div>
       </div>
     </v-footer>
   </v-app>
@@ -74,6 +102,7 @@
 export default {
   data() {
     return {
+      success: '',
       // drawer: false,
       fixed: false,
       show_contact: false,
@@ -93,6 +122,12 @@ export default {
       right: true,
       title: 'Vuetify.js',
     }
+  },
+  methods: {
+    async copy(value) {
+      await navigator.clipboard.writeText(value)
+      this.success = 'Email copiado!'
+    },
   },
 }
 </script>
