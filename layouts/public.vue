@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app dark>
     <!-- <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
@@ -100,7 +100,6 @@
 
 <script>
 export default {
-  middleware: 'auth',
   data() {
     return {
       success: '',
