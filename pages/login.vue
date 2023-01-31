@@ -60,7 +60,7 @@
             </v-text-field>
           </validation-provider>
           <div class="text-right mb-6 mt-2">
-            <v-btn
+            <!-- <v-btn
               color="white"
               outlined
               small
@@ -68,7 +68,7 @@
               rounded
             >
               Esqueci minha senha
-            </v-btn>
+            </v-btn> -->
           </div>
         </div>
         <Save :invalid="invalid" :loading="loading" label="Entrar" />
