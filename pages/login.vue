@@ -1,66 +1,66 @@
 <template>
-  <v-container class="pt-10 white--text text-center" style="max-width: 340px">
-    <ValidationObserver v-slot="{ validate, invalid }">
-      <v-form @submit.prevent="validate().then(login)">
-        <img
-          src="~/assets/img/logo.png"
-          alt="Cultivar Digital"
-          class="mb-6"
-          width="200"
-        />
-        <div>
-          <h2 class="text-h4 font-weight-bold">Olá!</h2>
-          <p class="text-subtitle-1 mb-6">
-            Para acessar, basta adicionar seus dados.
-          </p>
-          <validation-provider
-            v-slot="{ errors }"
-            name="e-mail"
-            rules="required"
-          >
-            <!-- <h4
+  <section class="d-flex align-center">
+    <v-container class="pt-10 white--text text-center" style="max-width: 340px">
+      <ValidationObserver v-slot="{ validate, invalid }">
+        <v-form @submit.prevent="validate().then(login)">
+          <img
+            src="~/assets/img/logo.png"
+            alt="Cultivar Digital"
+            class="mb-6"
+            width="140"
+          />
+          <div>
+            <p class="text-subtitle-1 mb-6">
+              Informe seu e-mail e senha para acessar a área de clientes.
+            </p>
+            <validation-provider
+              v-slot="{ errors }"
+              name="e-mail"
+              rules="required"
+            >
+              <!-- <h4
               class="text-subtitle-1 font-weight-black mb-3"
               style="opacity: 0.6"
             >
               Login
             </h4> -->
-            <v-text-field
-              v-model="form.login"
-              outlined
-              label="Digite seu e-mail"
-              :error-messages="errors"
-            />
-          </validation-provider>
-          <validation-provider
-            v-slot="{ errors }"
-            name="senha"
-            rules="required"
-          >
-            <!-- <h4
+              <v-text-field
+                v-model="form.login"
+                outlined
+                label="Digite seu e-mail"
+                :error-messages="errors"
+              />
+            </validation-provider>
+            <validation-provider
+              v-slot="{ errors }"
+              name="senha"
+              rules="required"
+            >
+              <!-- <h4
               class="text-subtitle-1 font-weight-black mb-3"
               style="opacity: 0.6"
             >
               Senha
             </h4> -->
-            <v-text-field
-              v-model="form.password"
-              outlined
-              :type="showPassword ? 'text' : 'password'"
-              :error-messages="errors"
-              label="Digite sua senha"
-              hide-details="auto"
-            >
-              <v-icon
-                slot="append"
-                color="primary"
-                @click="showPassword = !showPassword"
+              <v-text-field
+                v-model="form.password"
+                outlined
+                :type="showPassword ? 'text' : 'password'"
+                :error-messages="errors"
+                label="Digite sua senha"
+                hide-details="auto"
               >
-                mdi-eye
-              </v-icon>
-            </v-text-field>
-          </validation-provider>
-          <div class="text-right mb-6 mt-2">
-            <!-- <v-btn
+                <v-icon
+                  slot="append"
+                  color="primary"
+                  @click="showPassword = !showPassword"
+                >
+                  mdi-eye
+                </v-icon>
+              </v-text-field>
+            </validation-provider>
+            <div class="text-right mb-6 mt-2">
+              <!-- <v-btn
               color="white"
               outlined
               small
@@ -69,28 +69,29 @@
             >
               Esqueci minha senha
             </v-btn> -->
+            </div>
           </div>
-        </div>
-        <Save :invalid="invalid" :loading="loading" label="Entrar" />
-        <v-btn
-          color="primary"
-          block
-          class="mb-2"
-          rounded
-          @click="signInWithGoogle"
-        >
-          <v-icon left>mdi-google</v-icon> Entrar com o google
-        </v-btn>
-        <!-- <v-btn
+          <Save :invalid="invalid" :loading="loading" label="Entrar" />
+          <v-btn
+            color="primary"
+            block
+            class="mb-2"
+            rounded
+            @click="signInWithGoogle"
+          >
+            <v-icon left>mdi-google</v-icon> Entrar com o google
+          </v-btn>
+          <!-- <v-btn
           color="primary"
           plain
           :to="{ path: '/cadastro', query: $route.query }"
         >
           Cadastre-se
         </v-btn> -->
-      </v-form>
-    </ValidationObserver>
-  </v-container>
+        </v-form>
+      </ValidationObserver>
+    </v-container>
+  </section>
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
@@ -100,7 +101,7 @@ export default {
     ValidationObserver,
     ValidationProvider,
   },
-  layout: 'front',
+  layout: 'public',
   data() {
     return {
       showPassword: false,
@@ -154,7 +155,7 @@ export default {
         })
     },
     welcome(user) {
-      this.$router.replace('/dashboard')
+      this.$router.replace('/cliente')
       this.$notifier.success('Olá!')
     },
   },

@@ -24,19 +24,18 @@
       </v-list>
     </v-navigation-drawer> -->
     <v-app-bar fixed app>
-      <img :src="require('~/assets/img/logo.png')" class="logo" />
-      <span class="ml-3"><strong>Cultivar</strong> digital</span>
+      <n-link
+        to="/"
+        class="text-decoration-none white--text d-flex align-center"
+      >
+        <img :src="require('~/assets/img/logo.png')" class="logo" />
+        <span class="ml-3"><strong>Cultivar</strong> digital</span>
+      </n-link>
       <v-spacer />
-      <div class="d-none d-md-block">
-        <v-btn class="font-weight-light" text small href="#presentation"
-          >Oferecemos</v-btn
-        >
-        <v-btn class="font-weight-light" text small href="#services"
-          >Serviços</v-btn
-        >
-        <v-btn class="font-weight-light" text small href="#portfolio"
-          >Portfólio</v-btn
-        >
+      <div class="d-flex align-center">
+        <v-btn color="primary" small @click="logout">
+          <v-icon left>mdi-logout</v-icon> Sair
+        </v-btn>
       </div>
       <!-- <v-btn color="primary" icon @click.stop="drawer = !drawer">
         <v-icon>mdi-menu</v-icon>
@@ -45,56 +44,6 @@
     <v-main style="background-color: #2b2b2b">
       <Nuxt />
     </v-main>
-
-    <v-footer fixed app class="pa-3 justify-center">
-      <div class="text-center">
-        <div v-if="!show_contact">
-          <div class="mb-2"><small>Vamos conversar?</small></div>
-          <v-btn color="success" block @click="show_contact = !show_contact">
-            <v-icon left>mdi-chat</v-icon>
-            Fale com a gente
-          </v-btn>
-        </div>
-        <div v-if="show_contact" class="text-center">
-          <div class="mb-3">Fale com a gente pelo WhatsApp</div>
-          <v-btn
-            color="primary"
-            x-large
-            target="_blank"
-            href="https://api.whatsapp.com/send?phone=5562999159008"
-            class="text-decoration-none mb-3"
-          >
-            <v-icon left>mdi-whatsapp</v-icon>
-            62 99915-9008
-          </v-btn>
-          <h5 class="tertiary--text pt-3">Ou envie um email para:</h5>
-          <h5 class="text-h6 mb-6">
-            <a
-              class="dark text-decoration-none white--text"
-              @click="copy('atendimento@cultivardigital.com.br')"
-            >
-              atendimento@cultivardigital.com.br
-            </a>
-          </h5>
-          <v-alert
-            v-if="success"
-            type="success"
-            outlined
-            class="text-left"
-            small
-          >
-            {{ success }}
-          </v-alert>
-          <v-btn
-            class="text-primary tertiary--text mt-3"
-            icon
-            @click="show_contact = !show_contact"
-          >
-            <v-icon>mdi-chevron-down</v-icon>
-          </v-btn>
-        </div>
-      </div>
-    </v-footer>
   </v-app>
 </template>
 
@@ -125,9 +74,9 @@ export default {
     }
   },
   methods: {
-    async copy(value) {
-      await navigator.clipboard.writeText(value)
-      this.success = 'Email copiado!'
+    logout() {
+      this.$firebase.logout()
+      this.$auth.logout()
     },
   },
 }

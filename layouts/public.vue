@@ -24,19 +24,30 @@
       </v-list>
     </v-navigation-drawer> -->
     <v-app-bar fixed app>
-      <img :src="require('~/assets/img/logo.png')" class="logo" />
-      <span class="ml-3"><strong>Cultivar</strong> digital</span>
+      <n-link
+        to="/"
+        class="text-decoration-none white--text d-flex align-center"
+      >
+        <img :src="require('~/assets/img/logo.png')" class="logo" />
+        <span class="ml-3"><strong>Cultivar</strong> digital</span>
+      </n-link>
       <v-spacer />
-      <div class="d-none d-md-block">
-        <v-btn class="font-weight-light" text small href="#presentation"
-          >Oferecemos</v-btn
-        >
-        <v-btn class="font-weight-light" text small href="#services"
-          >Serviços</v-btn
-        >
-        <v-btn class="font-weight-light" text small href="#portfolio"
-          >Portfólio</v-btn
-        >
+      <div class="d-flex align-center">
+        <div class="d-none d-md-block">
+          <v-btn class="font-weight-light" text small href="#presentation"
+            >Oferecemos</v-btn
+          >
+          <v-btn class="font-weight-light" text small href="#services"
+            >Serviços</v-btn
+          >
+          <v-btn class="font-weight-light" text small href="#portfolio"
+            >Portfólio</v-btn
+          >
+        </div>
+
+        <v-btn color="primary" to="/cliente" small>
+          <v-icon left>mdi-login</v-icon> Cliente
+        </v-btn>
       </div>
       <!-- <v-btn color="primary" icon @click.stop="drawer = !drawer">
         <v-icon>mdi-menu</v-icon>
@@ -46,16 +57,9 @@
       <Nuxt />
     </v-main>
 
-    <v-footer fixed app class="pa-3 justify-center">
+    <v-footer class="pa-3 justify-center">
       <div class="text-center">
-        <div v-if="!show_contact">
-          <div class="mb-2"><small>Vamos conversar?</small></div>
-          <v-btn color="success" block @click="show_contact = !show_contact">
-            <v-icon left>mdi-chat</v-icon>
-            Fale com a gente
-          </v-btn>
-        </div>
-        <div v-if="show_contact" class="text-center">
+        <div class="text-center">
           <div class="mb-3">Fale com a gente pelo WhatsApp</div>
           <v-btn
             color="primary"
@@ -85,13 +89,7 @@
           >
             {{ success }}
           </v-alert>
-          <v-btn
-            class="text-primary tertiary--text mt-3"
-            icon
-            @click="show_contact = !show_contact"
-          >
-            <v-icon>mdi-chevron-down</v-icon>
-          </v-btn>
+          
         </div>
       </div>
     </v-footer>
@@ -105,7 +103,6 @@ export default {
       success: '',
       // drawer: false,
       fixed: false,
-      show_contact: false,
       items: [
         {
           icon: 'mdi-apps',

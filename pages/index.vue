@@ -11,3 +11,4 @@
 export default {
   layout: 'public',
 }
+</script>
