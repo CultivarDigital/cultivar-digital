@@ -58,45 +58,55 @@
           class="mb-3"
         >
           <v-card-text>
-            <div class="d-flex align-center justify-space-between">
-              <h4 class="white--text mb-3">{{ demand.title }}</h4>
+            <div class="d-flex align-center justify-space-between mb-3">
               <div>
-                <v-btn
-                  v-if="demand._id === activeDemand"
-                  icon
-                  small
-                  @click="editDemand = demand"
-                >
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
+                <h3 class="white--text">{{ demand.title }}</h3>
+              </div>
+
+              <div class="text-right">
                 <v-btn small icon @click="toggleDemand(demand._id)">
                   <v-icon>{{
-                    demand._id === activeDemand
+                    isActive(demand)
                       ? 'mdi-chevron-up'
                       : 'mdi-chevron-down'
                   }}</v-icon>
                 </v-btn>
               </div>
             </div>
-            {{ demand.body }}
+
+            <div v-if="isActive(demand)" class="white--text">
+              <Editor v-model="demand.body" />
+            </div>
             <div>
               <v-chip
                 v-if="demand.type"
                 outlined
                 small
-                :color="demandPriorityColor(demand.priority)"
+                color="rgba(255, 255, 255, 0.6)"
               >
-                <v-icon left small>{{ demandTypeIcon(demand.type) }}</v-icon>
+                <v-icon
+                  left
+                  small
+                  :color="demandPriorityColor(demand.priority)"
+                  >{{ demandTypeIcon(demand.type) }}</v-icon
+                >
                 {{ demandTypeLabel(demand.type) }}
               </v-chip>
             </div>
-            <div v-if="$auth.user.role === 'admin'" class="text-right">
+            <div v-if="isActive(demand)" class="text-right">
               <v-divider class="my-3"></v-divider>
-              <v-btn v-if="demand.status === 'backlog'" color="success" small>
+              <v-btn
+                v-if="isActive(demand)"
+                small
+                @click="editDemand = demand"
+              >
+                <v-icon small left>mdi-pencil</v-icon> Editar
+              </v-btn>
+              <v-btn v-if="$auth.user.role === 'admin' && demand.status === 'backlog'" color="success" small>
                 <v-icon left>mdi-play-circle-outline</v-icon> Iniciar
               </v-btn>
               <v-btn
-                v-if="demand.status === 'in-progress'"
+                v-if="$auth.user.role === 'admin' && demand.status === 'in-progress'"
                 color="success"
                 small
               >
@@ -169,6 +179,9 @@ export default {
     await this.loadDemands()
   },
   methods: {
+    isActive(demand) {
+      return this.activeDemand === demand._id
+    },
     toggleDemand(id) {
       console.log('toggleDemand', this.activeDemand === id)
       if (this.activeDemand === id) {
@@ -198,6 +211,7 @@ export default {
       this.demands = await this.$axios.$get('/v1/demands', {
         params: this.filters,
       })
+      this.editDemand = this.demands[0]
     },
   },
 }

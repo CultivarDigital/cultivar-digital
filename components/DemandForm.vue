@@ -25,7 +25,6 @@
               </v-btn>
             </div>
             <div v-else-if="form.priority === null">
-              {{ form.priority === null }}a
               <h3 class="mb-6">Qual a prioridade dessa demanda?</h3>
               <v-btn
                 v-for="demandPriority in demandPriorities"
@@ -71,6 +70,7 @@
                   focusable
                 />
               </validation-provider>
+              <Editor v-model="form.body" editable />
               <validation-provider
                 v-slot="{ errors }"
                 name="Tipo de demanda"

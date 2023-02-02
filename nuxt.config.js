@@ -56,12 +56,13 @@ export default {
 
   plugins: [
     '~/plugins/global-mixin',
-    { src: '~/plugins/persisted-state', ssr: false },
-    { src: '~/plugins/vue-the-mask', ssr: false },
     '~/plugins/notifier.js',
     '~/plugins/firebase.js',
     '~/plugins/moment.js',
     '~/plugins/axios.js',
+    { src: '~/plugins/persisted-state', ssr: false },
+    { src: '~/plugins/vue-the-mask', ssr: false },
+    { src: '~plugins/quill.js', ssr: false },
   ],
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
