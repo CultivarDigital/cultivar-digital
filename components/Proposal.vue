@@ -1,0 +1,218 @@
+<template>
+  <v-dialog :value="true" fullscreen>
+    <v-card class="template-form">
+      <DialogHeader @close="close" />
+      <div>
+        <div v-if="proposal">
+          <v-container>
+            <h2 class="mb-6">Proposta comercial</h2>
+            <Alert v-if="proposal.canceled" message="Proposta cancelada"  color="error" />
+            <div class="d-flex justify-space-between align-start">
+              <div>
+                <h3>
+                  {{ proposal.title }}
+                </h3>
+                <p>
+                  <small>
+                    {{ $moment(proposal.createdAt).format('DD/MM/YYYY') }}
+                  </small>
+                </p>
+              </div>
+              <div>
+                <v-chip v-if="proposal.approved" outlined small color="success">
+                  <v-icon left small> mdi-check </v-icon>
+                  Aprovada
+                </v-chip>
+                <v-chip v-else small outlined color="rgba(255, 255, 255, 0.6)">
+                  <v-icon left small> mdi-clock </v-icon>
+                  Aguardando aprovação
+                </v-chip>
+              </div>
+            </div>
+            <div>
+              <p>
+                A proposta abaixo foi personalizada por via de um levantamento
+                de requisitos e análise prévia para a execução das demandas
+                solicitadas.
+              </p>
+            </div>
+            <v-simple-table class="mb-6" light>
+              <template #default>
+                <thead>
+                  <tr>
+                    <th class="text-left">Demanda</th>
+                    <th>Estimativa</th>
+                    <th>Valor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="item in proposal.items" :key="item._id">
+                    <td>
+                      <small>{{ item.demand.title }}</small>
+                    </td>
+                    <td>
+                      <small>{{ item.estimate_in_days }} dias</small>
+                    </td>
+                    <td>
+                      <small>{{ item.price | moeda }}</small>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th><strong>Total</strong></th>
+                    <th>
+                      <strong
+                        >{{ proposal.points }} dias</strong
+                      >
+                    </th>
+                    <th>
+                      <strong>{{ proposal.price | moeda }}</strong>
+                    </th>
+                  </tr>
+                </tfoot>
+              </template>
+            </v-simple-table>
+            <div class="mb-6">
+              <h5 class="mb-3">OBSERVAÇÕES:</h5>
+              <ul class="mb-10">
+                <li>
+                  <small>
+                    Os prazos e valores acima foram estimados baseados em
+                    levantamento de requisitos e análise prévia das
+                    funcionalidades, portanto, esta proposta tem caráter de
+                    escopo fechado e qualquer mudança de escopo invalida esta
+                    proposta.
+                  </small>
+                </li>
+              </ul>
+              <div
+                v-if="proposal.approved && proposal.approved_by && !proposal.canceled"
+                class="text-center mb-10"
+              >
+                <v-icon x-large>mdi-check</v-icon>
+                <br />
+                <small>
+                  <strong>Aprovada por:</strong>
+                  <br />
+                  {{ proposal.approved_by.name }}
+                </small>
+              </div>
+              <div
+                v-if="proposal.canceled && proposal.canceled_by"
+                class="text-center mb-10"
+              >
+                <v-icon x-large>mdi-cancel</v-icon>
+                <br />
+                <small>
+                  <strong>Cancelada por:</strong>
+                  <br />
+                  {{ proposal.canceled_by.name }}
+                </small>
+              </div>
+            </div>
+            <Alert v-if="proposal.canceled" message="Proposta cancelada"  color="error" />
+            <div v-if="!proposal.canceled" class="text-center">
+              <v-btn
+                v-if="!proposal.approved"
+                block
+                color="success"
+                class="mb-6"
+                @click="approve"
+              >
+                <v-icon left> mdi-check </v-icon>
+                Aprovar esta proposta
+              </v-btn>
+              <v-btn
+                class="mb-6"
+                small
+                @click="
+                  () =>
+                    copy(
+                      baseUrl +
+                        '/cliente?modulo=propostas&proposta=' +
+                        proposal._id
+                    )
+                "
+              >
+                <v-icon left small> mdi-content-copy </v-icon>
+                Copiar link da proposta
+              </v-btn>
+              <v-btn
+                
+                small
+                class="mb-6"
+                @click="cancel"
+              >
+                <v-icon left> mdi-close </v-icon>
+                Cancelar esta proposta
+              </v-btn>
+
+            </div>
+            <div class="text-center pt-10 mb-10">
+              <div>
+                <img :src="require('~/assets/img/logo.png')" class="logo" />
+                <br />
+                <strong>Cultivar Digital</strong>
+              </div>
+              <div><small>Diego M. Rodrigues</small></div>
+            </div>
+          </v-container>
+        </div>
+        <div v-else class="pt-6">
+          <Loading />
+        </div>
+      </div>
+    </v-card>
+  </v-dialog>
+</template>
+<script>
+export default {
+  props: {
+    proposalId: {
+      type: String,
+      required: true,
+    },
+  },
+
+  data() {
+    return {
+      dialog: false,
+      proposal: null,
+    }
+  },
+  computed: {
+    baseUrl() {
+      return process.env.BASE_URL
+    },
+  },
+  created() {
+    this.loadProposal()
+  },
+  methods: {
+    async loadProposal() {
+      this.proposal = null
+      this.proposal = await this.$axios.$get(
+        '/v1/proposals/' + this.proposalId + '/info'
+      )
+    },
+    async approve() {
+      await this.$axios.$patch('/v1/proposals/' + this.proposalId + '/approve')
+      this.loadProposal()
+      this.$emit('change')
+    },
+    async cancel() {
+      await this.$axios.$patch('/v1/proposals/' + this.proposalId + '/cancel')
+      this.loadProposal()
+      this.$emit('change')
+    },
+    close() {
+      this.$emit('close')
+    },
+    async copy(value) {
+      await navigator.clipboard.writeText(value)
+      this.notify('Copiado!')
+    },
+  },
+}
+</script>

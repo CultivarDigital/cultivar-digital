@@ -27,7 +27,6 @@
         </div>
       </div>
     </div>
-    
   </v-container>
 </template>
 <script>
@@ -36,12 +35,16 @@ export default {
     return {
       companies: null,
       company: null,
-      companyId: null,
+      companyId: '63d97b2c5747470022a80cd8',
     }
   },
   async mounted() {
     if (this.$auth.user.role === 'admin') {
       await this.loadCompanies()
+    }
+
+    if (this.companyId) {
+      this.companySelected(this.companyId)
     }
   },
   methods: {

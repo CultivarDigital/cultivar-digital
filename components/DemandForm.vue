@@ -101,6 +101,21 @@
                   :error-messages="errors"
                 />
               </validation-provider>
+              <validation-provider
+                v-slot="{ errors }"
+                name="Pontos"
+                rules="required|min_value:0"
+              >
+                <v-text-field
+                  v-if="$auth.user.role === 'admin'"
+                  v-model="form.points"
+                  label="Pontos"
+                  type="number"
+                  outlined
+                  :error-messages="errors"
+                />
+              </validation-provider>
+
               <div class="text-right">
                 <Save :invalid="invalid" :block="false" label="Salvar" />
               </div>

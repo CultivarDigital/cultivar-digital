@@ -1,4 +1,6 @@
+import 'moment/locale/pt-br'
 export default ({ $moment }) => {
+  $moment.locale('pt-br');
   // $moment.updateLocale('pt-br', {
   //   relativeTime: {
   //     future: 'daqui %s',

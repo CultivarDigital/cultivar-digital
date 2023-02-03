@@ -1,14 +1,14 @@
 <template>
-  <div class="text-center">
-    <v-alert>{{ message }}</v-alert>
+  <div class="text-center" @click="$emit('click')">
+    <v-alert :color="color">{{ message }}</v-alert>
   </div>
 </template>
 <script>
 export default {
   props: {
-    type: {
+    color: {
       type: String,
-      default: 'secondary',
+      default: null,
     },
     message: {
       type: String,

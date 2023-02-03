@@ -1,35 +1,13 @@
 <template>
   <v-app dark>
-    <!-- <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      fixed
-      app
-    >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer> -->
+
     <v-app-bar fixed app>
       <n-link
         to="/"
         class="text-decoration-none white--text d-flex align-center"
       >
         <img :src="require('~/assets/img/logo.png')" class="logo" />
-        <span class="ml-3"><strong>Cultivar</strong> digital</span>
+        <span class="ml-3"><strong>Cultivar</strong> Digital</span>
       </n-link>
       <v-spacer />
       <div class="d-flex align-center">
@@ -56,9 +34,9 @@
     <v-main style="background-color: #2b2b2b">
       <Nuxt />
     </v-main>
-
+    <Snackbar />
     <v-footer class="pa-3 justify-center">
-      <div class="text-center">
+      <div class="text-center pt-6">
         <div class="text-center">
           <div class="mb-3">Fale com a gente pelo WhatsApp</div>
           <v-btn
@@ -89,7 +67,6 @@
           >
             {{ success }}
           </v-alert>
-          
         </div>
       </div>
     </v-footer>

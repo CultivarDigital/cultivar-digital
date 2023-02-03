@@ -63,6 +63,7 @@ export default {
     { src: '~/plugins/persisted-state', ssr: false },
     { src: '~/plugins/vue-the-mask', ssr: false },
     { src: '~plugins/quill.js', ssr: false },
+    { src: '~plugins/vue2-filters.js', ssr: false },
   ],
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -77,7 +78,7 @@ export default {
     treeShake: true,
     defaultAssets: {
       font: {
-        family: 'Raleway',
+        family: 'Roboto',
       },
     },
     customVariables: ['~/assets/variables.sass'],

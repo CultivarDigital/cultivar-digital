@@ -29,13 +29,22 @@
         class="text-decoration-none white--text d-flex align-center"
       >
         <img :src="require('~/assets/img/logo.png')" class="logo" />
-        <span class="ml-3"><strong>Cultivar</strong> digital</span>
+        <span class="ml-3"><strong>Cultivar</strong> Digital</span>
       </n-link>
       <v-spacer />
       <div class="d-flex align-center">
-        <v-btn color="primary" small @click="logout">
-          <v-icon left>mdi-logout</v-icon> Sair
-        </v-btn>
+        <v-menu offset-y>
+          <template #activator="{ on }">
+            <v-btn icon v-on="on">
+              <v-icon>mdi-menu</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item @click="logout">
+              <v-list-item-title>Sair</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </div>
       <!-- <v-btn color="primary" icon @click.stop="drawer = !drawer">
         <v-icon>mdi-menu</v-icon>
@@ -44,6 +53,7 @@
     <v-main style="background-color: #2b2b2b">
       <Nuxt />
     </v-main>
+    <Snackbar />
   </v-app>
 </template>
 

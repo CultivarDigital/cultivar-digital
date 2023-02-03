@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" fullscreen>
     <template #activator="{ on, attrs }">
-      <v-btn  v-if="company" color="secondary" dark v-bind="attrs" v-on="on">
+      <v-btn v-if="company" color="secondary" dark v-bind="attrs" v-on="on">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
       <v-btn v-else color="success" dark v-bind="attrs" v-on="on">
@@ -9,12 +9,7 @@
       </v-btn>
     </template>
     <v-card class="template-form">
-      <v-toolbar color="primary" dark>
-        <v-btn icon dark @click="dialog = false">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-        <span>{{ company ? 'Editar cliente' : 'Adicionar cliente' }}</span>
-      </v-toolbar>
+      <DialogHeader @close="dialog = false" />
       <v-container class="pt-6">
         <ValidationObserver v-slot="{ validate, invalid }">
           <v-form @submit.prevent="validate().then(save)">
@@ -31,38 +26,56 @@
               />
             </validation-provider>
             <v-text-field
-                v-model="form.corporate_name"
-                label="Razão social"
+              v-model="form.corporate_name"
+              label="Razão social"
+              outlined
+            />
+            <v-text-field
+              v-model="form.cnpj"
+              v-mask="['##.###.###/####-##']"
+              label="CNPJ"
+              outlined
+            />
+            <v-textarea
+              v-model="form.address"
+              rows="2"
+              label="Endereço"
+              outlined
+            />
+            <v-text-field
+              v-model="form.phone"
+              v-mask="['(##) ####-####', '(##) #####-####']"
+              label="Telefone de contato"
+              outlined
+            />
+            <v-text-field
+              v-model="form.email"
+              label="Email de contato"
+              outlined
+            />
+            <v-textarea v-model="form.notes" label="Observações" outlined />
+            <div v-if="$auth.user.role === 'admin'">
+              <v-text-field
+                v-model="form.points_per_day"
+                label="Pontos por dia"
                 outlined
               />
               <v-text-field
-                v-model="form.cnpj"
-                v-mask="['##.###.###/####-##']"
-                label="CNPJ"
+                v-model="form.point_price"
+                label="Preço do ponto"
                 outlined
               />
-              <v-textarea
-                v-model="form.address"
-                rows="2"
-                label="Endereço"
-                outlined
-              />
-              <v-text-field
-                v-model="form.phone"
-                v-mask="['(##) ####-####', '(##) #####-####']"
-                label="Telefone de contato"
-                outlined
-              />
-              <v-text-field
-                v-model="form.email"
-                label="Email de contato"
-                outlined
-              />
-              <v-textarea
-                v-model="form.notes"
-                label="Observações"
-                outlined
-              />
+            </div>
+
+            <v-btn
+              v-if="company"
+              class="mb-6"
+              small
+              @click="() => copy(baseUrl + '/cadastrar?cliente=' + company._id)"
+            >
+              <v-icon left small> mdi-content-copy </v-icon>
+              Copiar link de cadastro
+            </v-btn>
             <div class="text-right">
               <Save :invalid="invalid" :block="false" label="Salvar" />
             </div>
@@ -97,8 +110,16 @@ export default {
         phone: '',
         email: '',
         notes: '',
+        point_price: 0,
+        point_unit: 'hour',
+        points_per_day: 0,
       },
     }
+  },
+  computed: {
+    baseUrl() {
+      return process.env.BASE_URL
+    },
   },
   created() {
     if (this.company) {
@@ -137,6 +158,10 @@ export default {
     },
     removeItem(month, week, index) {
       this.form.data[month - 1][week - 1].splice(index, 1)
+    },
+    async copy(value) {
+      await navigator.clipboard.writeText(value)
+      this.notify('Copiado!')
     },
   },
 }

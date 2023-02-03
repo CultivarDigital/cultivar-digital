@@ -45,6 +45,14 @@
                   <Editor v-model="demand.body" />
                 </div>
                 <div>
+                  <div v-if="demand.points && demand.points > 0" class="mb-3">
+                    <strong>
+                      {{ demand.estimate_in_days }}
+                      dias
+                      <br />
+                      {{ demand.price | moeda }}
+                    </strong>
+                  </div>
                   <v-chip
                     v-if="demand.type"
                     outlined
@@ -58,6 +66,24 @@
                       >{{ demandTypeIcon(demand.type) }}</v-icon
                     >
                     {{ demandTypeLabel(demand.type) }}
+                  </v-chip>
+                  <v-chip
+                    v-if="demand.approved && demand.status === 'backlog'"
+                    outlined
+                    small
+                    color="success"
+                  >
+                    <v-icon left small> mdi-check </v-icon>
+                    Aprovada
+                  </v-chip>
+                  <v-chip
+                    v-if="!demand.points && demand.status === 'backlog'"
+                    outlined
+                    small
+                    color="rgba(255, 255, 255, 0.6)"
+                  >
+                    <v-icon left small> mdi-clock </v-icon>
+                    Aguardando estimativa
                   </v-chip>
                 </div>
                 <div v-if="isActive(demand)" class="text-right">
@@ -195,6 +221,7 @@ export default {
       this.demands = await this.$axios.$get('/v1/demands', {
         params: this.filters,
       })
+      this.$emit('change')
     },
     async updateStatus(demand, status) {
       await this.$axios.$patch(`/v1/demands/${demand._id}`, {
