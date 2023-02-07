@@ -16,28 +16,30 @@
           @click="tab = 0"
         />
       </v-container>
-      <v-tabs
-        v-model="tab"
-        :show-arrows="true"
-        slider-color="#fff"
-        class="mb-3"
-      >
-        <v-tab>
-          Demandas
-          <v-badge
-            v-if="summary && summary.pendingDemands"
-            :content="summary.pendingDemands"
-          />
-        </v-tab>
-        <v-tab>
-          Propostas
-          <v-badge
-            v-if="summary && summary.pendingProposals"
-            :content="summary.pendingProposals"
-          />
-        </v-tab>
-        <v-tab>Faturas</v-tab>
-      </v-tabs>
+      <v-container class="px-0 px-md-4 py-0">
+        <v-tabs
+          v-model="tab"
+          :show-arrows="true"
+          slider-color="#fff"
+          class="mb-3"
+        >
+          <v-tab>
+            Demandas
+            <v-badge
+              v-if="summary && summary.pendingDemands"
+              :content="summary.pendingDemands"
+            />
+          </v-tab>
+          <v-tab>
+            Propostas
+            <v-badge
+              v-if="summary && summary.pendingProposals"
+              :content="summary.pendingProposals"
+            />
+          </v-tab>
+          <v-tab>Faturas</v-tab>
+        </v-tabs>
+      </v-container>
       <v-container class="mb-16">
         <Demands v-if="tab === 0" @change="loadSummary" />
         <Proposals v-if="tab === 1" @change="loadSummary" />
