@@ -39,8 +39,8 @@
         <v-tab>Faturas</v-tab>
       </v-tabs>
       <v-container class="mb-16">
-        <Demands v-if="tab === 0" :company="company" @change="loadSummary" />
-        <Proposals v-if="tab === 1" :company="company" @change="loadSummary" />
+        <Demands v-if="tab === 0" @change="loadSummary" />
+        <Proposals v-if="tab === 1" @change="loadSummary" />
         <div v-if="tab === 2">
           <Alert message="Nenhuma fatura aqui" />
         </div>

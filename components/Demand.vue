@@ -59,10 +59,10 @@
           <v-icon left small> mdi-clock </v-icon>
           Aguardando estimativa
         </v-chip>
-        <div class="text-right">
+        <div v-if="!preview" class="text-right">
           <v-divider class="my-3"></v-divider>
           <div class="d-flex justify-space-between align-center">
-            <div>
+            <div v-if="$auth.user.role === 'admin'">
               <Remove button button-label="Arquivar" @confirm="remove" />
             </div>
             <div>
@@ -118,6 +118,10 @@ export default {
       type: Object,
       required: true,
     },
+    preview: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -143,6 +147,12 @@ export default {
     },
     remove(demand) {
       this.$emit('remove', demand)
+    },
+    async updateStatus(demand, status) {
+      const updatedDemand = await this.$axios.$patch(`/v1/demands/${demand._id}`, {
+        status,
+      })
+      this.changed(updatedDemand)
     },
   },
 }

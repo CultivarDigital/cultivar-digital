@@ -232,6 +232,9 @@ export default {
     blocks() {
       this.$emit('input', this.blocks)
     },
+    value() {
+      this.blocks = this.value
+    }
   },
   methods: {
     addText() {

@@ -86,7 +86,6 @@
     </div>
     <ProposalForm
       v-if="addProposal"
-      :company="company"
       @change="
         loadProposals()
         addProposal = false
@@ -106,31 +105,24 @@
 </template>
 <script>
 export default {
-  props: {
-    company: {
-      type: Object,
-      default: null,
-    },
-  },
   data() {
     return {
       proposals: null,
       addProposal: false,
       activeProposal: null,
       editProposal: null,
-      filters: {
-        company: this.company ? this.company._id : null,
-      },
     }
   },
   computed: {
     hasProposal() {
       return this.proposals.find((d) => this.showStatus.value === d.status)
     },
+    company() {
+      return this.$store.state.company
+    },
   },
   watch: {
     company() {
-      this.filters.company = this.company ? this.company._id : null
       this.loadProposals()
     },
   },
@@ -140,6 +132,9 @@ export default {
       this.activeProposal = this.proposals.find(
         (d) => d._id === this.$route.query.proposta
       )
+
+      const query = this.$route.query;
+      this.$route.query = {...query, proposta: undefined};
     }
   },
   methods: {
@@ -152,12 +147,6 @@ export default {
         params: this.filters,
       })
       this.$emit('change')
-    },
-    async updateStatus(proposal, status) {
-      await this.$axios.$patch(`/v1/proposals/${proposal._id}`, {
-        status,
-      })
-      await this.loadProposals()
     },
     estimateInDays(points) {
       return Math.ceil(points / this.company.points_per_day)

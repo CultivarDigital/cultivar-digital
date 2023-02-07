@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :value="true" fullscreen>
+  <v-dialog :value="true" fullscreen persistent>
     <v-card class="template-form">
       <DialogHeader @close="close" />
       <div>
@@ -51,6 +51,7 @@
                     <th class="text-left">Demanda</th>
                     <th>Estimativa</th>
                     <th>Valor</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -64,6 +65,11 @@
                     <td>
                       <small>{{ item.price | moeda }}</small>
                     </td>
+                    <td>
+                      <v-btn x-small icon @click="previewDemand = item.demand">
+                        <v-icon>mdi-eye</v-icon>
+                      </v-btn>
+                    </td>
                   </tr>
                 </tbody>
                 <tfoot>
@@ -71,11 +77,14 @@
                     <th><strong>Total</strong></th>
                     <th>
                       <strong
-                        >{{ proposal.points }} dias</strong
+                        >{{ proposal.estimate_in_days }} dias</strong
                       >
                     </th>
                     <th>
                       <strong>{{ proposal.price | moeda }}</strong>
+                    </th>
+                    <th>
+                      
                     </th>
                   </tr>
                 </tfoot>
@@ -194,6 +203,12 @@
           <Loading />
         </div>
       </div>
+      <Demand
+        v-if="previewDemand"
+        :demand="previewDemand"
+        preview
+        @close="previewDemand = null"
+      />
     </v-card>
   </v-dialog>
 </template>
@@ -210,6 +225,7 @@ export default {
     return {
       dialog: false,
       proposal: null,
+      previewDemand: null,
     }
   },
   computed: {

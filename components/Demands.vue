@@ -163,12 +163,6 @@ export default {
       })
       this.$emit('change')
     },
-    async updateStatus(demand, status) {
-      await this.$axios.$patch(`/v1/demands/${demand._id}`, {
-        status,
-      })
-      this.loadDemands()
-    },
     changed(demand) {
       const index = this.demands.findIndex((d) => d._id === demand._id)
       this.activeDemand = demand

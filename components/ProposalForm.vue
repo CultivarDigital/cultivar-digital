@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :value="true" fullscreen>
+  <v-dialog :value="true" fullscreen persistent>
     <v-card class="template-form">
       <DialogHeader @close="close" />
       
@@ -118,7 +118,7 @@ export default {
     async loadDemands() {
       this.loading = true
       this.demands = await this.$axios.$get('/v1/demands', {
-        params: { status: 'backlog', company: this.company._id, approved: false },
+        params: { status: 'backlog', company: this.company._id, approved: false, type: 'feature', with_points: true },
       })
 
       this.demands.forEach((demand) => {

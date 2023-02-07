@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :value="true" fullscreen>
+  <v-dialog :value="true" fullscreen persistent>
     <v-card class="template-form">
       <DialogHeader @close="close" />
       <v-container class="pt-6">
