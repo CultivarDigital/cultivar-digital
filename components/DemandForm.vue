@@ -1,12 +1,7 @@
 <template>
   <v-dialog :value="true" fullscreen>
     <v-card class="template-form">
-      <v-toolbar color="primary" dark>
-        <v-btn icon dark @click="close">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-        <span>{{ demand ? 'Editar demanda' : 'Adicionar demanda' }}</span>
-      </v-toolbar>
+      <DialogHeader @close="close" />
       <v-container class="pt-6">
         <ValidationObserver v-slot="{ validate, invalid }">
           <v-form @submit.prevent="validate().then(save)">
@@ -39,22 +34,6 @@
               </v-btn>
             </div>
             <div v-else>
-              <validation-provider
-                v-if="$auth.user.role === 'admin' && companies"
-                v-slot="{ errors }"
-                name="Cliente"
-                rules="required"
-              >
-                <v-select
-                  v-model="form.company"
-                  label="Cliente"
-                  :items="companies"
-                  item-value="_id"
-                  item-text="name"
-                  outlined
-                  :error-messages="errors"
-                />
-              </validation-provider>
               <validation-provider
                 v-slot="{ errors }"
                 name="Título da demanda"
@@ -102,18 +81,37 @@
                 />
               </validation-provider>
               <validation-provider
+                v-if="$auth.user.role === 'admin'"
+                v-slot="{ errors }"
+                name="Status da demanda"
+                rules="required"
+              >
+                <v-select
+                  v-model="form.status"
+                  label="Status da demanda"
+                  :items="demandStatus"
+                  item-value="value"
+                  item-text="label"
+                  outlined
+                  :error-messages="errors"
+                />
+              </validation-provider>
+              <validation-provider
+                v-if="$auth.user.role === 'admin'"
                 v-slot="{ errors }"
                 name="Pontos"
                 rules="required|min_value:0"
               >
                 <v-text-field
-                  v-if="$auth.user.role === 'admin'"
                   v-model="form.points"
                   label="Pontos"
                   type="number"
                   outlined
                   :error-messages="errors"
                 />
+                <div v-if="$auth.user.role === 'admin' && estimate">
+                  {{ estimate.price | moeda }} ({{ estimate.estimate_in_days }} dias)
+                </div>
               </validation-provider>
 
               <div class="text-right">
@@ -141,10 +139,6 @@ export default {
       type: Object,
       default: () => null,
     },
-    company: {
-      type: Object,
-      default: () => null,
-    },
   },
   data() {
     return {
@@ -152,10 +146,8 @@ export default {
       demandStatus,
       demandPriorities,
       dialog: false,
-      companies: [],
       form: {
         title: '',
-        company: null,
         body: null,
         points: null,
         price: null,
@@ -167,6 +159,20 @@ export default {
       },
     }
   },
+  computed: {
+    company() {
+      return this.$store.state.company
+    },
+    estimate() {
+      if (!this.form.points || !this.company) return null
+      return {
+        estimate_in_days: Math.round(
+          this.form.points / this.company.points_per_day
+        ),
+        price: this.form.points * this.company.point_price,
+      }
+    },
+  },
   created() {
     if (this.demand) {
       Object.keys(this.form).forEach((key) => {
@@ -175,18 +181,8 @@ export default {
         }
       })
     }
-    if (this.company) {
-      this.form.company = this.company._id
-    }
-
-    if (this.$auth.user.role === 'admin') {
-      this.loadCompanies()
-    }
   },
   methods: {
-    async loadCompanies() {
-      this.companies = await this.$axios.$get('/v1/companies')
-    },
     save() {
       const form = { ...this.form }
       if (this.demand) {
@@ -194,13 +190,15 @@ export default {
           .$patch('/v1/demands/' + this.demand._id, form)
           .then((demand) => {
             this.$notifier.success('Atualizado!')
-            this.$emit('change', demand)
+            this.$emit('input', demand)
           })
       } else {
-        this.$axios.$post('/v1/demands', form).then((demand) => {
-          this.$notifier.success('Salvo!')
-          this.$emit('change', demand)
-        })
+        this.$axios
+          .$post('/v1/demands', { ...form, company: this.company._id })
+          .then((demand) => {
+            this.$notifier.success('Salvo!')
+            this.$emit('input', demand)
+          })
       }
     },
     toggleMonth(month) {

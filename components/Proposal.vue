@@ -19,11 +19,19 @@
                 </p>
               </div>
               <div>
-                <v-chip v-if="proposal.approved" outlined small color="success">
+                <v-chip v-if="proposal.status === 'approved'" outlined small color="success">
                   <v-icon left small> mdi-check </v-icon>
                   Aprovada
                 </v-chip>
-                <v-chip v-else small outlined color="rgba(255, 255, 255, 0.6)">
+                <v-chip v-if="proposal.status === 'rejected'" outlined small color="error">
+                  <v-icon left small> mdi-close-thick </v-icon>
+                  Rejeitada
+                </v-chip>
+                <v-chip v-if="proposal.status === 'canceled'" outlined small color="error">
+                  <v-icon left small> mdi-cancel </v-icon>
+                  Cancelada
+                </v-chip>
+                <v-chip  v-if="proposal.status === 'pending'" small outlined color="rgba(255, 255, 255, 0.6)">
                   <v-icon left small> mdi-clock </v-icon>
                   Aguardando aprovação
                 </v-chip>
@@ -87,7 +95,7 @@
                 </li>
               </ul>
               <div
-                v-if="proposal.approved && proposal.approved_by && !proposal.canceled"
+                v-if="proposal.status === 'approved' && proposal.approved_by"
                 class="text-center mb-10"
               >
                 <v-icon x-large>mdi-check</v-icon>
@@ -99,7 +107,19 @@
                 </small>
               </div>
               <div
-                v-if="proposal.canceled && proposal.canceled_by"
+                v-if="proposal.status === 'rejected' && proposal.rejected_by"
+                class="text-center mb-10"
+              >
+                <v-icon x-large>mdi-close-thick</v-icon>
+                <br />
+                <small>
+                  <strong>Rejeitada por:</strong>
+                  <br />
+                  {{ proposal.rejected_by.name }}
+                </small>
+              </div>
+              <div
+                v-if="proposal.status === 'canceled' && proposal.canceled_by"
                 class="text-center mb-10"
               >
                 <v-icon x-large>mdi-cancel</v-icon>
@@ -111,11 +131,12 @@
                 </small>
               </div>
             </div>
-            <Alert v-if="proposal.canceled" message="Proposta cancelada"  color="error" />
-            <div v-if="!proposal.canceled" class="text-center">
+            <Alert v-if="proposal.status === 'canceled'" message="Proposta cancelada" color="error" />
+            <Alert v-if="proposal.status === 'rejected'" message="Proposta rejeitada" color="error" />
+            <div v-if="proposal.status === 'pending'" class="text-center">
               <v-btn
-                v-if="!proposal.approved"
                 block
+                large
                 color="success"
                 class="mb-6"
                 @click="approve"
@@ -139,7 +160,17 @@
                 Copiar link da proposta
               </v-btn>
               <v-btn
-                
+                v-if="$auth.user.role === 'user'"
+                small
+                color="error"
+                class="mb-6"
+                @click="reject"
+              >
+                <v-icon left> mdi-close-thick </v-icon>
+                Rejeitar esta proposta
+              </v-btn>
+              <v-btn
+                v-if="$auth.user.role === 'admin'"
                 small
                 class="mb-6"
                 @click="cancel"
@@ -198,6 +229,11 @@ export default {
     },
     async approve() {
       await this.$axios.$patch('/v1/proposals/' + this.proposalId + '/approve')
+      this.loadProposal()
+      this.$emit('change')
+    },
+    async reject() {
+      await this.$axios.$patch('/v1/proposals/' + this.proposalId + '/reject')
       this.loadProposal()
       this.$emit('change')
     },

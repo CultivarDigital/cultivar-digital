@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn fab fixed bottom right color="success" @click="addProposal = true">
+    <v-btn v-if="$auth.user.role === 'admin'" fab fixed bottom right color="success" @click="addProposal = true">
       <v-icon>mdi-plus</v-icon>
     </v-btn>
     <div>
@@ -31,7 +31,7 @@
                   </v-list-item-subtitle>
                   <div class="pt-3">
                     <v-chip
-                      v-if="proposal.approved && !proposal.canceled"
+                      v-if="proposal.status === 'approved'"
                       outlined
                       small
                       color="success"
@@ -40,7 +40,16 @@
                       Aprovada
                     </v-chip>
                     <v-chip
-                      v-else-if="proposal.canceled"
+                      v-if="proposal.status === 'rejected'"
+                      outlined
+                      small
+                      color="error"
+                    >
+                      <v-icon left small> mdi-close-thick </v-icon>
+                      Rejeitada
+                    </v-chip>
+                    <v-chip
+                      v-if="proposal.status === 'canceled'"
                       outlined
                       small
                       color="error"
@@ -49,7 +58,7 @@
                       Cancelada
                     </v-chip>
                     <v-chip
-                      v-else
+                      v-if="proposal.status === 'pending'"
                       small
                       outlined
                       color="rgba(255, 255, 255, 0.6)"

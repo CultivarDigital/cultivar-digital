@@ -1,13 +1,15 @@
 <template>
   <v-dialog :value="true" fullscreen>
     <v-card class="template-form">
-      <v-toolbar color="primary" dark>
-        <v-btn icon dark @click="close">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-        <span>{{ 'Gerar proposta comercial' }}</span>
-      </v-toolbar>
-      <div>
+      <DialogHeader @close="close" />
+      
+      <div v-if="loading" class="pt-6">
+        <Loading />
+      </div>
+      <div v-else>
+        <v-container>
+          <h3>Gerar proposta comercial</h3>
+        </v-container>
         <ValidationObserver v-slot="{ validate, invalid }">
           <v-form @submit.prevent="validate().then(save)">
             <div>
@@ -65,22 +67,13 @@ export default {
     ValidationObserver,
     ValidationProvider,
   },
-  props: {
-    company: {
-      type: Object,
-      required: true,
-    },
-  },
-  
   data() {
     return {
-      dialog: false,
-      companies: [],
+      loading: false,
       demands: [],
       form: {
-        company: this.company._id,
         title: this.$moment().locale('pt-br').format('MMM-YYYY').toUpperCase(),
-        approved: false,
+        status: 'pending',
         points: 0,
         price: 0,
         estimate_in_days: 0,
@@ -89,6 +82,9 @@ export default {
     }
   },
   computed: {
+    company() {
+      return this.$store.state.company
+    },
     totalPrice() {
       return this.selectedItems.reduce((total, item) => {
         return total + item.price
@@ -120,8 +116,9 @@ export default {
   },
   methods: {
     async loadDemands() {
+      this.loading = true
       this.demands = await this.$axios.$get('/v1/demands', {
-        params: { status: 'backlog' },
+        params: { status: 'backlog', company: this.company._id, approved: false },
       })
 
       this.demands.forEach((demand) => {
@@ -133,6 +130,7 @@ export default {
           checked: false,
         })
       })
+      this.loading = false
     },
     save() {
       const form = { ...this.form }
@@ -140,11 +138,12 @@ export default {
       form.price = this.totalPrice
       form.points = this.totalPoints
       form.estimate_in_days = this.totalEstimateInDays
-      
-      this.$axios.$post('/v1/proposals', form).then((proposal) => {
-        this.$notifier.success('Salvo!')
+      this.loading = true
+      this.$axios.$post('/v1/proposals', {...form, company: this.company._id}).then((proposal) => {
+        this.$notifier.success('Proposta gerada!')
         this.$emit('change', proposal)
       })
+      this.loading = false
     },
     toggleMonth(month) {
       if (this.active_month === month) {

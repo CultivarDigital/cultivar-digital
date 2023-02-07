@@ -1,15 +1,7 @@
 <template>
-  <v-dialog v-model="dialog" fullscreen>
-    <template #activator="{ on, attrs }">
-      <v-btn v-if="company" color="secondary" dark v-bind="attrs" v-on="on">
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
-      <v-btn v-else color="success" dark v-bind="attrs" v-on="on">
-        <v-icon>mdi-plus</v-icon>
-      </v-btn>
-    </template>
+  <v-dialog :value="true" fullscreen>
     <v-card class="template-form">
-      <DialogHeader @close="dialog = false" />
+      <DialogHeader @close="close" />
       <v-container class="pt-6">
         <ValidationObserver v-slot="{ validate, invalid }">
           <v-form @submit.prevent="validate().then(save)">
@@ -101,7 +93,6 @@ export default {
   },
   data() {
     return {
-      dialog: false,
       form: {
         name: '',
         corporate_name: '',
@@ -138,14 +129,12 @@ export default {
           .$patch('/v1/companies/' + this.company._id, form)
           .then((company) => {
             this.$notifier.success('Atualizado!')
-            this.$emit('change', company)
-            this.dialog = false
+            this.$emit('input', company)
           })
       } else {
         this.$axios.$post('/v1/companies', form).then((company) => {
           this.$notifier.success('Salvo!')
-          this.dialog = false
-          this.$emit('change', company)
+          this.$emit('input', company)
         })
       }
     },
@@ -162,6 +151,9 @@ export default {
     async copy(value) {
       await navigator.clipboard.writeText(value)
       this.notify('Copiado!')
+    },
+    close() {
+      this.$emit('close')
     },
   },
 }

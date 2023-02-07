@@ -25,32 +25,16 @@
               v-if="demand.status === showStatus.value"
               :key="demand._id"
               class="mb-3"
+              @click="setActiveDemand(demand)"
             >
               <v-card-text>
-                <div class="d-flex align-center justify-space-between mb-3">
-                  <div>
-                    <h3 class="white--text">{{ demand.title }}</h3>
-                  </div>
+                <h3 class="white--text mb-3">{{ demand.title }}</h3>
 
-                  <div class="text-right">
-                    <v-btn small icon @click="toggleDemand(demand._id)">
-                      <v-icon>{{
-                        isActive(demand) ? 'mdi-chevron-up' : 'mdi-chevron-down'
-                      }}</v-icon>
-                    </v-btn>
-                  </div>
-                </div>
-
-                <div v-if="isActive(demand)" class="white--text">
-                  <Editor v-model="demand.body" />
-                </div>
                 <div>
                   <div v-if="demand.points && demand.points > 0" class="mb-3">
                     <strong>
                       {{ demand.estimate_in_days }}
                       dias
-                      <br />
-                      {{ demand.price | moeda }}
                     </strong>
                   </div>
                   <v-chip
@@ -77,7 +61,11 @@
                     Aprovada
                   </v-chip>
                   <v-chip
-                    v-if="!demand.points && demand.status === 'backlog'"
+                    v-if="
+                      !demand.points &&
+                      demand.status === 'backlog' &&
+                      demand.type === 'feature'
+                    "
                     outlined
                     small
                     color="rgba(255, 255, 255, 0.6)"
@@ -85,44 +73,6 @@
                     <v-icon left small> mdi-clock </v-icon>
                     Aguardando estimativa
                   </v-chip>
-                </div>
-                <div v-if="isActive(demand)" class="text-right">
-                  <v-divider class="my-3"></v-divider>
-                  <v-btn
-                    v-if="isActive(demand)"
-                    small
-                    @click="activeDemand = null"
-                  >
-                    <v-icon small left>mdi-close</v-icon> Fechar
-                  </v-btn>
-                  <v-btn
-                    v-if="isActive(demand)"
-                    small
-                    @click="editDemand = demand"
-                  >
-                    <v-icon small left>mdi-pencil</v-icon> Editar
-                  </v-btn>
-                  <v-btn
-                    v-if="
-                      $auth.user.role === 'admin' && demand.status === 'backlog'
-                    "
-                    color="success"
-                    small
-                    @click="updateStatus(demand, 'in-progress')"
-                  >
-                    <v-icon left>mdi-play-circle-outline</v-icon> Iniciar
-                  </v-btn>
-                  <v-btn
-                    v-if="
-                      $auth.user.role === 'admin' &&
-                      demand.status === 'in-progress'
-                    "
-                    color="success"
-                    small
-                    @click="updateStatus(demand, 'done')"
-                  >
-                    <v-icon left>mdi-check-circle-outline</v-icon> Concluir
-                  </v-btn>
                 </div>
               </v-card-text>
             </v-card>
@@ -133,22 +83,18 @@
     </div>
     <DemandForm
       v-if="addDemand"
-      :company="company"
-      @change="
+      @input="
         loadDemands()
         addDemand = false
       "
       @close="addDemand = false"
     />
-    <DemandForm
-      v-if="editDemand"
-      :company="company"
-      :demand="editDemand"
-      @change="
-        loadDemands()
-        editDemand = null
-      "
-      @close="editDemand = null"
+    <Demand
+      v-if="activeDemand"
+      :demand="activeDemand"
+      @input="changed"
+      @close="activeDemand = null"
+      @remove="removeDemand"
     />
   </div>
 </template>
@@ -164,12 +110,6 @@ import demandPriorities, {
 } from '~/data/demandPriorities'
 
 export default {
-  props: {
-    company: {
-      type: Object,
-      default: null,
-    },
-  },
   data() {
     return {
       demandTypes,
@@ -184,21 +124,20 @@ export default {
       demands: null,
       addDemand: false,
       activeDemand: null,
-      editDemand: null,
       showStatus: demandStatus[0],
-      filters: {
-        company: this.company ? this.company._id : null,
-      },
+      filters: {},
     }
   },
   computed: {
     hasDemand() {
       return this.demands.find((d) => this.showStatus.value === d.status)
     },
+    company() {
+      return this.$store.state.company
+    },
   },
   watch: {
     company() {
-      this.filters.company = this.company ? this.company._id : null
       this.loadDemands()
     },
   },
@@ -207,19 +146,20 @@ export default {
   },
   methods: {
     isActive(demand) {
-      return this.activeDemand === demand._id
+      return this.activeDemand && this.activeDemand._id === demand._id
     },
-    toggleDemand(id) {
-      if (this.activeDemand === id) {
-        this.activeDemand = null
+    setActiveDemand(demand) {
+      if (!this.activeDemand || this.activeDemand._id !== demand._id) {
+        this.activeDemand = demand
       } else {
-        this.activeDemand = id
+        this.activeDemand = null
       }
     },
     async loadDemands() {
       this.demands = null
+      const params = { ...this.filters, company: this.company._id }
       this.demands = await this.$axios.$get('/v1/demands', {
-        params: this.filters,
+        params,
       })
       this.$emit('change')
     },
@@ -227,6 +167,16 @@ export default {
       await this.$axios.$patch(`/v1/demands/${demand._id}`, {
         status,
       })
+      this.loadDemands()
+    },
+    changed(demand) {
+      const index = this.demands.findIndex((d) => d._id === demand._id)
+      this.activeDemand = demand
+      this.demands.splice(index, 1, demand)
+    },
+    async removeDemand(demand) {
+      await this.$axios.$delete(`/v1/demands/${this.activeDemand._id}`)
+      this.activeDemand = null
       this.loadDemands()
     },
   },
