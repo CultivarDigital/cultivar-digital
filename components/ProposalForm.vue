@@ -2,7 +2,7 @@
   <v-dialog :value="true" fullscreen persistent>
     <v-card class="template-form">
       <DialogHeader @close="close" />
-      
+
       <div v-if="loading" class="pt-6">
         <Loading />
       </div>
@@ -39,7 +39,10 @@
                       {{ item.demand.title }}
                     </v-list-item-title>
                     <v-list-item-subtitle v-if="item.points > 0">
-                      {{ item.price | moeda }} ({{ item.estimate_in_days }} dias)
+                      {{ item.price | moeda }} ({{
+                        item.estimate_in_days
+                      }}
+                      dias)
                     </v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
@@ -48,7 +51,12 @@
                 </v-list-item>
               </v-list>
               <v-container>
-                <h3>Total: {{ totalPrice | moeda }} ({{ totalEstimateInDays }} dias)</h3>
+                <h3>
+                  Total: {{ totalPrice | moeda }} ({{
+                    totalEstimateInDays
+                  }}
+                  dias)
+                </h3>
                 <div v-if="totalPoints > 0" class="text-right">
                   <Save :invalid="invalid" :block="false" label="Salvar" />
                 </div>
@@ -101,14 +109,16 @@ export default {
       }, 0)
     },
     selectedItems() {
-      return this.form.items.filter((item) => item.checked).map((item) => {
-        return {
-          demand: item.demand._id,
-          points: item.points,
-          price: item.price,
-          estimate_in_days: item.estimate_in_days,
-        }
-      })
+      return this.form.items
+        .filter((item) => item.checked)
+        .map((item) => {
+          return {
+            demand: item.demand._id,
+            points: item.points,
+            price: item.price,
+            estimate_in_days: item.estimate_in_days,
+          }
+        })
     },
   },
   created() {
@@ -118,7 +128,13 @@ export default {
     async loadDemands() {
       this.loading = true
       this.demands = await this.$axios.$get('/v1/demands', {
-        params: { status: 'backlog', company: this.company._id, approved: false, type: 'feature', with_points: true },
+        params: {
+          status: 'backlog',
+          company: this.company._id,
+          approved: false,
+          type: 'feature',
+          with_points: true,
+        },
       })
 
       this.demands.forEach((demand) => {
@@ -139,10 +155,12 @@ export default {
       form.points = this.totalPoints
       form.estimate_in_days = this.totalEstimateInDays
       this.loading = true
-      this.$axios.$post('/v1/proposals', {...form, company: this.company._id}).then((proposal) => {
-        this.$notifier.success('Proposta gerada!')
-        this.$emit('change', proposal)
-      })
+      this.$axios
+        .$post('/v1/proposals', { ...form, company: this.company._id })
+        .then((proposal) => {
+          this.$notifier.success('Proposta gerada!')
+          this.$emit('change', proposal)
+        })
       this.loading = false
     },
     toggleMonth(month) {

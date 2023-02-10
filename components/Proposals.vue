@@ -144,7 +144,9 @@ export default {
     async loadProposals() {
       this.proposals = null
       this.proposals = await this.$axios.$get('/v1/proposals', {
-        params: this.filters,
+        params: {
+          company: this.company._id,
+        },
       })
       this.$emit('change')
     },

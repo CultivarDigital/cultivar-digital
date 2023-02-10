@@ -6,7 +6,11 @@
         <div v-if="proposal">
           <v-container>
             <h2 class="mb-6">Proposta comercial</h2>
-            <Alert v-if="proposal.canceled" message="Proposta cancelada"  color="error" />
+            <Alert
+              v-if="proposal.canceled"
+              message="Proposta cancelada"
+              color="error"
+            />
             <div class="d-flex justify-space-between align-start">
               <div>
                 <h3>
@@ -19,19 +23,39 @@
                 </p>
               </div>
               <div>
-                <v-chip v-if="proposal.status === 'approved'" outlined small color="success">
+                <v-chip
+                  v-if="proposal.status === 'approved'"
+                  outlined
+                  small
+                  color="success"
+                >
                   <v-icon left small> mdi-check </v-icon>
                   Aprovada
                 </v-chip>
-                <v-chip v-if="proposal.status === 'rejected'" outlined small color="error">
+                <v-chip
+                  v-if="proposal.status === 'rejected'"
+                  outlined
+                  small
+                  color="error"
+                >
                   <v-icon left small> mdi-close-thick </v-icon>
                   Rejeitada
                 </v-chip>
-                <v-chip v-if="proposal.status === 'canceled'" outlined small color="error">
+                <v-chip
+                  v-if="proposal.status === 'canceled'"
+                  outlined
+                  small
+                  color="error"
+                >
                   <v-icon left small> mdi-cancel </v-icon>
                   Cancelada
                 </v-chip>
-                <v-chip  v-if="proposal.status === 'pending'" small outlined color="rgba(255, 255, 255, 0.6)">
+                <v-chip
+                  v-if="proposal.status === 'pending'"
+                  small
+                  outlined
+                  color="rgba(255, 255, 255, 0.6)"
+                >
                   <v-icon left small> mdi-clock </v-icon>
                   Aguardando aprovação
                 </v-chip>
@@ -76,16 +100,12 @@
                   <tr>
                     <th><strong>Total</strong></th>
                     <th>
-                      <strong
-                        >{{ proposal.estimate_in_days }} dias</strong
-                      >
+                      <strong>{{ proposal.estimate_in_days }} dias</strong>
                     </th>
                     <th>
                       <strong>{{ proposal.price | moeda }}</strong>
                     </th>
-                    <th>
-                      
-                    </th>
+                    <th></th>
                   </tr>
                 </tfoot>
               </template>
@@ -140,19 +160,21 @@
                 </small>
               </div>
             </div>
-            <Alert v-if="proposal.status === 'canceled'" message="Proposta cancelada" color="error" />
-            <Alert v-if="proposal.status === 'rejected'" message="Proposta rejeitada" color="error" />
+            <Alert
+              v-if="proposal.status === 'canceled'"
+              message="Proposta cancelada"
+              color="error"
+            />
+            <Alert
+              v-if="proposal.status === 'rejected'"
+              message="Proposta rejeitada"
+              color="error"
+            />
             <div v-if="proposal.status === 'pending'" class="text-center">
-              <v-btn
-                block
-                large
-                color="success"
-                class="mb-6"
-                @click="approve"
-              >
-                <v-icon left> mdi-check </v-icon>
-                Aprovar esta proposta
-              </v-btn>
+              <div class="mb-6">
+                <ProposalApprove :proposal="proposal" @confirm="approve" />
+              
+              </div>
               <v-btn
                 class="mb-6"
                 small
@@ -187,7 +209,6 @@
                 <v-icon left> mdi-close </v-icon>
                 Cancelar esta proposta
               </v-btn>
-
             </div>
             <div class="text-center pt-10 mb-10">
               <div>

@@ -64,12 +64,13 @@ export default {
     { src: '~/plugins/vue-the-mask', ssr: false },
     { src: '~plugins/quill.js', ssr: false },
     { src: '~plugins/vue2-filters.js', ssr: false },
+    { src: '~plugins/moment-business-days.js', ssr: false },
   ],
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'en',
+      lang: 'pt-br',
     },
   },
 

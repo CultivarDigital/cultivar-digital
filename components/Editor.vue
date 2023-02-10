@@ -220,7 +220,7 @@ export default {
         audio: 'Áudio',
         file: 'Arquivo',
       },
-      blocks: this.value,
+      blocks: this.value || [],
     }
   },
   computed: {
@@ -233,7 +233,7 @@ export default {
       this.$emit('input', this.blocks)
     },
     value() {
-      this.blocks = this.value
+      this.blocks = this.value || []
     }
   },
   methods: {
