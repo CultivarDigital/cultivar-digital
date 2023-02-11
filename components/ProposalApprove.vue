@@ -58,7 +58,7 @@
                 })
               ).format('DD/MM/YYYY')
             }}</strong
-            >. O Prestador entregará cada etapa do projeto de acordo com o
+            >. As entregas podem ser feitas e faturadas antes do prazo final da entrega. O Prestador entregará cada etapa do projeto de acordo com o
             seguinte cronograma respeitando a ordem de prioridade definida pelo
             Contratante:
           </p>

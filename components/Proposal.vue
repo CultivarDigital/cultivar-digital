@@ -16,7 +16,12 @@
                 <h3>
                   {{ proposal.title }}
                 </h3>
-                <p>
+                <p v-if="proposal.startAt && proposal.deadline">
+                  <small>
+                    {{ $moment(proposal.startAt).format('DD/MM/YYYY') }} - {{ $moment(proposal.deadline).format('DD/MM/YYYY') }}
+                  </small>
+                </p>
+                <p v-else>
                   <small>
                     {{ $moment(proposal.createdAt).format('DD/MM/YYYY') }}
                   </small>

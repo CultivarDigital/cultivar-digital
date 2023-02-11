@@ -1,6 +1,14 @@
 <template>
   <div>
-    <v-btn v-if="$auth.user.role === 'admin'" fab fixed bottom right color="success" @click="addProposal = true">
+    <v-btn
+      v-if="$auth.user.role === 'admin'"
+      fab
+      fixed
+      bottom
+      right
+      color="success"
+      @click="addProposal = true"
+    >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
     <div>
@@ -22,12 +30,22 @@
                   <v-list-item-subtitle v-if="proposal.points > 0">
                     <strong>
                       {{ proposal.price | moeda }}
-                      <br />
+                      -
                       {{ proposal.estimate_in_days }}
-                      dias
+                      dia{{ proposal.estimate_in_days ? 's' : '' }}
                     </strong>
                     <br />
-                    {{ $moment(proposal.createdAt).format('DD/MM/YYYY') }}
+                    <div v-if="proposal.startAt && proposal.deadline">
+                      <small>
+                        {{ $moment(proposal.startAt).format('DD/MM/YYYY') }} -
+                        {{ $moment(proposal.deadline).format('DD/MM/YYYY') }}
+                      </small>
+                    </div>
+                    <div v-else>
+                      <small>
+                        {{ $moment(proposal.createdAt).format('DD/MM/YYYY') }}
+                      </small>
+                    </div>
                   </v-list-item-subtitle>
                   <div class="pt-3">
                     <v-chip
@@ -133,8 +151,8 @@ export default {
         (d) => d._id === this.$route.query.proposta
       )
 
-      const query = this.$route.query;
-      this.$route.query = {...query, proposta: undefined};
+      const query = this.$route.query
+      this.$route.query = { ...query, proposta: undefined }
     }
   },
   methods: {
