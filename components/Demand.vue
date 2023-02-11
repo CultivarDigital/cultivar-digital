@@ -62,11 +62,11 @@
         <div v-if="!preview" class="text-right">
           <v-divider class="my-3"></v-divider>
           <div class="d-flex justify-space-between align-center">
-            <div v-if="$auth.user.role === 'admin'">
-              <Remove button button-label="Arquivar" @confirm="remove" />
+            <div >
+              <Remove v-if="$auth.user.role === 'admin' && !demand.approved" button button-label="Arquivar" @confirm="remove" />
             </div>
             <div>
-              <v-btn small @click="edit = true">
+              <v-btn v-if="!demand.approved" small @click="edit = true">
                 <v-icon small left>mdi-pencil</v-icon> Editar
               </v-btn>
               <v-btn
@@ -93,6 +93,7 @@
           </div>
         </div>
       </v-container>
+      <Comments :demand="demand" />
       <DemandForm
         v-if="edit"
         :demand="demand"

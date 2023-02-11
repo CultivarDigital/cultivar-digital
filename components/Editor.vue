@@ -131,14 +131,14 @@
       <div>Adicionar:</div>
       <span>
         <v-btn color="primary" class="mb-1" @click="addText">
-          <v-icon left>mdi-format-text</v-icon> Texto
+          <v-icon left>{{itemsLabels['text'].icon}}</v-icon> {{ itemsLabels['text'].label }}
         </v-btn>
       </span>
       <UploadImage
         prefix="posts"
         button
-        icon="mdi-image"
-        label="Foto"
+        :icon="itemsLabels['image'].icon"
+        :label="itemsLabels['image'].label"
         class="mb-6"
         @input="
           (image) =>
@@ -151,8 +151,8 @@
       <UploadVideo
         prefix="posts"
         button
-        icon="mdi-youtube"
-        label="Vídeo"
+        :icon="itemsLabels['video'].icon"
+        :label="itemsLabels['video'].label"
         class="mb-6"
         @input="
           (video) =>
@@ -165,8 +165,8 @@
       <UploadAudio
         prefix="posts"
         button
-        icon="mdi-microphone"
-        label="Áudio"
+        :icon="itemsLabels['audio'].icon"
+        :label="itemsLabels['audio'].label"
         class="mb-6"
         @input="
           (audio) =>
@@ -179,8 +179,8 @@
       <UploadFile
         prefix="posts"
         button
-        icon="mdi-attachment"
-        label="Arquivo"
+        :icon="itemsLabels['file'].icon"
+        :label="itemsLabels['file'].label"
         class="mb-6"
         @input="
           (file) =>
@@ -210,6 +210,10 @@ export default {
         },
       ],
     },
+    labels: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   data() {
     return {
@@ -224,6 +228,32 @@ export default {
     }
   },
   computed: {
+    itemsLabels() {
+      const labels = {
+        text: {
+          label: 'Texto',
+          icon: 'mdi-format-text',
+        },
+        image: {
+          label: 'Imagem',
+          icon: 'mdi-image',
+        },
+        video: {
+          label: 'Vídeo',
+          icon: 'mdi-youtube',
+        },
+        audio: {
+          label: 'Áudio',
+          icon: 'mdi-microphone',
+        },
+        file: {
+          label: 'Arquivo',
+          icon: 'mdi-attachment',
+        },        
+      }
+
+      return Object.assign(labels, this.labels)
+    },
     filesURL() {
       return process.env.FILES_URL
     },
