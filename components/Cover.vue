@@ -1,32 +1,19 @@
 <template>
   <section class="d-flex justify-center align-center page-cover">
     <v-container>
-      <div
-        class="
-          text-h4 text-lg-h3 text-center
-          font-weight-light
-          cover
-          font-weight-bold
-        "
-      >
+      <div class="text-center cover">
         <div>
-          <a
-            style="font-size: 16px; letter-spacing: 1.5px"
-            href="#design"
-            class="font-weight-light"
-            >Desenvolvemos</a
-          >
-        </div>
-        <div><a href="#design">Aplicativos</a></div>
-        <div>
-          <a
-            href="#code"
-            style="font-size: 16px; letter-spacing: 1.5px"
-            class="font-weight-light"
-            >Para</a
-          >
-        </div>
-        <div class="mb-16"><a href="#content">Android e iOS</a></div>
+          <img :src="require('~/assets/img/logo.png')" class="logo mb-3" style="width: 150px" />
+          <h5 class="text-h6 mb-3"><strong>Cultivar</strong> Digital</h5>
+          <p class="tertiary--text mb-12">
+            Ajudando a impulsionar o crescimento de seu negócio na era digital.
+          </p>
+          <h5 class="text-h6 mb-12">
+            Desenvolvemos aplicativos para 
+            <br>
+            Android e iOS
+          </h5>
+          </div>
         <div class="text-center">
           <v-btn color="primary" href="#presentation" class="mb-3">
             <v-icon left>mdi-arrow-down-box</v-icon> Quero conhecer mais

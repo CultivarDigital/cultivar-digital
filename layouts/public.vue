@@ -37,8 +37,10 @@
     <Snackbar />
     <v-footer class="pa-3 justify-center">
       <div class="text-center pt-6">
+        <h6 class="text-h6 mb-6">Fale com a gente</h6>
+        <p>Nossa equipe está sempre pronta para responder às suas perguntas e ajudá-lo a encontrar a solução tecnológica perfeita para a sua empresa.</p>
         <div class="text-center">
-          <div class="mb-3">Fale com a gente pelo WhatsApp</div>
+          <div class="mb-3">Fale com a gente pelo WhatsApp:</div>
           <v-btn
             color="primary"
             x-large

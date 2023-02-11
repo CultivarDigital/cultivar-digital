@@ -6,6 +6,16 @@
         Desenvolvemos produtos próprios, projetos para clientes e em parcerias
         com outras empresas e agências.
       </h5>
+      <p>
+        Nossos aplicativos já ajudaram inúmeros clientes a impulsionar o
+        crescimento de suas empresas. Desde aplicativos de gerenciamento de
+        equipe até soluções de e-commerce, temos a habilidade e experiência para
+        criar aplicativos personalizados que atendam às necessidades específicas
+        de cada cliente.
+      </p>
+      <p>
+        Não importa qual seja o seu setor de atuação, nós podemos ajudá-lo a alcançar seus objetivos através da tecnologia. Confira alguns dos nossos projetos recentes para ver como nossos aplicativos podem ajudar a sua empresa a prosperar.
+      </p>
       <v-list class="details transparent">
         <v-list-item
           href="https://www.cultivarbrasil.com/"
