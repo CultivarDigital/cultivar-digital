@@ -2,10 +2,10 @@ export default {
   toggleDrawer(state, status) {
     state.showDrawer = status
   },
-  setCompanies(state, companies) {
-    state.companies = companies
+  setCustomers(state, customers) {
+    state.customers = customers
   },
-  setCompany(state, company) {
-    state.company = company
+  setCustomer(state, customer) {
+    state.customer = customer
   },
 }

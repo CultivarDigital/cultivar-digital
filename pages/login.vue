@@ -155,8 +155,8 @@ export default {
         })
     },
     welcome(user) {
-      this.$store.commit('setCompany', null)
-      this.$store.commit('setCompanies', null)
+      this.$store.commit('setCustomer', null)
+      this.$store.commit('setCustomers', null)
       this.$router.replace('/cliente')
       this.$notifier.success('Olá!')
     },

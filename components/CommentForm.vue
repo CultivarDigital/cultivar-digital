@@ -30,13 +30,13 @@ export default {
     }
   },
   computed: {
-    company() {
-      return this.$store.state.company
+    customer() {
+      return this.$store.state.customer
     },
   },
   methods: {
     save() {
-      const form = { ...this.form, company: this.company._id }
+      const form = { ...this.form, customer: this.customer._id }
       this.$axios.$post('/v1/comments', form).then((comment) => {
         this.$notifier.success('Salvo!')
         this.$emit('input', comment)

@@ -176,16 +176,16 @@ export default {
     }
   },
   computed: {
-    company() {
-      return this.$store.state.company
+    customer() {
+      return this.$store.state.customer
     },
     estimate() {
-      if (!this.form.points || !this.company) return null
+      if (!this.form.points || !this.customer) return null
       return {
         estimate_in_days: Math.round(
-          this.form.points / this.company.points_per_day
+          this.form.points / this.customer.points_per_day
         ),
-        price: this.form.points * this.company.point_price,
+        price: this.form.points * this.customer.point_price,
         billable: this.form.billable,
       }
     },
@@ -211,7 +211,7 @@ export default {
           })
       } else {
         this.$axios
-          .$post('/v1/demands', { ...form, company: this.company._id })
+          .$post('/v1/demands', { ...form, customer: this.customer._id })
           .then((demand) => {
             this.$notifier.success('Salvo!')
             this.$emit('input', demand)

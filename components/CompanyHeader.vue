@@ -4,18 +4,18 @@
       <Loading />
     </div>
     <div v-else>
-      <div v-if="$auth.user.role === 'admin' && companies">
-        <div v-if="company">
+      <div v-if="$auth.user.role === 'admin' && customers">
+        <div v-if="customer">
           <v-select
-            v-model="companyId"
+            v-model="customerId"
             hide-details="auto"
-            :items="companies"
+            :items="customers"
             label="Cliente"
             item-value="_id"
             item-text="name"
             clearable
             outlined
-            @input="companySelected"
+            @input="customerSelected"
           >
             <template #append-outer>
               <v-menu offset-y>
@@ -25,12 +25,12 @@
                   </v-btn>
                 </template>
                 <v-list>
-                  <v-list-item v-if="company" @click="editCompany = true">
+                  <v-list-item v-if="customer" @click="editCustomer = true">
                     <v-list-item-title>Editar</v-list-item-title>
                   </v-list-item>
                   <v-list-item
                     v-if="$auth.user.role === 'admin'"
-                    @click="addCompany = true"
+                    @click="addCustomer = true"
                   >
                     <v-list-item-title>Adicionar cliente</v-list-item-title>
                   </v-list-item>
@@ -43,7 +43,7 @@
           <h3 class="mb-6">Clientes</h3>
           <div class="mb-6">
             <v-text-field
-              v-if="companies.length > 5"
+              v-if="customers.length > 5"
               v-model="search"
               type="search"
               clearable
@@ -52,47 +52,47 @@
               append-icon="mdi-magnify"
             />
             <v-card
-              v-for="c in filteredCompanies"
+              v-for="c in filteredCustomers"
               :key="c._id"
               class="mb-3 px-3 py-2"
               secondary
-              @click="companySelected(c._id)"
+              @click="customerSelected(c._id)"
             >
               <div class="d-flex justify-space-between align-center">
                 <h6 class="text-h6">{{ c.name }}</h6>
-                <v-btn icon @click="editCompany = true">
+                <v-btn icon @click="editCustomer = true">
                   <v-icon>mdi-chevron-right</v-icon>
                 </v-btn>
               </div>
             </v-card>
           </div>
-          <v-btn color="success" large block @click="addCompany = true">
+          <v-btn color="success" large block @click="addCustomer = true">
             <v-icon left>mdi-plus</v-icon>
             Adicionar cliente
           </v-btn>
         </div>
       </div>
       <div
-        v-if="$auth.user.role === 'user' && company"
+        v-if="$auth.user.role === 'user' && customer"
         class="d-flex justify-space-between align-center"
       >
         <div>
-          <h2>{{ company.name }}</h2>
+          <h2>{{ customer.name }}</h2>
           <div>
             <small>{{ $auth.user.name }}</small>
           </div>
         </div>
         <div>
-          <v-btn icon @click="editCompany = true">
+          <v-btn icon @click="editCustomer = true">
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
         </div>
       </div>
-      <CompanyForm v-if="addCompany" @input="companyCreated" @close="close" />
-      <CompanyForm
-        v-if="editCompany"
-        :company="company"
-        @input="companyUpdated"
+      <CustomerForm v-if="addCustomer" @input="customerCreated" @close="close" />
+      <CustomerForm
+        v-if="editCustomer"
+        :customer="customer"
+        @input="customerUpdated"
         @close="close"
       />
     </div>
@@ -102,86 +102,86 @@
 export default {
   data() {
     return {
-      companyId: '',
-      addCompany: false,
-      editCompany: false,
+      customerId: '',
+      addCustomer: false,
+      editCustomer: false,
       loading: true,
       search: '',
     }
   },
   computed: {
-    filteredCompanies() {
+    filteredCustomers() {
       if (this.search) {
-        return this.companies.filter((c) =>
+        return this.customers.filter((c) =>
           c.name.toLowerCase().includes(this.search.toLowerCase())
         )
       }
-      return this.companies
+      return this.customers
     },
-    company() {
-      return this.$store.state.company
+    customer() {
+      return this.$store.state.customer
     },
-    companies() {
-      return this.$store.state.companies
+    customers() {
+      return this.$store.state.customers
     },
   },
   async mounted() {
     if (this.$auth.user.role === 'admin') {
-      await this.loadCompanies()
+      await this.loadCustomers()
     }
     if (this.$auth.user.role === 'user') {
-      await this.loadCompany()
+      await this.loadCustomer()
     }
   },
   methods: {
-    async companyUpdated(company) {
+    async customerUpdated(customer) {
       this.close()
       if (this.$auth.user.role === 'admin') {
-        await this.loadCompanies()
-        this.companySelected(this.companyId)
+        await this.loadCustomers()
+        this.customerSelected(this.customerId)
       }
       if (this.$auth.user.role === 'user') {
-        this.$store.commit('setCompany', company)
+        this.$store.commit('setCustomer', customer)
       }
     },
-    async companyCreated(company) {
+    async customerCreated(customer) {
       this.close()
       if (this.$auth.user.role === 'admin') {
-        await this.loadCompanies()
-        this.companyId = company._id
-        this.companySelected(company._id)
+        await this.loadCustomers()
+        this.customerId = customer._id
+        this.customerSelected(customer._id)
       }
     },
-    async loadCompany() {
+    async loadCustomer() {
       this.loading = true
-      const company = await this.$axios.$get(
-        '/v1/companies/' + this.$auth.user.company
+      const customer = await this.$axios.$get(
+        '/v1/customers/' + this.$auth.user.customer
       )
-      this.$store.commit('setCompany', company)
+      this.$store.commit('setCustomer', customer)
       this.loading = false
     },
-    async loadCompanies() {
+    async loadCustomers() {
       this.loading = true
-      const companies = await this.$axios.$get('/v1/companies/summary')
-      if (companies) {
-        this.$store.commit('setCompanies', companies)
+      const customers = await this.$axios.$get('/v1/customers/summary')
+      if (customers) {
+        this.$store.commit('setCustomers', customers)
       }
       this.loading = false
     },
-    companySelected(id) {
-      this.companyId = id
+    customerSelected(id) {
+      this.customerId = id
       if (id) {
         this.$store.commit(
-          'setCompany',
-          this.companies.find((c) => c._id === id)
+          'setCustomer',
+          this.customers.find((c) => c._id === id)
         )
       } else {
-        this.$store.commit('setCompany', null)
+        this.$store.commit('setCustomer', null)
       }
     },
     close() {
-      this.addCompany = false
-      this.editCompany = false
+      this.addCustomer = false
+      this.editCustomer = false
     },
   },
 }

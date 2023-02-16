@@ -129,7 +129,7 @@ export default {
           .loginWith('local', {
             data: {
               token,
-              company_id: this.$route.query.cliente,
+              customer_id: this.$route.query.cliente,
             },
           })
           .then((resp) => {

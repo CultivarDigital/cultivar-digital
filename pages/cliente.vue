@@ -1,7 +1,7 @@
 <template>
   <div>
-    <CompanyHeader />
-    <div v-if="company">
+    <CustomerHeader />
+    <div v-if="customer">
       <v-container
         v-if="summary && (summary.pendingProposals || summary.pendingDemands)"
       >
@@ -64,15 +64,15 @@ export default {
     }
   },
   computed: {
-    company() {
-      return this.$store.state.company
+    customer() {
+      return this.$store.state.customer
     },
   },
   methods: {
     async loadSummary() {
-      this.summary = await this.$axios.$get('/v1/dashboard/company/summary', {
+      this.summary = await this.$axios.$get('/v1/dashboard/customer/summary', {
         params: {
-          company: this.company._id,
+          customer: this.customer._id,
         },
       })
     },

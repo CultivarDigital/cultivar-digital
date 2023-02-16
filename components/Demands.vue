@@ -133,12 +133,12 @@ export default {
         hasDemand() {
             return this.demands.find((d) => this.showStatus.value === d.status);
         },
-        company() {
-            return this.$store.state.company;
+        customer() {
+            return this.$store.state.customer;
         },
     },
     watch: {
-        company() {
+        customer() {
             this.loadDemands();
         },
     },
@@ -159,7 +159,7 @@ export default {
         },
         async loadDemands() {
             this.demands = null;
-            const params = { ...this.filters, company: this.company._id };
+            const params = { ...this.filters, customer: this.customer._id };
             this.demands = await this.$axios.$get("/v1/demands", {
                 params,
             });

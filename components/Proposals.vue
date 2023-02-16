@@ -134,12 +134,12 @@ export default {
     hasProposal() {
       return this.proposals.find((d) => this.showStatus.value === d.status)
     },
-    company() {
-      return this.$store.state.company
+    customer() {
+      return this.$store.state.customer
     },
   },
   watch: {
-    company() {
+    customer() {
       this.loadProposals()
     },
   },
@@ -162,13 +162,13 @@ export default {
       this.proposals = null
       this.proposals = await this.$axios.$get('/v1/proposals', {
         params: {
-          company: this.company._id,
+          customer: this.customer._id,
         },
       })
       this.$emit('change')
     },
     estimateInDays(points) {
-      return Math.ceil(points / this.company.points_per_day)
+      return Math.ceil(points / this.customer.points_per_day)
     },
   },
 }

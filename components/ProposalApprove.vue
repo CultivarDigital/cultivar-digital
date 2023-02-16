@@ -20,8 +20,8 @@
           </h3>
           <p>Entre:</p>
           <p>
-            <strong>{{ proposal.company.corporate_name }}</strong
-            >, com sede em <strong>{{ proposal.company.address }}</strong
+            <strong>{{ proposal.customer.corporate_name }}</strong
+            >, com sede em <strong>{{ proposal.customer.address }}</strong
             >, representado por <strong>{{ $auth.user.name }}</strong
             >, doravante denominado simplesmente de "Contratante".
           </p>

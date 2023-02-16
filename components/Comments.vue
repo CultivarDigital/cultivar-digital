@@ -43,8 +43,8 @@ export default {
     }
   },
   computed: {
-    company() {
-      return this.$store.state.company
+    customer() {
+      return this.$store.state.customer
     },
     filesUrl() {
       return process.env.FILES_URL
@@ -56,7 +56,7 @@ export default {
   methods: {
     async loadComments() {
       const params = {
-        company: this.company._id,
+        customer: this.customer._id,
         demand: this.demand ? this.demand._id : null,
         proposal: this.proposal ? this.proposal._id : null,
       }

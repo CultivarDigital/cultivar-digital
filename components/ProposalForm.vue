@@ -90,8 +90,8 @@ export default {
     }
   },
   computed: {
-    company() {
-      return this.$store.state.company
+    customer() {
+      return this.$store.state.customer
     },
     totalPrice() {
       return this.selectedItems.reduce((total, item) => {
@@ -130,7 +130,7 @@ export default {
       this.demands = await this.$axios.$get('/v1/demands', {
         params: {
           status: 'backlog',
-          company: this.company._id,
+          customer: this.customer._id,
           approved: false,
           billable: true,
           with_points: true,
@@ -156,7 +156,7 @@ export default {
       form.estimate_in_days = this.totalEstimateInDays
       this.loading = true
       this.$axios
-        .$post('/v1/proposals', { ...form, company: this.company._id })
+        .$post('/v1/proposals', { ...form, customer: this.customer._id })
         .then((proposal) => {
           this.$notifier.success('Proposta gerada!')
           this.$emit('change', proposal)
