@@ -1,11 +1,8 @@
 <template>
   <v-app dark>
-
-    <v-app-bar fixed app>
-      <n-link
-        to="/"
-        class="text-decoration-none white--text d-flex align-center"
-      >
+    <v-app-bar fixed app flat>
+      <div class="d-flex justify-end align-center w-100" style="width: 100%">
+        <n-link to="/" class="text-decoration-none d-flex align-center">
         <img :src="require('~/assets/img/logo.png')" class="logo" />
         <span class="ml-3"><strong>Cultivar</strong> Digital</span>
       </n-link>
@@ -13,7 +10,7 @@
       <div class="d-flex align-center">
         <div class="d-none d-md-block">
           <v-btn class="font-weight-light" text small href="#presentation"
-            >Oferecemos</v-btn
+            >Sobre nós</v-btn
           >
           <v-btn class="font-weight-light" text small href="#services"
             >Serviços</v-btn
@@ -22,23 +19,28 @@
             >Portfólio</v-btn
           >
         </div>
-
+        <SwitchTheme />
         <v-btn color="primary" to="/cliente" small>
-          <v-icon left>mdi-login</v-icon> Cliente
+          Cliente
         </v-btn>
       </div>
       <!-- <v-btn color="primary" icon @click.stop="drawer = !drawer">
         <v-icon>mdi-menu</v-icon>
       </v-btn> -->
+      </div>
     </v-app-bar>
-    <v-main style="background-color: #2b2b2b">
+    <v-main>
       <Nuxt />
     </v-main>
     <Snackbar />
     <v-footer class="pa-3 justify-center">
       <div class="text-center pt-6">
         <h6 class="text-h6 mb-6">Fale com a gente</h6>
-        <p>Nossa equipe está sempre pronta para responder às suas perguntas e ajudá-lo a encontrar a solução tecnológica perfeita para a sua empresa.</p>
+        <p>
+          Nossa equipe está sempre pronta para responder às suas perguntas e
+          ajudá-lo a encontrar a solução tecnológica perfeita para a sua
+          empresa.
+        </p>
         <div class="text-center">
           <div class="mb-3">Fale com a gente pelo WhatsApp:</div>
           <v-btn
@@ -54,7 +56,7 @@
           <h5 class="tertiary--text pt-3">Ou envie um email para:</h5>
           <h5 class="text-h6 mb-6">
             <a
-              class="dark text-decoration-none white--text"
+              class="dark text-decoration-none"
               @click="copy('atendimento@cultivardigital.com.br')"
             >
               atendimento@cultivardigital.com.br
@@ -76,34 +78,37 @@
 </template>
 
 <script>
+import SwitchTheme from '~/components/SwitchTheme.vue';
+
 export default {
-  data() {
-    return {
-      success: '',
-      // drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/',
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire',
-        },
-      ],
-      miniVariant: false,
-      right: true,
-      title: 'Vuetify.js',
-    }
-  },
-  methods: {
-    async copy(value) {
-      await navigator.clipboard.writeText(value)
-      this.success = 'Email copiado!'
+    components: { SwitchTheme },
+    data() {
+        return {
+            success: "",
+            // drawer: false,
+            fixed: false,
+            items: [
+                {
+                    icon: "mdi-apps",
+                    title: "Welcome",
+                    to: "/",
+                },
+                {
+                    icon: "mdi-chart-bubble",
+                    title: "Inspire",
+                    to: "/inspire",
+                },
+            ],
+            miniVariant: false,
+            right: true,
+            title: "Vuetify.js",
+        };
     },
-  },
+    methods: {
+        async copy(value) {
+            await navigator.clipboard.writeText(value);
+            this.success = "Email copiado!";
+        },
+    }
 }
 </script>

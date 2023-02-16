@@ -59,7 +59,6 @@
                   v-if="proposal.status === 'pending'"
                   small
                   outlined
-                  color="rgba(255, 255, 255, 0.6)"
                 >
                   <v-icon left small> mdi-clock </v-icon>
                   Aguardando aprovação
@@ -89,7 +88,7 @@
                       <small>{{ item.demand.title }}</small>
                     </td>
                     <td>
-                      <small>{{ item.estimate_in_days }} dias</small>
+                      <small>{{ $utils.plural(item.estimate_in_days, 'dia') }}</small>
                     </td>
                     <td>
                       <small>{{ item.price | moeda }}</small>
@@ -105,7 +104,7 @@
                   <tr>
                     <th><strong>Total</strong></th>
                     <th>
-                      <strong>{{ proposal.estimate_in_days }} dias</strong>
+                      <strong>{{ $utils.plural(proposal.estimate_in_days, 'dia') }}</strong>
                     </th>
                     <th>
                       <strong>{{ proposal.price | moeda }}</strong>

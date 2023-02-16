@@ -132,7 +132,7 @@ export default {
           status: 'backlog',
           company: this.company._id,
           approved: false,
-          type: 'feature',
+          billable: true,
           with_points: true,
         },
       })

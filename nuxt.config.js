@@ -1,4 +1,18 @@
 import colors from 'vuetify/es5/util/colors'
+import axios from 'axios'
+
+async function fetchSubdomainsFromDatabase() {
+  try {
+    console.log(process.env.API_URL + 'v1/providers/public')
+    const response = await axios.get(
+      process.env.API_URL + 'v1/providers/public'
+    )
+    return response.data
+  } catch (error) {
+    console.error(error)
+    return []
+  }
+}
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
@@ -20,7 +34,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ['~/assets/css/main.sass'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
 
@@ -60,11 +74,13 @@ export default {
     '~/plugins/firebase.js',
     '~/plugins/moment.js',
     '~/plugins/axios.js',
+    '~plugins/utils.js',
     { src: '~/plugins/persisted-state', ssr: false },
     { src: '~/plugins/vue-the-mask', ssr: false },
     { src: '~plugins/quill.js', ssr: false },
     { src: '~plugins/vue2-filters.js', ssr: false },
     { src: '~plugins/moment-business-days.js', ssr: false },
+    { src: '~/plugins/v-money', ssr: false },
   ],
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -82,7 +98,7 @@ export default {
         family: 'Roboto',
       },
     },
-    customVariables: ['~/assets/variables.sass'],
+    customVariables: ['~/assets/css/variables.sass'],
     theme: {
       dark: true,
       themes: {
@@ -96,6 +112,19 @@ export default {
           error: colors.deepOrange.accent4,
           success: '#009D6B',
           background: '#fff',
+          anchor: '#009D6B',
+        },
+        light: {
+          primary: '#A2248F',
+          accent: '#FF5C00',
+          secondary: '#3b3b3b',
+          default: '#d8d8d8',
+          info: colors.teal.lighten1,
+          warning: colors.amber.base,
+          error: colors.deepOrange.accent4,
+          success: '#009D6B',
+          background: '#fff',
+          anchor: '#A2248F',
         },
       },
     },
@@ -146,4 +175,23 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+  generate: {
+    async routes() {
+      // replace this with your own code to fetch the list of subdomains from your database
+      try {
+        const providers = await fetchSubdomainsFromDatabase()
+        return providers.map((provider) => {
+          return {
+            route: `/dynamic/${provider.slug}`,
+            payload: { provider },
+          }
+        })
+      } catch (error) {
+        console.log(
+          'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+        )
+        console.log(error)
+      }
+    },
+  },
 }

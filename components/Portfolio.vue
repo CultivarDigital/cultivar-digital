@@ -32,7 +32,7 @@
               sobre cultivo do próprio alimento.
             </p>
             <p>
-              <v-chip small color="success">Produto próprio</v-chip>
+              <v-chip small outlined >Produto próprio</v-chip>
             </p>
           </v-list-item-content>
         </v-list-item>
@@ -56,7 +56,8 @@
             </p>
             <p>
               <v-chip
-                color="accent"
+                outlined
+                
                 small
                 target="_blank"
                 href="https://app.prijorge.com"
@@ -82,7 +83,8 @@
             </p>
             <p>
               <v-chip
-                color="accent"
+                outlined
+                
                 target="_blank"
                 href="https://www.terrakrya.com"
                 small
@@ -112,7 +114,8 @@
             </p>
             <p>
               <v-chip
-                color="accent"
+                outlined
+                
                 target="_blank"
                 href="https://www.terrakrya.com"
                 small
@@ -140,7 +143,8 @@
             </p>
             <p>
               <v-chip
-                color="accent"
+                outlined
+                
                 target="_blank"
                 href="https://www.terrakrya.com"
                 small
@@ -175,7 +179,8 @@
             </p>
             <p>
               <v-chip
-                color="accent"
+                outlined
+                
                 target="_blank"
                 href="https://www.terrakrya.com"
                 small
@@ -200,7 +205,8 @@
             </p>
             <p>
               <v-chip
-                color="accent"
+                outlined
+                
                 target="_blank"
                 href="https://www.terrakrya.com"
                 small

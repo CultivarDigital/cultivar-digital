@@ -63,6 +63,7 @@
                   item-text="label"
                   outlined
                   :error-messages="errors"
+                  @change="setBillable"
                 />
               </validation-provider>
               <validation-provider
@@ -108,12 +109,26 @@
                   type="number"
                   outlined
                   :error-messages="errors"
+                  @input="setBillable"
                 />
-                <div v-if="$auth.user.role === 'admin' && estimate">
-                  {{ estimate.price | moeda }} ({{ estimate.estimate_in_days }} dias)
-                </div>
               </validation-provider>
-
+              <div v-if="form.points > 0">
+                <v-switch
+                  v-model="form.billable"
+                  label="Você vai cobrar por essa demanda?"
+                  outlined
+                  
+                />
+                <div
+                  v-if="
+                    $auth.user.role === 'admin' &&
+                    estimate &&
+                    estimate.estimate_in_days > 0
+                  "
+                >
+                  <EstimateValues :item="estimate" />
+                </div>
+              </div>
               <div class="text-right">
                 <Save :invalid="invalid" :block="false" label="Salvar" />
               </div>
@@ -149,13 +164,14 @@ export default {
       form: {
         title: '',
         body: null,
-        points: null,
+        points: 0,
         price: null,
         type: null,
         priority: null,
         progress: 0,
         status: 'backlog',
         paid: false,
+        billable: false,
       },
     }
   },
@@ -170,6 +186,7 @@ export default {
           this.form.points / this.company.points_per_day
         ),
         price: this.form.points * this.company.point_price,
+        billable: this.form.billable,
       }
     },
   },
@@ -210,6 +227,15 @@ export default {
     },
     removeItem(month, week, index) {
       this.form.data[month - 1][week - 1].splice(index, 1)
+    },
+    setBillable() {
+      console.log(this.form.type)
+      console.log(this.form.points)
+      if (this.form.type === 'feature' && this.form.points > 0) {
+        this.form.billable = true
+      } else {
+        this.form.billable = false
+      }
     },
     close() {
       this.$emit('close')

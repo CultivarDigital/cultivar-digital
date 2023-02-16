@@ -7,9 +7,11 @@
       <v-btn
         v-for="status in demandStatus"
         :key="status.value"
-        small
+        x-small
         :color="showStatus.value === status.value ? 'primary' : 'secondary'"
+        style="min-width: 32%; padding: 24px 8px;"
         @click="showStatus = status"
+        
       >
         {{ status.label }}
       </v-btn>
@@ -28,20 +30,16 @@
               @click="setActiveDemand(demand)"
             >
               <v-card-text>
-                <h3 class="white--text mb-3">{{ demand.title }}</h3>
-
+                <h3 class="mb-3">{{ demand.title }}</h3>
                 <div>
-                  <div v-if="demand.points && demand.points > 0" class="mb-3">
-                    <strong>
-                      {{ demand.estimate_in_days }}
-                      dias
-                    </strong>
+                  <div class="mb-3">
+                    <EstimateValues :item="demand" :show-price="false" />
                   </div>
                   <v-chip
                     v-if="demand.type"
                     outlined
                     small
-                    color="rgba(255, 255, 255, 0.6)"
+                    
                   >
                     <v-icon
                       left
@@ -68,7 +66,6 @@
                     "
                     outlined
                     small
-                    color="rgba(255, 255, 255, 0.6)"
                   >
                     <v-icon left small> mdi-clock </v-icon>
                     Aguardando estimativa
@@ -99,6 +96,7 @@
   </div>
 </template>
 <script>
+import EstimateValues from './EstimateValues.vue'
 import demandTypes, {
   demandTypeLabel,
   demandTypeIcon,
@@ -110,69 +108,76 @@ import demandPriorities, {
 } from '~/data/demandPriorities'
 
 export default {
-  data() {
-    return {
-      demandTypes,
-      demandTypeLabel,
-      demandTypeIcon,
-      demandPriorityLabel,
-      demandPriorityColor,
-      demandStatus,
-      demandStatusLabel,
-      demandPriorities,
-
-      demands: null,
-      addDemand: false,
-      activeDemand: null,
-      showStatus: demandStatus[0],
-      filters: {},
+    components: { EstimateValues },
+    data() {
+        return {
+            demandTypes,
+            demandTypeLabel,
+            demandTypeIcon,
+            demandPriorityLabel,
+            demandPriorityColor,
+            demandStatus,
+            demandStatusLabel,
+            demandPriorities,
+            demands: null,
+            addDemand: false,
+            activeDemand: null,
+            showStatus: demandStatus[0],
+            filters: {},
+        };
+    },
+    computed: {
+        hasDemandsInProgress() {
+            return this.demands.find((d) => d.status === 'in-progress');
+        },
+        hasDemand() {
+            return this.demands.find((d) => this.showStatus.value === d.status);
+        },
+        company() {
+            return this.$store.state.company;
+        },
+    },
+    watch: {
+        company() {
+            this.loadDemands();
+        },
+    },
+    async mounted() {
+        await this.loadDemands();
+    },
+    methods: {
+        isActive(demand) {
+            return this.activeDemand && this.activeDemand._id === demand._id;
+        },
+        setActiveDemand(demand) {
+            if (!this.activeDemand || this.activeDemand._id !== demand._id) {
+                this.activeDemand = demand;
+            }
+            else {
+                this.activeDemand = null;
+            }
+        },
+        async loadDemands() {
+            this.demands = null;
+            const params = { ...this.filters, company: this.company._id };
+            this.demands = await this.$axios.$get("/v1/demands", {
+                params,
+            });
+            if (this.hasDemandsInProgress) {
+                this.showStatus = demandStatus[1];
+            }
+            this.$emit("change");
+        },
+        changed(demand) {
+            const index = this.demands.findIndex((d) => d._id === demand._id);
+            this.activeDemand = demand;
+            this.demands.splice(index, 1, demand);
+        },
+        async removeDemand(demand) {
+            await this.$axios.$delete(`/v1/demands/${this.activeDemand._id}`);
+            this.activeDemand = null;
+            this.loadDemands();
+        },
     }
-  },
-  computed: {
-    hasDemand() {
-      return this.demands.find((d) => this.showStatus.value === d.status)
-    },
-    company() {
-      return this.$store.state.company
-    },
-  },
-  watch: {
-    company() {
-      this.loadDemands()
-    },
-  },
-  async mounted() {
-    await this.loadDemands()
-  },
-  methods: {
-    isActive(demand) {
-      return this.activeDemand && this.activeDemand._id === demand._id
-    },
-    setActiveDemand(demand) {
-      if (!this.activeDemand || this.activeDemand._id !== demand._id) {
-        this.activeDemand = demand
-      } else {
-        this.activeDemand = null
-      }
-    },
-    async loadDemands() {
-      this.demands = null
-      const params = { ...this.filters, company: this.company._id }
-      this.demands = await this.$axios.$get('/v1/demands', {
-        params,
-      })
-      this.$emit('change')
-    },
-    changed(demand) {
-      const index = this.demands.findIndex((d) => d._id === demand._id)
-      this.activeDemand = demand
-      this.demands.splice(index, 1, demand)
-    },
-    async removeDemand(demand) {
-      await this.$axios.$delete(`/v1/demands/${this.activeDemand._id}`)
-      this.activeDemand = null
-      this.loadDemands()
-    },
-  },
 }
 </script>

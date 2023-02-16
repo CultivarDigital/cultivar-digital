@@ -23,15 +23,16 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer> -->
-    <v-app-bar fixed app>
+    <v-app-bar fixed app flat>
       <n-link
         to="/"
-        class="text-decoration-none white--text d-flex align-center"
+        class="text-decoration-none d-flex align-center"
       >
         <img :src="require('~/assets/img/logo.png')" class="logo" />
         <span class="ml-3"><strong>Cultivar</strong> Digital</span>
       </n-link>
       <v-spacer />
+      <SwitchTheme />
       <div class="d-flex align-center">
         <v-menu offset-y>
           <template #activator="{ on }">
@@ -50,7 +51,7 @@
         <v-icon>mdi-menu</v-icon>
       </v-btn> -->
     </v-app-bar>
-    <v-main style="background-color: #2b2b2b">
+    <v-main>
       <Nuxt />
     </v-main>
     <Snackbar />

@@ -2,7 +2,8 @@
 //
 // The variables you want to modify
 // $font-size-root: 20px;
-
+$white: #ffffff
+$black: #2B2B2B
 html
   scroll-behavior: smooth
   scroll-padding-top: 56px
@@ -32,3 +33,14 @@ section
   font-size: 12px !important
 .v-slide-group__prev, .v-slide-group__next
   display: none !important
+.theme--light
+  .v-application
+    color: $black !important
+  .v-app-bar.v-toolbar.v-sheet
+    background-color: $white !important
+.theme--dark
+  .v-application
+    color: $white !important
+  .v-app-bar.v-toolbar.v-sheet
+    background-color: $black !important
+  

@@ -79,7 +79,6 @@
                       v-if="proposal.status === 'pending'"
                       small
                       outlined
-                      color="rgba(255, 255, 255, 0.6)"
                     >
                       <v-icon left small> mdi-clock </v-icon>
                       Aguardando aprovação

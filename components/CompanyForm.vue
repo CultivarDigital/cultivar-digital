@@ -52,11 +52,7 @@
                 label="Pontos por dia"
                 outlined
               />
-              <v-text-field
-                v-model="form.point_price"
-                label="Preço do ponto"
-                outlined
-              />
+              <Money v-model="form.point_price" label="Preço do ponto" />
             </div>
 
             <v-btn

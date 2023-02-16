@@ -14,7 +14,7 @@
             v-if="demand.type"
             outlined
             small
-            color="rgba(255, 255, 255, 0.6)"
+            
           >
             <v-icon left small :color="demandPriorityColor(demand.priority)">{{
               demandTypeIcon(demand.type)
@@ -22,18 +22,13 @@
             {{ demandTypeLabel(demand.type) }}
           </v-chip>
         </div>
-        <h3 class="white--text mb-3">{{ demand.title }}</h3>
-        <div class="white--text mb-3">
+        <h3 class="mb-3">{{ demand.title }}</h3>
+        <div class="mb-3">
           <Editor :value="demand.body" />
         </div>
         <div>
           <div v-if="demand.points && demand.points > 0" class="mb-6">
-            <small>
-              {{ demand.estimate_in_days }}
-              dias
-              <br />
-              {{ demand.price | moeda }}
-            </small>
+            <EstimateValues :item="demand" />
           </div>
         </div>
 
@@ -54,7 +49,7 @@
           "
           outlined
           small
-          color="rgba(255, 255, 255, 0.6)"
+          
         >
           <v-icon left small> mdi-clock </v-icon>
           Aguardando estimativa
