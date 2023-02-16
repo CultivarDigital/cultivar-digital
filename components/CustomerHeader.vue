@@ -40,7 +40,6 @@
           </v-select>
         </div>
         <div v-else>
-          <h3 class="mb-6">Clientes</h3>
           <div class="mb-6">
             <v-text-field
               v-if="customers.length > 5"
@@ -54,15 +53,23 @@
             <v-card
               v-for="c in filteredCustomers"
               :key="c._id"
-              class="mb-3 px-3 py-2"
+              class="mb-3 px-3"
               secondary
               @click="customerSelected(c._id)"
             >
-              <div class="d-flex justify-space-between align-center">
-                <h6 class="text-h6">{{ c.name }}</h6>
-                <v-btn icon @click="editCustomer = true">
-                  <v-icon>mdi-chevron-right</v-icon>
-                </v-btn>
+              <div>
+                <v-list-item class="pa-0">
+                  <v-list-item-content>
+                    <h4>{{ c.name }}</h4>
+                    <div v-if="c.backlog_demands_count || c.inProgress_demands_count" class="caption">
+                      <div v-if="c.backlog_demands_count" class="d-inline-block mr-2 secondary--text text--lighten-4" :class="{'error--text text--lighten-1': c.pending_demands_count}"><strong>{{ c.backlog_demands_count }}</strong> na fila</div>
+                      <div v-if="c.inProgress_demands_count" class="d-inline-block mr-2 success--text"><strong>{{ c.inProgress_demands_count }}</strong> em execução</div>
+                    </div>
+                    <div v-else>
+                      <div class="caption pt-1 secondary--text">Sem demandas ativas</div>
+                    </div>
+                  </v-list-item-content>
+                </v-list-item>
               </div>
             </v-card>
           </div>

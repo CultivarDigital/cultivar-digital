@@ -7,7 +7,7 @@
       x-large
       class="mb-4 mt-4 font-weight-bold text-none"
       type="submit"
-      color="primary"
+      color="success"
       :disabled="invalid || loading"
       :block="block"
       rounded

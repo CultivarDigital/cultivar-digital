@@ -1,28 +1,25 @@
 <template>
   <div>
     <!-- list comments -->
-    <v-list v-if="comments">
-      <v-list-item-group>
-        <template v-for="comment in comments">
-          <v-list-item :key="comment._id">
-            <v-list-item-content>
-              <div class="mb-3">
-                <strong><small>{{ comment.user.name }}</small></strong>
-              </div>
-              <Editor :value="comment.body" />
-            </v-list-item-content>
-          </v-list-item>
-          <v-divider :key="comment._id + '_divider'" />
-        </template>
-      </v-list-item-group>
-    </v-list>
-    <v-container>
+    <div v-if="comments">
+      <template v-for="comment in comments">
+        <v-list-item :key="comment._id" class="pa-0">
+          <v-list-item-content class="pa-0">
+            <div class="mb-3 caption secondary--text text--lighten-4">
+              {{ comment.user.name }}
+            </div>
+            <Editor :value="comment.body" />
+          </v-list-item-content>
+        </v-list-item>
+      </template>
+    </div>
+    <div>
       <CommentForm
         :demand="demand"
         :proposal="proposal"
         @input="loadComments"
       />
-    </v-container>
+    </div>
   </div>
 </template>
 <script>

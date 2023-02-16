@@ -3,25 +3,6 @@
     <v-card class="template-form">
       <DialogHeader @close="close" />
       <v-container class="pt-6">
-        <div class="d-flex justify-space-between align-center mb-6">
-          <div>
-            Demanda
-            <span v-if="demand.status">
-              {{ demandStatusLabel(demand.status).toLowerCase() }}
-            </span>
-          </div>
-          <v-chip
-            v-if="demand.type"
-            outlined
-            small
-            
-          >
-            <v-icon left small :color="demandPriorityColor(demand.priority)">{{
-              demandTypeIcon(demand.type)
-            }}</v-icon>
-            {{ demandTypeLabel(demand.type) }}
-          </v-chip>
-        </div>
         <h3 class="mb-3">{{ demand.title }}</h3>
         <div class="mb-3">
           <Editor :value="demand.body" />
@@ -31,7 +12,6 @@
             <EstimateValues :item="demand" />
           </div>
         </div>
-
         <v-chip
           v-if="demand.approved && demand.status === 'backlog'"
           outlined
@@ -43,57 +23,59 @@
         </v-chip>
         <v-chip
           v-if="
-            !demand.points &&
-            demand.status === 'backlog' &&
-            demand.type === 'feature'
+            !demand.estimated &&
+            demand.status === 'backlog'
           "
           outlined
           small
-          
         >
           <v-icon left small> mdi-clock </v-icon>
           Aguardando estimativa
         </v-chip>
+        <!-- <Comments :demand="demand" /> -->
         <div v-if="!preview" class="text-right">
           <v-divider class="my-3"></v-divider>
           <div class="d-flex justify-space-between align-center">
-            <div >
-              <Remove v-if="$auth.user.role === 'admin' && !demand.approved" button button-label="Arquivar" @confirm="remove" />
+            <div>
+              <v-btn v-if="!demand.approved"  @click="edit = true">
+                <v-icon left>mdi-pencil</v-icon> Editar
+              </v-btn>
             </div>
             <div>
-              <v-btn v-if="!demand.approved" small @click="edit = true">
-                <v-icon small left>mdi-pencil</v-icon> Editar
-              </v-btn>
               <v-btn
                 v-if="
                   $auth.user.role === 'admin' && demand.status === 'backlog'
                 "
                 color="success"
-                small
+                large
                 @click="updateStatus(demand, 'in-progress')"
               >
-                <v-icon left>mdi-play-circle-outline</v-icon> Iniciar
+                <v-icon left>mdi-play</v-icon>
+                Iniciar
               </v-btn>
               <v-btn
                 v-if="
                   $auth.user.role === 'admin' && demand.status === 'in-progress'
                 "
                 color="success"
-                small
+                large
+
                 @click="updateStatus(demand, 'done')"
               >
-                <v-icon left>mdi-check-circle-outline</v-icon> Concluir
+                <v-icon left>mdi-check</v-icon>
+                Finalizar
               </v-btn>
             </div>
           </div>
         </div>
       </v-container>
-      <Comments :demand="demand" />
+      
       <DemandForm
         v-if="edit"
         :demand="demand"
         @input="changed"
         @close="edit = false"
+        @remove="remove"
       />
     </v-card>
   </v-dialog>
@@ -145,9 +127,12 @@ export default {
       this.$emit('remove', demand)
     },
     async updateStatus(demand, status) {
-      const updatedDemand = await this.$axios.$patch(`/v1/demands/${demand._id}`, {
-        status,
-      })
+      const updatedDemand = await this.$axios.$patch(
+        `/v1/demands/${demand._id}`,
+        {
+          status,
+        }
+      )
       this.changed(updatedDemand)
     },
   },

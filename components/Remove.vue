@@ -5,11 +5,11 @@
     @click:outside="removeComment = null"
   >
     <template #activator="{ on, attrs }">
-      <v-btn v-if="button" small dark v-bind="attrs" v-on="on">
+      <v-btn v-if="button" small v-bind="attrs" v-on="on">
         <v-icon left>{{ icon }}</v-icon> {{ buttonLabel }}
       </v-btn>
-      <v-btn v-else v-bind="attrs" icon x-small v-on="on">
-        <v-icon dark>{{ icon }}</v-icon>
+      <v-btn v-else v-bind="attrs" icon  small v-on="on">
+        <v-icon>{{ icon }}</v-icon>
       </v-btn>
     </template>
     <v-card>
@@ -17,10 +17,10 @@
         {{ label }}
       </v-card-title>
       <v-card-text> {{ hint }} </v-card-text>
-      <v-card-actions>
+      <v-card-actions class="pa-3">
         <v-spacer />
-        <v-btn color="error" text @click="cancel"> Não </v-btn>
-        <v-btn color="green" text @click="confirm"> Sim </v-btn>
+        <v-btn color="error" large @click="cancel"> Não </v-btn>
+        <v-btn color="success" large @click="confirm"> Sim </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

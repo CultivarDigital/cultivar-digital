@@ -9,7 +9,6 @@
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-container>
-    <v-divider />
   </div>
 </template>
 <script>

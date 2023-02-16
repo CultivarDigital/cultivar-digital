@@ -1,6 +1,6 @@
 <template>
   <v-dialog :value="true" fullscreen persistent>
-    <v-card class="template-form">
+    <v-card class="template-form" color="secondary">
       <DialogHeader @close="close" />
       <v-container class="pt-6">
         <ValidationObserver v-slot="{ validate, invalid }">
@@ -109,15 +109,21 @@
                   type="number"
                   outlined
                   :error-messages="errors"
-                  @input="setBillable"
+                  @input="pointsChanged"
                 />
               </validation-provider>
+              <v-switch
+                v-if="form.points < 1"
+                v-model="form.estimated"
+                label="Marcar como estimada"
+                color="success"
+              />
               <div v-if="form.points > 0">
                 <v-switch
                   v-model="form.billable"
                   label="Você vai cobrar por essa demanda?"
                   outlined
-                  
+                  color="success"
                 />
                 <div
                   v-if="
@@ -129,8 +135,18 @@
                   <EstimateValues :item="estimate" />
                 </div>
               </div>
-              <div class="text-right">
-                <Save :invalid="invalid" :block="false" label="Salvar" />
+              <div class="d-flex justify-space-between align-center">
+                <Remove
+                  v-if="
+                    $auth.user.role === 'admin' && demand && !demand.approved
+                  "
+                  @confirm="remove"
+                />
+                <Save
+                  :invalid="invalid"
+                  label="Salvar demanda"
+                  :block="false"
+                />
               </div>
             </div>
           </v-form>
@@ -171,7 +187,8 @@ export default {
         progress: 0,
         status: 'backlog',
         paid: false,
-        billable: false,
+        billable: null,
+        estimated: null,
       },
     }
   },
@@ -228,17 +245,23 @@ export default {
     removeItem(month, week, index) {
       this.form.data[month - 1][week - 1].splice(index, 1)
     },
+    pointsChanged() {
+      this.setEstimated()
+      this.setBillable()
+    },
+    setEstimated() {
+      this.form.estimated = this.form.points > 0
+    },
     setBillable() {
-      console.log(this.form.type)
-      console.log(this.form.points)
-      if (this.form.type === 'feature' && this.form.points > 0) {
-        this.form.billable = true
-      } else {
-        this.form.billable = false
+      if (this.form.billable === null) {
+        this.form.billable = this.form.points > 0
       }
     },
     close() {
       this.$emit('close')
+    },
+    remove(demand) {
+      this.$emit('remove', demand)
     },
   },
 }

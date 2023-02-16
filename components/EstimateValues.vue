@@ -1,5 +1,5 @@
 <template>
-  <div v-if="item.estimate_in_days > 0">
+  <div v-if="item.estimate_in_days > 0" class="caption secondary--text text--lighten-4">
     <div v-if="item.billable && item.price && showPrice">
       {{ item.price | moeda }} ({{ $utils.plural(item.estimate_in_days, 'dia') }})
     </div>

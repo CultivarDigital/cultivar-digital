@@ -105,7 +105,7 @@ export default {
         dark: {
           primary: '#A2248F',
           accent: '#FF5C00',
-          secondary: '#3b3b3b',
+          secondary: '#2b2b2b',
           default: '#d8d8d8',
           info: colors.teal.lighten1,
           warning: colors.amber.base,
@@ -117,7 +117,7 @@ export default {
         light: {
           primary: '#A2248F',
           accent: '#FF5C00',
-          secondary: '#3b3b3b',
+          secondary: '#2b2b2b',
           default: '#d8d8d8',
           info: colors.teal.lighten1,
           warning: colors.amber.base,
