@@ -23,6 +23,9 @@
         <v-btn color="primary" to="/atendimento" small>
           Atendimento
         </v-btn>
+        <v-btn color="primary" to="/atendimento2" small>
+          Atendimento 2
+        </v-btn>
       </div>
       <!-- <v-btn color="primary" icon @click.stop="drawer = !drawer">
         <v-icon>mdi-menu</v-icon>
