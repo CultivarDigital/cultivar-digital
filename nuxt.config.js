@@ -3,6 +3,10 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'server',
+  ssr: true,
+  generate: {
+    fallback: true,
+  },
   // router: {
   //   base: '/site/'
   // },
@@ -160,5 +164,9 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    transpile: [
+      'defu'
+    ]
+  }
 }
