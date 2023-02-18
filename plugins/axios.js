@@ -6,8 +6,8 @@ export default function (cxt) {
   })
   cxt.$axios.onError((error) => {
     if (error && error.response && error.response.status === 401) {
-      cxt.$notifier.error('Sessão expirada')
-      cxt.$auth.logout()
+      // cxt.$notifier.error('Sessão expirada')
+      cxt.$router.push('/login')
     } else {
       cxt.$notifier.apiError(error)
     }
