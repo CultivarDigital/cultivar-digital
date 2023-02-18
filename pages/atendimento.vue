@@ -1,6 +1,7 @@
 <template>
   <v-container class="py-6" fluid>
-    <div v-if="loading">
+    Atendimento
+    <!-- <div v-if="loading">
       <Loading />
     </div>
     <div v-else>
@@ -65,52 +66,52 @@
         @input="customerCreated"
         @close="close"
       />
-    </div>
+    </div> -->
   </v-container>
 </template>
 <script>
 export default {
-  data() {
-    return {
-      addCustomer: false,
-      loading: true,
-      search: '',
-      customers: null,
-    }
-  },
-  computed: {
-    filteredCustomers() {
-      if (this.search) {
-        return this.customers.filter((c) =>
-          c.name.toLowerCase().includes(this.search.toLowerCase())
-        )
-      }
-      return this.customers
-    },
-    customer() {
-      return this.$store.state.customer
-    },
-  },
-  async created() {
-    if (this.$auth.user.role === 'user') {
-      await this.$router.push('/' + this.$auth.user.customer + '/demandas')
-    } else {
-      this.loadCustomers()
-    }
-  },
-  methods: {
-    async loadCustomers() {
-      this.loading = true
-      this.customers = await this.$axios.$get('/v1/customers/summary')
-      this.loading = false
-    },
-    customerCreated(customer) {
-      this.close()
-      this.$router.push('/' + customer._id + '/demandas')
-    },
-    close() {
-      this.addCustomer = false
-    },
-  },
+  // data() {
+  //   return {
+  //     addCustomer: false,
+  //     loading: true,
+  //     search: '',
+  //     customers: null,
+  //   }
+  // },
+  // computed: {
+  //   filteredCustomers() {
+  //     if (this.search) {
+  //       return this.customers.filter((c) =>
+  //         c.name.toLowerCase().includes(this.search.toLowerCase())
+  //       )
+  //     }
+  //     return this.customers
+  //   },
+  //   customer() {
+  //     return this.$store.state.customer
+  //   },
+  // },
+  // async mounted() {
+  //   if (this.$auth.user.role === 'user') {
+  //     await this.$router.push('/' + this.$auth.user.customer + '/demandas')
+  //   } else {
+  //     this.loadCustomers()
+  //   }
+  // },
+  // methods: {
+  //   async loadCustomers() {
+  //     this.loading = true
+  //     this.customers = await this.$axios.$get('/v1/customers/summary')
+  //     this.loading = false
+  //   },
+  //   customerCreated(customer) {
+  //     this.close()
+  //     this.$router.push('/' + customer._id + '/demandas')
+  //   },
+  //   close() {
+  //     this.addCustomer = false
+  //   },
+  // },
 }
 </script>

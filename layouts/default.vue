@@ -38,36 +38,12 @@
 <script>
 export default {
   middleware: 'auth',
-  data() {
-    return {
-      success: '',
-      // drawer: false,
-      fixed: false,
-      show_contact: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/',
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire',
-        },
-      ],
-      miniVariant: false,
-      right: true,
-      title: 'Vuetify.js',
-    }
-  },
   computed: {
     customer() {
       return this.$store.state.customer
     },
   },
   methods: {
-    
     logout() {
       this.$firebase.logout()
       this.$auth.logout()
