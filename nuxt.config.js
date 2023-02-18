@@ -16,7 +16,7 @@ async function fetchSubdomainsFromDatabase() {
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
-  target: 'static',
+  // target: 'static',
   // router: {
   //   base: '/site/'
   // },
