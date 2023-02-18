@@ -2167,13 +2167,6 @@
     defu "^6.0.0"
     eslint-webpack-plugin "^2.6.0"
 
-"@nuxtjs/localforage@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/localforage/-/localforage-1.1.0.tgz#116c5a235b060994e7549ea3cc8a12a7677fac81"
-  integrity sha512-TbmRLrGz3poCeUHvmGg2CtP/HKQ0u9b5CwmQNJ4LtX9ytucXF3tXj+VYn42MDToB97rhGyegPkvXpzA14BuJjQ==
-  dependencies:
-    v-localforage "^2.0.1"
-
 "@nuxtjs/moment@^1.6.1":
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/@nuxtjs/moment/-/moment-1.6.1.tgz#a4e98a861c9d21e34f983046143f4c9bb92bdb7c"
@@ -6024,11 +6017,6 @@ ignore@^5.1.1, ignore@^5.1.8, ignore@^5.2.0, ignore@^5.2.4:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.4.tgz#a291c0c6178ff1b960befe47fcdec301674a6324"
   integrity sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==
 
-immediate@~3.0.5:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/immediate/-/immediate-3.0.6.tgz#9db1dbd0faf8de6fbe0f5dd5e56bb606280de69b"
-  integrity sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==
-
 import-fresh@^3.0.0, import-fresh@^3.2.1:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/import-fresh/-/import-fresh-3.3.0.tgz#37162c25fcb9ebaa2e6e53d5b4d88ce17d9e0c2b"
@@ -6675,13 +6663,6 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-lie@3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/lie/-/lie-3.1.1.tgz#9a436b2cc7746ca59de7a41fa469b3efb76bd87e"
-  integrity sha512-RiNhHysUjhrDQntfYSfY4MU24coXXdEOgw9WGcKHNeEwffDYbF//u87M1EWaMGzuFoSbqW0C9C6lEEhDOAswfw==
-  dependencies:
-    immediate "~3.0.5"
-
 lilconfig@^2.0.3:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/lilconfig/-/lilconfig-2.0.6.tgz#32a384558bd58af3d4c6e077dd1ad1d397bc69d4"
@@ -6754,13 +6735,6 @@ loader-utils@^2.0.0:
     big.js "^5.2.2"
     emojis-list "^3.0.0"
     json5 "^2.1.2"
-
-localforage@^1.7.3:
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/localforage/-/localforage-1.10.0.tgz#5c465dc5f62b2807c3a84c0c6a1b1b3212781dd4"
-  integrity sha512-14/H1aX7hzBBmmh7sGPd+AOMkkIrHM3Z1PAyGgZigA1H1p5O5ANnMyWzvpAETtG68/dC4pC0ncy3+PPGzXZHPg==
-  dependencies:
-    lie "3.1.1"
 
 locate-path@^3.0.0:
   version "3.0.0"
@@ -9477,11 +9451,6 @@ shell-quote@^1.7.3:
   resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.8.0.tgz#20d078d0eaf71d54f43bd2ba14a1b5b9bfa5c8ba"
   integrity sha512-QHsz8GgQIGKlRi24yFc6a6lN69Idnx634w49ay6+jA5yFh7a1UY+4Rp6HPx/L/1zcEDPEij8cIsiqR6bQsE5VQ==
 
-shvl@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/shvl/-/shvl-2.0.3.tgz#eb4bd37644f5684bba1fc52c3010c96fb5e6afd1"
-  integrity sha512-V7C6S9Hlol6SzOJPnQ7qzOVEWUQImt3BNmmzh40wObhla3XOYMe4gGiYzLrJd5TFa+cI2f9LKIRJTTKZSTbWgw==
-
 side-channel@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/side-channel/-/side-channel-1.0.4.tgz#efce5c8fdc104ee751b25c58d4290011fa5ea2cf"
@@ -10540,13 +10509,6 @@ utils-merge@1.0.1:
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
 
-v-localforage@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/v-localforage/-/v-localforage-2.0.1.tgz#2062fde2f5f913dc3eeb40d8b18c91310d50066a"
-  integrity sha512-C6WOOdG+Q6VD89k2WAsfetmKG+3NYgZIOUAR9YH5AMY782ifXsPMB6VrvLFyWdi7aiq4sz2y+mDKeY2Y2155yw==
-  dependencies:
-    localforage "^1.7.3"
-
 v-money@^0.8.1:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/v-money/-/v-money-0.8.1.tgz#dc28cf3be915c5a6c52bfe1085075e1fe7ae9db5"
@@ -10725,14 +10687,6 @@ vuetify@^2.5.5, vuetify@^2.6:
   version "2.6.14"
   resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.6.14.tgz#a5bf662de938efe0450ac59776b04f760f5407d2"
   integrity sha512-nr6wU3uTzhhEPssH23cW0Ee/hCrayp7cjl3nNjM2OmNwiJlV91tZiL1VO3597SqZyjh1xIa+m9J2rpKTSdIlrA==
-
-vuex-persistedstate@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/vuex-persistedstate/-/vuex-persistedstate-4.1.0.tgz#127165f85f5b4534fb3170a5d3a8be9811bd2a53"
-  integrity sha512-3SkEj4NqwM69ikJdFVw6gObeB0NHyspRYMYkR/EbhR0hbvAKyR5gksVhtAfY1UYuWUOCCA0QNGwv9pOwdj+XUQ==
-  dependencies:
-    deepmerge "^4.2.2"
-    shvl "^2.0.3"
 
 vuex@^3.6.2:
   version "3.6.2"

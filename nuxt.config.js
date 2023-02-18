@@ -37,7 +37,6 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/stylelint
     // '@nuxtjs/stylelint-module',
-    '@nuxtjs/localforage',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     '@nuxtjs/moment',
@@ -65,7 +64,6 @@ export default {
     '~/plugins/moment.js',
     '~/plugins/axios.js',
     '~plugins/utils.js',
-    { src: '~/plugins/persisted-state', ssr: false },
     { src: '~/plugins/vue-the-mask', ssr: false },
     { src: '~plugins/quill.js', ssr: false },
     { src: '~plugins/vue2-filters.js', ssr: false },
@@ -138,9 +136,6 @@ export default {
           user: { url: '/v1/users/profile', method: 'get' },
         },
       },
-      redirect: {
-        login: '/login',
-      }
     },
     scopeKey: 'role',
   },
