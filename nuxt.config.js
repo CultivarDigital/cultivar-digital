@@ -1,22 +1,8 @@
 import colors from 'vuetify/es5/util/colors'
-import axios from 'axios'
-
-async function fetchSubdomainsFromDatabase() {
-  try {
-    console.log(process.env.API_URL + 'v1/providers/public')
-    const response = await axios.get(
-      process.env.API_URL + 'v1/providers/public'
-    )
-    return response.data
-  } catch (error) {
-    console.error(error)
-    return []
-  }
-}
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
-  // target: 'static',
+  target: 'server',
   // router: {
   //   base: '/site/'
   // },
@@ -175,23 +161,4 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
-  generate: {
-    async routes() {
-      // replace this with your own code to fetch the list of subdomains from your database
-      try {
-        const providers = await fetchSubdomainsFromDatabase()
-        return providers.map((provider) => {
-          return {
-            route: `/dynamic/${provider.slug}`,
-            payload: { provider },
-          }
-        })
-      } catch (error) {
-        console.log(
-          'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-        )
-        console.log(error)
-      }
-    },
-  },
 }
