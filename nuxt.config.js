@@ -3,10 +3,10 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'server',
-  ssr: true,
-  generate: {
-    fallback: true,
-  },
+  // ssr: true,
+  // generate: {
+  //   // fallback: true,
+  // },
   // router: {
   //   base: '/site/'
   // },
@@ -138,6 +138,9 @@ export default {
           user: { url: '/v1/users/profile', method: 'get' },
         },
       },
+      redirect: {
+        login: '/login',
+      }
     },
     scopeKey: 'role',
   },

@@ -19,8 +19,7 @@
       @input="customerUpdated"
       @close="close"
     />
-    
-    <div class="px-0 px-md-4 py-0">
+    <v-container class="px-0 px-md-4 py-0">
       <v-tabs :show-arrows="true"  class="mb-3">
         <v-tab :to="'/' + customer._id + '/demandas'">
           Demandas
@@ -41,7 +40,7 @@
         </v-tab>
         <v-tab :to="'/' + customer._id + '/faturas'">Faturas</v-tab>
       </v-tabs>
-    </div>
+    </v-container>
   </div>
 </template>
 <script>
