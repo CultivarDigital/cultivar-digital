@@ -18,7 +18,7 @@
             <v-icon left>mdi-chevron-double-down</v-icon> Quero conhecer mais
           </v-btn>
           <br>
-          <v-btn color="primary" to="/cliente" class="mb-3">
+          <v-btn color="primary" to="/atendimento" class="mb-3">
             <v-icon left>mdi-login</v-icon> Já sou cliente
           </v-btn>
           <div class="pt-10 mb-10">

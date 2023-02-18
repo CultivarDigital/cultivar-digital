@@ -154,11 +154,8 @@ export default {
           this.loading = false
         })
     },
-    welcome(user) {
-      this.$store.commit('setCustomer', null)
-      this.$store.commit('setCustomers', null)
-      this.$router.replace('/cliente')
-      this.$notifier.success('Olá!')
+    welcome() {
+      this.$router.replace('/atendimento')
     },
   },
 }

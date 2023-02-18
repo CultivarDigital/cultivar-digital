@@ -149,7 +149,7 @@ export default {
     },
     welcome(user) {
       this.loading = false
-      this.$router.replace('/cliente')
+      this.$router.replace('/atendimento')
       this.notify('Seja bem vindo(a)')
     },
   },

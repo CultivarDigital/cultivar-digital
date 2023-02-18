@@ -1,31 +1,8 @@
 <template>
   <v-app>
-    <!-- <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      fixed
-      app
-    >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer> -->
     <v-app-bar fixed app flat>
       <n-link
-        to="/"
+        to="/atendimento"
         class="text-decoration-none d-flex align-center"
       >
         <img :src="require('~/assets/img/logo.png')" class="logo" />
@@ -84,7 +61,13 @@ export default {
       title: 'Vuetify.js',
     }
   },
+  computed: {
+    customer() {
+      return this.$store.state.customer
+    },
+  },
   methods: {
+    
     logout() {
       this.$firebase.logout()
       this.$auth.logout()

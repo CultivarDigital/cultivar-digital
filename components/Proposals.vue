@@ -1,5 +1,6 @@
 <template>
   <div>
+    <CustomerHeader />
     <v-btn
       v-if="$auth.user.role === 'admin'"
       fab
@@ -11,96 +12,85 @@
     >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
-    <div>
+    <v-container>
       <div>
         <div v-if="proposals">
           <div v-if="!proposals.length">
             <Alert message="Nenhuma proposta aqui" />
           </div>
-          <v-list v-if="proposals && proposals.length">
-            <template v-for="(proposal, index) in proposals">
-              <v-list-item
-                :key="proposal._id"
-                @click="activeProposal = proposal"
-              >
-                <v-list-item-content>
-                  <v-list-item-title>
-                    {{ proposal.title }}
-                  </v-list-item-title>
-                  <v-list-item-subtitle v-if="proposal.points > 0">
-                    <strong>
-                      {{ proposal.price | moeda }}
-                      -
-                      {{ proposal.estimate_in_days }}
-                      dia{{ proposal.estimate_in_days ? 's' : '' }}
-                    </strong>
-                    <br />
-                    <div v-if="proposal.startAt && proposal.deadline">
-                      <small>
-                        {{ $moment(proposal.startAt).format('DD/MM/YYYY') }} -
-                        {{ $moment(proposal.deadline).format('DD/MM/YYYY') }}
-                      </small>
+          <div v-if="proposals && proposals.length">
+            <v-card
+              v-for="proposal in proposals"
+              :key="proposal._id"
+              class="mb-3 pa-3"
+              @click="openProposal(proposal)"
+            >
+              <div>
+                <h4 class="mb-1">{{ proposal.title }}</h4>
+                <div v-if="proposal.points > 0">
+                  <div class="mb-1">
+                    <div
+                      v-if="proposal.startAt && proposal.deadline"
+                      class="caption"
+                    >
+                      {{ $moment(proposal.startAt).format('DD/MM/YYYY') }} -
+                      {{ $moment(proposal.deadline).format('DD/MM/YYYY') }}
                     </div>
                     <div v-else>
                       <small>
                         {{ $moment(proposal.createdAt).format('DD/MM/YYYY') }}
                       </small>
                     </div>
-                  </v-list-item-subtitle>
-                  <div class="pt-3">
-                    <v-chip
-                      v-if="proposal.status === 'approved'"
-                      outlined
-                      small
-                      color="success"
-                    >
-                      <v-icon left small> mdi-check </v-icon>
-                      Aprovada
-                    </v-chip>
-                    <v-chip
-                      v-if="proposal.status === 'rejected'"
-                      outlined
-                      small
-                      color="error"
-                    >
-                      <v-icon left small> mdi-close-thick </v-icon>
-                      Rejeitada
-                    </v-chip>
-                    <v-chip
-                      v-if="proposal.status === 'canceled'"
-                      outlined
-                      small
-                      color="error"
-                    >
-                      <v-icon left small> mdi-cancel </v-icon>
-                      Cancelada
-                    </v-chip>
-                    <v-chip
-                      v-if="proposal.status === 'pending'"
-                      small
-                      outlined
-                    >
-                      <v-icon left small> mdi-clock </v-icon>
-                      Aguardando aprovação
-                    </v-chip>
                   </div>
-                </v-list-item-content>
-                <v-list-item-action>
-                  <v-btn icon>
-                    <v-icon>mdi-chevron-right</v-icon>
-                  </v-btn>
-                </v-list-item-action>
-              </v-list-item>
-              <v-divider
-                v-if="index < proposals.length - 1"
-                :key="'divider' + proposal._id"
-              />
-            </template>
-          </v-list>
+                  <div>
+                    <EstimateValues :item="{ ...proposal, billable: true }" />
+                  </div>
+                </div>
+                <div class="pt-3">
+                  <div>
+                    <v-chip
+                    v-if="proposal.status === 'approved'"
+                    outlined
+                    small
+                    color="success"
+                  >
+                    <v-icon left small> mdi-check </v-icon>
+                    Aprovada
+                  </v-chip>
+                  <v-chip
+                    v-if="proposal.status === 'rejected'"
+                    outlined
+                    small
+                    color="error"
+                  >
+                    <v-icon left small> mdi-close-thick </v-icon>
+                    Rejeitada
+                  </v-chip>
+                  <v-chip
+                    v-if="proposal.status === 'canceled'"
+                    outlined
+                    small
+                    color="error"
+                  >
+                    <v-icon left small> mdi-cancel </v-icon>
+                    Cancelada
+                  </v-chip>
+                  <v-chip v-if="proposal.status === 'pending'" small outlined>
+                    <v-icon left small> mdi-clock </v-icon>
+                    Aguardando aprovação
+                  </v-chip>
+                  </div>
+                  <div>
+                    
+                  </div>
+                </div>
+              </div>
+            </v-card>
+          </div>
         </div>
         <Loading v-else />
       </div>
-    </div>
+    </v-container>
     <ProposalForm
       v-if="addProposal"
       @change="
@@ -112,11 +102,8 @@
     <Proposal
       v-if="activeProposal"
       :proposal-id="activeProposal._id"
-      @change="
-        loadProposals()
-        activeProposal = null
-      "
-      @close="activeProposal = null"
+      @input="proposalChanged"
+      @close="closeProposal"
     />
   </div>
 </template>
@@ -126,16 +113,17 @@ export default {
     return {
       proposals: null,
       addProposal: false,
-      activeProposal: null,
-      editProposal: null,
     }
   },
   computed: {
-    hasProposal() {
-      return this.proposals.find((d) => this.showStatus.value === d.status)
-    },
     customer() {
       return this.$store.state.customer
+    },
+    activeProposal() {
+      if (this.$route.query.proposta && this.proposals) {
+        return this.proposals.find((d) => d._id === this.$route.query.proposta)
+      }
+      return null
     },
   },
   watch: {
@@ -144,20 +132,11 @@ export default {
     },
   },
   async created() {
-    await this.loadProposals()
-    if (this.$route.query.proposta) {
-      this.activeProposal = this.proposals.find(
-        (d) => d._id === this.$route.query.proposta
-      )
-
-      const query = this.$route.query
-      this.$route.query = { ...query, proposta: undefined }
+    if (this.customer) {
+      await this.loadProposals()
     }
   },
   methods: {
-    isActive(proposal) {
-      return this.activeProposal === proposal._id
-    },
     async loadProposals() {
       this.proposals = null
       this.proposals = await this.$axios.$get('/v1/proposals', {
@@ -169,6 +148,20 @@ export default {
     },
     estimateInDays(points) {
       return Math.ceil(points / this.customer.points_per_day)
+    },
+    proposalChanged(proposal) {
+      const index = this.proposals.findIndex((d) => d._id === proposal._id)
+      this.proposals.splice(index, 1, proposal)
+    },
+    openProposal(proposal) {
+      this.$router.push({
+        query: {
+          proposta: proposal._id,
+        },
+      })
+    },
+    closeProposal() {
+      this.$router.push('/' + this.customer._id + '/propostas')
     },
   },
 }

@@ -186,7 +186,7 @@
                   () =>
                     copy(
                       baseUrl +
-                        '/cliente?modulo=propostas&proposta=' +
+                        '/atendimento?modulo=propostas&proposta=' +
                         proposal._id
                     )
                 "
