@@ -22,4 +22,3 @@ export default {
   },
 }
 </script>
-:prepend-icon="dark ? 'mdi-moon-waning-crescent' : 'mdi-white-balance-sunny'"

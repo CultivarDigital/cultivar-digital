@@ -38,11 +38,6 @@
 <script>
 export default {
   middleware: 'auth',
-  computed: {
-    customer() {
-      return this.$store.state.customer
-    },
-  },
   methods: {
     logout() {
       this.$firebase.logout()
