@@ -138,6 +138,12 @@ export default {
       },
     },
     scopeKey: 'role',
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      callback: '/login',
+      home: '/',
+    },
   },
 
   axios: {
