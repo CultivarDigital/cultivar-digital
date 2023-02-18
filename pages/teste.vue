@@ -5,6 +5,6 @@
 </template>
 <script>
 export default {
-  layout: 'teste',
+  // layout: 'teste',
 }
 </script>
