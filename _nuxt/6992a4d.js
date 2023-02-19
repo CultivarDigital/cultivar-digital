@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[42],{696:function(n,t,e){"use strict";e.r(t);var l=e(542),c={},o=e(62),component=Object(o.a)(c,(function(){return(0,this._self._c)(l.a,{staticClass:"py-6",attrs:{fluid:""}},[this._v("\n  Atendimento\n  ")])}),[],!1,null,null,null);t.default=component.exports}}]);
