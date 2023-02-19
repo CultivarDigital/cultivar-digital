@@ -24,7 +24,7 @@
           Atendimento
         </v-btn>
         <v-btn color="primary" to="/atendimento2" small>
-          Atendimento 2
+          Suporte
         </v-btn>
       </div>
       <!-- <v-btn color="primary" icon @click.stop="drawer = !drawer">
