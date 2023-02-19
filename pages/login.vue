@@ -1,6 +1,6 @@
 <template>
   <section class="d-flex align-center">
-    <v-container class="pt-10 white--text text-center" style="max-width: 340px">
+    <v-container class="pt-10 text-center" style="max-width: 340px">
       <ValidationObserver v-slot="{ validate, invalid }">
         <v-form @submit.prevent="validate().then(login)">
           <img
