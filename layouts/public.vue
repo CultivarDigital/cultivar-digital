@@ -21,7 +21,7 @@
         </div>
         <SwitchTheme />
         <v-btn color="primary" to="/atendimento" small>
-          <v-icon left>mdi-account-box</v-icon>
+          <v-icon left class="d-none d-lg-inline">mdi-account-box</v-icon>
           Atendimento
         </v-btn>
       </div>
@@ -32,6 +32,7 @@
       <Nuxt />
     </v-main>
     <Snackbar />
+    <v-divider />
     <v-footer class="pa-3 justify-center">
       <div class="text-center pt-6">
         <h6 class="text-h6 mb-6">Fale com a gente</h6>

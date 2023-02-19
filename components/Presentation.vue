@@ -23,10 +23,3 @@
     </v-container>
   </section>
 </template>
-<style lang="sass" scoped>
-.v-application
-  &.theme--dark #presentation
-    background-color: rgba(59, 59, 59, 0.8) !important
-  &.theme--light #presentation
-    background-color: #f5f5f5
-</style>

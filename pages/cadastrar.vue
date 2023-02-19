@@ -40,7 +40,7 @@
           >
             <v-icon
               slot="append"
-              color="primary"
+              
               @click="showPassword = !showPassword"
             >
               mdi-eye
@@ -61,7 +61,7 @@
           >
             <v-icon
               slot="append"
-              color="primary"
+              
               @click="showPassword = !showPassword"
             >
               mdi-eye
