@@ -113,7 +113,7 @@
                 />
               </validation-provider>
               <v-switch
-                v-if="form.points < 1"
+                v-if="$auth.user.role === 'admin' && form.points < 1"
                 v-model="form.estimated"
                 label="Marcar como estimada"
                 color="success"
