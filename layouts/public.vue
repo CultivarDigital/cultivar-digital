@@ -21,15 +21,11 @@
         </div>
         <SwitchTheme />
         <v-btn color="primary" to="/atendimento" small>
+          <v-icon left>mdi-account-box</v-icon>
           Atendimento
         </v-btn>
-        <v-btn color="primary" to="/atendimento2" small>
-          Suporte
-        </v-btn>
       </div>
-      <!-- <v-btn color="primary" icon @click.stop="drawer = !drawer">
-        <v-icon>mdi-menu</v-icon>
-      </v-btn> -->
+      
       </div>
     </v-app-bar>
     <v-main>

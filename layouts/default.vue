@@ -24,9 +24,6 @@
           </v-list>
         </v-menu>
       </div>
-      <!-- <v-btn color="primary" icon @click.stop="drawer = !drawer">
-        <v-icon>mdi-menu</v-icon>
-      </v-btn> -->
     </v-app-bar>
     <v-main>
       <Nuxt />
