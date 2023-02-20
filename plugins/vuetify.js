@@ -1,9 +1,15 @@
 export default (context) => {
+  
   if (context.store.state.provider) {
-    if (context.store.state.provider.theme === 'dark' && !context.$vuetify.theme.dark) {
+    const theme = context.store.state.provider.theme || 'dark'
+    const primaryColor = context.store.state.provider.primary_color || '#A2248F'
+
+    if (theme === 'dark' && !context.$vuetify.theme.dark) {
       context.$vuetify.theme.dark = true
-    }  else if (context.store.state.provider.theme === 'light' && context.$vuetify.theme.dark) {
+    }  else if (theme === 'light' && context.$vuetify.theme.dark) {
       context.$vuetify.theme.dark = false
     }
+
+    context.$vuetify.theme.themes[theme].primary = primaryColor
   }
 }

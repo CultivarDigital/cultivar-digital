@@ -14,9 +14,6 @@ export default {
     console.log('SUBDOMAIN: ' + subdomain)
     const provider = await $axios.$get(`/v1/providers/public/${subdomain}`)
     console.log('PROVIDER: ' + JSON.stringify(provider))
-    if (provider) {
-      $vuetify.theme.isDark = provider.theme === 'dark'
-    }
     commit('setProvider', provider)
   },
   toggleDrawer({ commit }, status) {
