@@ -4,7 +4,7 @@ export default {
     const baseDomain = process.env.BASE_DOMAIN
     let subdomain = req.headers.host.replace(`.${baseDomain}`, '').split(':')[0]
 
-    const isDefault = ['www', '', 'localhost'].includes(subdomain)
+    const isDefault = ['www', '', 'localhost', baseDomain].includes(subdomain)
 
     if (isDefault) {
       subdomain = 'cultivar-digital'
