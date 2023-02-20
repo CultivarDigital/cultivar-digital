@@ -16,11 +16,17 @@ if (!Vue.__my_mixin__) {
       baseURL() {
         return process.env.BASE_URL
       },
+      filesURL() {
+        return process.env.FILES_URL
+      },
       theme() {
         return this.$vuetify.theme.dark ? 'dark' : 'light'
       },
       primaryColor() {
         return this.$vuetify.theme.themes[this.theme].primary
+      },
+      provider() {
+        return this.$store.state.provider
       }
     },
     methods: {

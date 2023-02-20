@@ -254,9 +254,6 @@ export default {
 
       return Object.assign(labels, this.labels)
     },
-    filesURL() {
-      return process.env.FILES_URL
-    },
   },
   watch: {
     blocks() {

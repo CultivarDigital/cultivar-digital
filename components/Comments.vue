@@ -43,9 +43,6 @@ export default {
     customer() {
       return this.$store.state.customer
     },
-    filesUrl() {
-      return process.env.FILES_URL
-    },
   },
   created() {
     this.loadComments()

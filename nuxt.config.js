@@ -59,15 +59,16 @@ export default {
 
   plugins: [
     '~/plugins/global-mixin',
+    '~/plugins/vuetify.js',
     '~/plugins/notifier.js',
     '~/plugins/firebase.js',
     '~/plugins/moment.js',
     '~/plugins/axios.js',
-    '~plugins/utils.js',
+    '~/plugins/utils.js',
     { src: '~/plugins/vue-the-mask', ssr: false },
-    { src: '~plugins/quill.js', ssr: false },
-    { src: '~plugins/vue2-filters.js', ssr: false },
-    { src: '~plugins/moment-business-days.js', ssr: false },
+    { src: '~/plugins/quill.js', ssr: false },
+    { src: '~/plugins/vue2-filters.js', ssr: false },
+    { src: '~/plugins/moment-business-days.js', ssr: false },
     { src: '~/plugins/v-money', ssr: false },
   ],
 
@@ -140,7 +141,7 @@ export default {
     scopeKey: 'role',
     redirect: {
       login: '/login',
-      logout: '/login',
+      logout: '/',
       callback: '/login',
       home: '/',
     },

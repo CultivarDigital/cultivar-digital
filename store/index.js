@@ -3,5 +3,6 @@ export const state = () => {
     showDrawer: null,
     customer: null,
     customerSummary: null,
+    provider: null,
   }
 }
