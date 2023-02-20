@@ -18,7 +18,7 @@
           v-for="c in filteredCustomers"
           :key="c._id"
           class="mb-3 px-3"
-          secondary
+          elevation="3"
           :to="'/' + c._id + '/demandas'"
         >
           <div>
