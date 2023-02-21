@@ -269,19 +269,19 @@ export default {
       )
     },
     async approve() {
-      await this.$axios.$patch('/v1/proposals/' + this.proposalId + '/approve')
+      const proposal = await this.$axios.$patch('/v1/proposals/' + this.proposalId + '/approve')
       this.loadProposal()
-      this.$emit('change')
+      this.$emit('input', proposal)
     },
     async reject() {
-      await this.$axios.$patch('/v1/proposals/' + this.proposalId + '/reject')
+      const proposal = await this.$axios.$patch('/v1/proposals/' + this.proposalId + '/reject')
       this.loadProposal()
-      this.$emit('change')
+      this.$emit('input', proposal)
     },
     async cancel() {
-      await this.$axios.$patch('/v1/proposals/' + this.proposalId + '/cancel')
+      const proposal = await this.$axios.$patch('/v1/proposals/' + this.proposalId + '/cancel')
       this.loadProposal()
-      this.$emit('change')
+      this.$emit('input', proposal)
     },
     close() {
       this.$emit('close')

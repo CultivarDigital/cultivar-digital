@@ -1,82 +1,94 @@
 <template>
   <v-dialog :value="true" fullscreen persistent>
-    <v-card class="template-form">
-      <DialogHeader @close="close" />
-      <v-container class="pt-6">
-        <h3 class="mb-3">{{ demand.title }}</h3>
-        <div class="mb-3">
-          <Editor :value="demand.body" />
-        </div>
-        <div>
-          <div v-if="demand.points && demand.points > 0" class="mb-6">
-            <EstimateValues :item="demand" />
+    <v-card>
+      <div class="pb-12">
+        <DialogHeader @close="close" />
+        <v-container>
+          <h3 class="mb-3">{{ demand.title }}</h3>
+          <div class="mb-3">
+            <Editor :value="demand.body" />
           </div>
-        </div>
-        <v-chip
-          v-if="demand.approved && demand.status === 'backlog'"
-          outlined
-          small
-          color="success"
-        >
-          <v-icon left small> mdi-check </v-icon>
-          Aprovada
-        </v-chip>
-        <v-chip
-          v-if="
-            !demand.estimated &&
-            demand.status === 'backlog'
-          "
-          outlined
-          small
-        >
-          <v-icon left small> mdi-clock </v-icon>
-          Aguardando estimativa
-        </v-chip>
-        <!-- <Comments :demand="demand" /> -->
-        <div v-if="!preview" class="text-right">
-          <v-divider class="my-3"></v-divider>
-          <div class="d-flex justify-space-between align-center">
+          <div class="mb-3">
+            <DemandEstimate :demand="demand" />
+          </div>
+          <div class="d-flex justify-space-between align-start">
             <div>
-              <v-btn v-if="!demand.approved"  @click="edit = true">
-                <v-icon left>mdi-pencil</v-icon> Editar
-              </v-btn>
-            </div>
-            <div>
-              <v-btn
-                v-if="
-                  $auth.user.role === 'admin' && demand.status === 'backlog'
-                "
-                color="success"
-                large
-                @click="updateStatus(demand, 'in-progress')"
+              <v-chip
+                v-if="demand.type"
+                outlined
+                small
+                class="secondary--text text--lighten-4"
               >
-                <v-icon left>mdi-play</v-icon>
-                Iniciar
-              </v-btn>
-              <v-btn
-                v-if="
-                  $auth.user.role === 'admin' && demand.status === 'in-progress'
-                "
+                {{ demandTypeLabel(demand.type) }}
+                {{ demandStatusLabel(demand.status).toLowerCase().replace('finalizadas', 'finalizada') }}
+              </v-chip>
+              <v-chip
+                v-if="demand.approved && demand.status === 'backlog'"
+                outlined
+                small
                 color="success"
-                large
+              >
+                <v-icon left small> mdi-check </v-icon>
+                Aprovada
+              </v-chip>
+            </div>
+            <v-chip
+              v-if="demand.priority"
+              outlined
+              small
+              :color="demandPriorityColor(demand.priority)"
+              class="justify-center"
+              style="min-width: 60px"
+            >
+              Prioridade
+              {{ demandPriorityLabel(demand.priority).toLowerCase() }}
+            </v-chip>
+          </div>
 
-                @click="updateStatus(demand, 'done')"
-              >
-                <v-icon left>mdi-check</v-icon>
-                Finalizar
-              </v-btn>
+          <!-- <Comments :demand="demand" /> -->
+          <div
+            v-if="!preview && ($auth.user.role === 'admin' || !demand.approved)"
+            class="text-right"
+          >
+            <v-divider class="my-3"></v-divider>
+            <div class="d-flex justify-space-between align-center">
+              <div v-if="!demand.approved">
+                <v-btn v-if="!demand.approved" @click="edit = true">
+                  <v-icon left>mdi-pencil</v-icon> Editar
+                </v-btn>
+              </div>
+              <div v-if="$auth.user.role === 'admin'">
+                <v-btn
+                  v-if="demand.status === 'backlog'"
+                  color="success"
+                  large
+                  @click="updateStatus(demand, 'in-progress')"
+                >
+                  <v-icon left>mdi-play</v-icon>
+                  Iniciar
+                </v-btn>
+                <v-btn
+                  v-if="demand.status === 'in-progress'"
+                  color="success"
+                  large
+                  @click="updateStatus(demand, 'done')"
+                >
+                  <v-icon left>mdi-check</v-icon>
+                  Finalizar
+                </v-btn>
+              </div>
             </div>
           </div>
-        </div>
-      </v-container>
-      
-      <DemandForm
-        v-if="edit"
-        :demand="demand"
-        @input="changed"
-        @close="edit = false"
-        @remove="remove"
-      />
+        </v-container>
+
+        <DemandForm
+          v-if="edit"
+          :demand="demand"
+          @input="changed"
+          @close="edit = false"
+          @remove="remove"
+        />
+      </div>
     </v-card>
   </v-dialog>
 </template>

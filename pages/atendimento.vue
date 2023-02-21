@@ -17,42 +17,36 @@
         <v-card
           v-for="c in filteredCustomers"
           :key="c._id"
-          class="mb-3 px-3"
+          class="mb-3 pa-3"
           elevation="3"
           :to="'/' + c._id + '/demandas'"
         >
-          <div>
-            <v-list-item class="pa-0">
-              <v-list-item-content>
-                <h4>{{ c.name }}</h4>
-                <div
-                  v-if="c.backlog_demands_count || c.inProgress_demands_count"
-                  class="caption"
-                >
-                  <div
-                    v-if="c.backlog_demands_count"
-                    class="d-inline-block mr-2 secondary--text text--lighten-4"
-                    :class="{
-                      'error--text text--lighten-1': c.pending_demands_count,
-                    }"
-                  >
-                    <strong>{{ c.backlog_demands_count }}</strong> na fila
-                  </div>
-                  <div
-                    v-if="c.inProgress_demands_count"
-                    class="d-inline-block mr-2 success--text"
-                  >
-                    <strong>{{ c.inProgress_demands_count }}</strong> em
-                    execução
-                  </div>
-                </div>
-                <div v-else>
-                  <div class="caption pt-1 secondary--text">
-                    Sem demandas ativas
-                  </div>
-                </div>
-              </v-list-item-content>
-            </v-list-item>
+          <h4 class="mb-1">{{ c.name }}</h4>
+          <div
+            v-if="c.backlog_demands_count || c.in_progress_demands_count"
+            class="caption"
+          >
+            <div v-if="c.backlog_demands_count" class="d-inline-block mr-1">
+              <v-chip x-small left class="px-2" color="alert">{{
+                c.backlog_demands_count
+              }}</v-chip>
+              na fila
+            </div>
+            <div v-if="c.in_progress_demands_count" class="d-inline-block mr-1">
+              <v-chip x-small left class="px-2" color="success">{{
+                c.in_progress_demands_count
+              }}</v-chip>
+              em andamento
+            </div>
+            <div v-if="c.pending_demands_count" class="d-inline-block mr-1">
+              <v-chip x-small left class="px-2" color="error">{{
+                c.pending_demands_count
+              }}</v-chip>
+              pendentes
+            </div>
+          </div>
+          <div v-else>
+            <div class="caption pt-1 opaque-2">Sem demandas ativas</div>
           </div>
         </v-card>
       </div>
@@ -70,6 +64,7 @@
 </template>
 <script>
 export default {
+  layout: 'provider',
   data() {
     return {
       addCustomer: false,
@@ -91,12 +86,8 @@ export default {
       return this.$store.state.customer
     },
   },
-  async mounted() {
-    if (this.$auth.user.role === 'user') {
-      await this.$router.push('/' + this.$auth.user.customer + '/demandas')
-    } else {
-      this.loadCustomers()
-    }
+  mounted() {
+    this.loadCustomers()
   },
   methods: {
     async loadCustomers() {

@@ -159,7 +159,7 @@ export default {
         .$post('/v1/proposals', { ...form, customer: this.customer._id })
         .then((proposal) => {
           this.$notifier.success('Proposta gerada!')
-          this.$emit('change', proposal)
+          this.$emit('input', proposal)
         })
       this.loading = false
     },

@@ -1,4 +1,12 @@
+<template>
+  <div>
+    <v-container>
+      <Alert message="Nenhuma fatura aqui" />
+    </v-container>
+  </div>
+</template>
 <script>
-import Invoices from '@/components/Invoices'
-export default Invoices
+export default {
+  layout: 'customer',
+}
 </script>
