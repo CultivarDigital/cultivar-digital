@@ -143,8 +143,10 @@ export default {
       login: '/login',
       logout: '/',
       callback: '/login',
-      home: '/',
+      home: '/atendimento',
     },
+    rewriteRedirects: true,
+    fullPathRedirect: true,
   },
 
   axios: {
@@ -170,8 +172,6 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: [
-      'defu'
-    ]
-  }
+    transpile: ['defu'],
+  },
 }

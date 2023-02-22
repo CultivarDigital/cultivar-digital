@@ -38,11 +38,7 @@
             label="Vamos criar uma senha pra você?"
             :error-messages="errors"
           >
-            <v-icon
-              slot="append"
-              
-              @click="showPassword = !showPassword"
-            >
+            <v-icon slot="append" @click="showPassword = !showPassword">
               mdi-eye
             </v-icon>
           </v-text-field>
@@ -59,11 +55,7 @@
             label="Confirme sua senha"
             :error-messages="errors"
           >
-            <v-icon
-              slot="append"
-              
-              @click="showPassword = !showPassword"
-            >
+            <v-icon slot="append" @click="showPassword = !showPassword">
               mdi-eye
             </v-icon>
           </v-text-field>
@@ -138,7 +130,6 @@ export default {
               .$patch('/v1/users/' + this.$auth.user.id, { name })
               .then((user) => {
                 this.$auth.setUser(user)
-                this.welcome(userCredential.user)
               })
           })
       })
@@ -147,11 +138,11 @@ export default {
       this.$notifier.firebaseError(error)
       this.loading = false
     },
-    welcome(user) {
-      this.loading = false
-      this.$router.replace('/atendimento')
-      this.notify('Seja bem vindo(a)')
-    },
+    // welcome(user) {
+    //   this.loading = false
+    //   this.$router.replace('/atendimento')
+    //   this.notify('Seja bem vindo(a)')
+    // },
   },
 }
 </script>

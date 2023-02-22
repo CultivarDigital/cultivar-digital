@@ -56,7 +56,7 @@
           >
             <v-divider class="my-3"></v-divider>
             <div class="d-flex justify-space-between align-center">
-              <div v-if="!demand.approved">
+              <div>
                 <v-btn v-if="!demand.approved" @click="edit = true">
                   <v-icon left>mdi-pencil</v-icon> Editar
                 </v-btn>

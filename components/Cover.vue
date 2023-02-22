@@ -47,14 +47,5 @@
   </section>
 </template>
 <script>
-export default {
-}
+export default {}
 </script>
-<style lang="sass" scoped>
-.cover
-  margin: auto
-  width: fit-content
-  a
-    color: #fff
-    text-decoration: none
-</style>

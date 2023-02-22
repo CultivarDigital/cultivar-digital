@@ -180,23 +180,6 @@
                 <ProposalApprove :proposal="proposal" @confirm="approve" />
               </div>
               <v-btn
-                class="mb-6"
-                small
-                @click="
-                  () =>
-                    copy(
-                      baseURL +
-                        '/' +
-                        proposal.customer._id +
-                        '/propostas?proposta=' +
-                        proposal._id
-                    )
-                "
-              >
-                <v-icon left small> mdi-content-copy </v-icon>
-                Copiar link da proposta
-              </v-btn>
-              <v-btn
                 v-if="$auth.user.role === 'customer'"
                 small
                 color="error"
@@ -223,6 +206,25 @@
                 <strong>Cultivar Digital</strong>
               </div>
               <div><small>Diego M. Rodrigues</small></div>
+            </div>
+            <div class="text-center pt-6">
+              <v-btn
+                class="mb-6"
+                small
+                @click="
+                  () =>
+                    copy(
+                      baseURL +
+                        '/' +
+                        proposal.customer._id +
+                        '/propostas?proposta=' +
+                        proposal._id
+                    )
+                "
+              >
+                <v-icon left small> mdi-content-copy </v-icon>
+                Copiar link
+              </v-btn>
             </div>
           </v-container>
         </div>
