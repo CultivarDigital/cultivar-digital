@@ -27,7 +27,7 @@ if (!Vue.__my_mixin__) {
       },
       provider() {
         return this.$store.state.provider
-      }
+      },
     },
     methods: {
       async getLocalItem(key) {

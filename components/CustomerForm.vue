@@ -59,7 +59,9 @@
               v-if="customer"
               class="mb-6"
               small
-              @click="() => copy(baseUrl + '/cadastrar?cliente=' + customer._id)"
+              @click="
+                () => copy(baseURL + '/cadastrar?cliente=' + customer._id)
+              "
             >
               <v-icon left small> mdi-content-copy </v-icon>
               Copiar link de cadastro
@@ -102,11 +104,6 @@ export default {
         points_per_day: 0,
       },
     }
-  },
-  computed: {
-    baseUrl() {
-      return process.env.BASE_URL
-    },
   },
   created() {
     if (this.customer) {

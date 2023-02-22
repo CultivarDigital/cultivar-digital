@@ -22,7 +22,7 @@
               v-for="proposal in proposals"
               :key="proposal._id"
               class="mb-3 pa-3"
-              @click="openProposal(proposal)"
+              :to="'/' + customer._id + '/propostas?proposta=' + proposal._id"
             >
               <div>
                 <h4 class="mb-1">{{ proposal.title }}</h4>
@@ -155,13 +155,7 @@ export default {
       this.proposals.splice(index, 1, proposal)
       this.loadSummary()
     },
-    openProposal(proposal) {
-      this.$router.push({
-        query: {
-          proposta: proposal._id,
-        },
-      })
-    },
+    
     closeProposal() {
       this.$router.push('/' + this.customer._id + '/propostas')
     },

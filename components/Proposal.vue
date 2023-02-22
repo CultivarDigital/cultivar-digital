@@ -18,7 +18,8 @@
                 </h3>
                 <p v-if="proposal.startAt && proposal.deadline">
                   <small>
-                    {{ $moment(proposal.startAt).format('DD/MM/YYYY') }} - {{ $moment(proposal.deadline).format('DD/MM/YYYY') }}
+                    {{ $moment(proposal.startAt).format('DD/MM/YYYY') }} -
+                    {{ $moment(proposal.deadline).format('DD/MM/YYYY') }}
                   </small>
                 </p>
                 <p v-else>
@@ -55,11 +56,7 @@
                   <v-icon left small> mdi-cancel </v-icon>
                   Cancelada
                 </v-chip>
-                <v-chip
-                  v-if="proposal.status === 'pending'"
-                  small
-                  outlined
-                >
+                <v-chip v-if="proposal.status === 'pending'" small outlined>
                   <v-icon left small> mdi-clock </v-icon>
                   Aguardando aprovação
                 </v-chip>
@@ -88,7 +85,9 @@
                       <small>{{ item.demand.title }}</small>
                     </td>
                     <td>
-                      <small>{{ $utils.plural(item.estimate_in_days, 'dia') }}</small>
+                      <small>{{
+                        $utils.plural(item.estimate_in_days, 'dia')
+                      }}</small>
                     </td>
                     <td>
                       <small>{{ item.price | moeda }}</small>
@@ -104,7 +103,9 @@
                   <tr>
                     <th><strong>Total</strong></th>
                     <th>
-                      <strong>{{ $utils.plural(proposal.estimate_in_days, 'dia') }}</strong>
+                      <strong>{{
+                        $utils.plural(proposal.estimate_in_days, 'dia')
+                      }}</strong>
                     </th>
                     <th>
                       <strong>{{ proposal.price | moeda }}</strong>
@@ -177,7 +178,6 @@
             <div v-if="proposal.status === 'pending'" class="text-center">
               <div class="mb-6">
                 <ProposalApprove :proposal="proposal" @confirm="approve" />
-              
               </div>
               <v-btn
                 class="mb-6"
@@ -185,8 +185,10 @@
                 @click="
                   () =>
                     copy(
-                      baseUrl +
-                        '/atendimento?modulo=propostas&proposta=' +
+                      baseURL +
+                        '/' +
+                        proposal.customer._id +
+                        '/propostas?proposta=' +
                         proposal._id
                     )
                 "
@@ -245,18 +247,12 @@ export default {
       required: true,
     },
   },
-
   data() {
     return {
       dialog: false,
       proposal: null,
       previewDemand: null,
     }
-  },
-  computed: {
-    baseUrl() {
-      return process.env.BASE_URL
-    },
   },
   created() {
     this.loadProposal()
@@ -269,17 +265,23 @@ export default {
       )
     },
     async approve() {
-      const proposal = await this.$axios.$patch('/v1/proposals/' + this.proposalId + '/approve')
+      const proposal = await this.$axios.$patch(
+        '/v1/proposals/' + this.proposalId + '/approve'
+      )
       this.loadProposal()
       this.$emit('input', proposal)
     },
     async reject() {
-      const proposal = await this.$axios.$patch('/v1/proposals/' + this.proposalId + '/reject')
+      const proposal = await this.$axios.$patch(
+        '/v1/proposals/' + this.proposalId + '/reject'
+      )
       this.loadProposal()
       this.$emit('input', proposal)
     },
     async cancel() {
-      const proposal = await this.$axios.$patch('/v1/proposals/' + this.proposalId + '/cancel')
+      const proposal = await this.$axios.$patch(
+        '/v1/proposals/' + this.proposalId + '/cancel'
+      )
       this.loadProposal()
       this.$emit('input', proposal)
     },

@@ -20,7 +20,11 @@
                 class="secondary--text text--lighten-4"
               >
                 {{ demandTypeLabel(demand.type) }}
-                {{ demandStatusLabel(demand.status).toLowerCase().replace('finalizadas', 'finalizada') }}
+                {{
+                  demandStatusLabel(demand.status)
+                    .toLowerCase()
+                    .replace('finalizadas', 'finalizada')
+                }}
               </v-chip>
               <v-chip
                 v-if="demand.approved && demand.status === 'backlog'"
@@ -44,10 +48,10 @@
               {{ demandPriorityLabel(demand.priority).toLowerCase() }}
             </v-chip>
           </div>
-
-          <!-- <Comments :demand="demand" /> -->
           <div
-            v-if="!preview && ($auth.user.role === 'provider' || !demand.approved)"
+            v-if="
+              !preview && ($auth.user.role === 'provider' || !demand.approved)
+            "
             class="text-right"
           >
             <v-divider class="my-3"></v-divider>
@@ -79,8 +83,26 @@
               </div>
             </div>
           </div>
+          <div class="pt-6">
+            <v-btn
+              class="mb-6"
+              small
+              @click="
+                () =>
+                  copy(
+                    baseURL +
+                      '/' +
+                      demand.customer +
+                      '/demandas?demanda=' +
+                      demand._id
+                  )
+              "
+            >
+              <v-icon left small> mdi-content-copy </v-icon>
+              Copiar link
+            </v-btn>
+          </div>
         </v-container>
-
         <DemandForm
           v-if="edit"
           :demand="demand"
@@ -146,6 +168,10 @@ export default {
         }
       )
       this.changed(updatedDemand)
+    },
+    async copy(value) {
+      await navigator.clipboard.writeText(value)
+      this.notify('Copiado!')
     },
   },
 }
