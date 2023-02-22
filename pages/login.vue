@@ -46,11 +46,7 @@
                 label="Digite sua senha"
                 hide-details="auto"
               >
-                <v-icon
-                  slot="append"
-                  
-                  @click="showPassword = !showPassword"
-                >
+                <v-icon slot="append" @click="showPassword = !showPassword">
                   mdi-eye
                 </v-icon>
               </v-text-field>
@@ -128,10 +124,10 @@ export default {
               group_id: this.$route.query.codigo,
             },
           })
-          .then((resp) => {
-            this.welcome(userCredential.user)
-            this.loading = false
-          })
+          // .then((resp) => {
+          //   this.welcome(userCredential.user)
+          //   this.loading = false
+          // })
           .catch((error) => {
             this.$notifier.apiError(error)
             this.loading = false
@@ -149,9 +145,6 @@ export default {
           this.$notifier.firebaseError(error)
           this.loading = false
         })
-    },
-    welcome() {
-      this.$router.replace('/atendimento')
     },
   },
 }
