@@ -3,15 +3,11 @@
     <v-container class="pt-10 text-center" style="max-width: 340px">
       <ValidationObserver v-slot="{ validate, invalid }">
         <v-form @submit.prevent="validate().then(login)">
-          <img
-            src="~/assets/img/logo.png"
-            alt="Cultivar Digital"
-            class="mb-6"
-            width="140"
-          />
+          <v-icon class="mb-6" size="100">mdi-face-agent</v-icon>
+          <h3 class="mb-3">Central de atendimento</h3>
           <div>
-            <p class="text-subtitle-1 mb-6">
-              Informe seu e-mail e senha para acessar a área de clientes.
+            <p class="text-subtitle-1 mb-8">
+              <small>Informe seus dados para acessar a área de clientes</small>
             </p>
             <validation-provider
               v-slot="{ errors }"
