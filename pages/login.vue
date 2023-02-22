@@ -124,10 +124,6 @@ export default {
               group_id: this.$route.query.codigo,
             },
           })
-          // .then((resp) => {
-          //   this.welcome(userCredential.user)
-          //   this.loading = false
-          // })
           .catch((error) => {
             this.$notifier.apiError(error)
             this.loading = false

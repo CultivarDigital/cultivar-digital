@@ -79,7 +79,7 @@ export default {
   head() {
     let title = 'Atendimento'
     if (this.customer) {
-      title = 'Atendimento ' + this.customer.name
+      title = 'Atendimento - ' + this.customer.name
     }
     return {
       titleTemplate: '%s - ' + this.provider.name,

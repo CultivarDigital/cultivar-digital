@@ -1,6 +1,6 @@
 <template>
   <v-dialog :value="true" fullscreen persistent>
-    <v-card class="template-form">
+    <v-card>
       <DialogHeader @close="close" />
 
       <div v-if="loading" class="pt-6">
@@ -29,36 +29,38 @@
                     focusable
                   />
                 </validation-provider>
-                <div>Selecione as demandas que deseja incluir na proposta:</div>
-              </v-container>
-
-              <v-list color="secondary">
-                <v-list-item v-for="item in form.items" :key="item._id">
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      {{ item.demand.title }}
-                    </v-list-item-title>
-                    <v-list-item-subtitle v-if="item.points > 0">
-                      {{ item.price | moeda }} ({{
-                        item.estimate_in_days
-                      }}
+                <div v-if="form.items && form.items.length">
+                  <div>
+                    Selecione as demandas que deseja incluir na proposta:
+                  </div>
+                  <v-list color="secondary">
+                    <v-list-item v-for="item in form.items" :key="item._id">
+                      <v-list-item-content>
+                        <v-list-item-title>
+                          {{ item.demand.title }}
+                        </v-list-item-title>
+                        <v-list-item-subtitle v-if="item.points > 0">
+                          {{ item.price | moeda }} ({{ item.estimate_in_days }}
+                          dias)
+                        </v-list-item-subtitle>
+                      </v-list-item-content>
+                      <v-list-item-action>
+                        <v-checkbox v-model="item.checked" color="primary" />
+                      </v-list-item-action>
+                    </v-list-item>
+                  </v-list>
+                  <div v-if="totalPoints > 0" class="text-right">
+                    <h3>
+                      Total: {{ totalPrice | moeda }} ({{ totalEstimateInDays }}
                       dias)
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
-                  <v-list-item-action>
-                    <v-checkbox v-model="item.checked" color="primary" />
-                  </v-list-item-action>
-                </v-list-item>
-              </v-list>
-              <v-container>
-                <h3>
-                  Total: {{ totalPrice | moeda }} ({{
-                    totalEstimateInDays
-                  }}
-                  dias)
-                </h3>
-                <div v-if="totalPoints > 0" class="text-right">
-                  <Save :invalid="invalid" :block="false" label="Salvar" />
+                    </h3>
+                    <Save :invalid="invalid" :block="false" label="Salvar" />
+                  </div>
+                </div>
+                <div v-else>
+                  <Alert
+                    message="Nenhuma com valor estimado foi encontrada na fila para a proposta"
+                  />
                 </div>
               </v-container>
             </div>

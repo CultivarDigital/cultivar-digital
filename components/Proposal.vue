@@ -1,6 +1,6 @@
 <template>
   <v-dialog :value="true" fullscreen persistent>
-    <v-card class="template-form">
+    <v-card>
       <DialogHeader @close="close" />
       <div>
         <div v-if="proposal">

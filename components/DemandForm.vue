@@ -1,6 +1,6 @@
 <template>
   <v-dialog :value="true" fullscreen persistent>
-    <v-card class="template-form" color="secondary">
+    <v-card>
       <DialogHeader @close="close" />
       <v-container class="pt-6">
         <ValidationObserver v-slot="{ validate, invalid }">
