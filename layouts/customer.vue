@@ -8,7 +8,7 @@
             <div>
               <div class="d-flex justify-start align-center">
                 <v-btn
-                  v-if="$auth.user.role === 'admin'"
+                  v-if="$auth.user.role === 'provider'"
                   class="mr-4"
                   fab
                   small

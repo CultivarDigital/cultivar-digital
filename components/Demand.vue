@@ -47,7 +47,7 @@
 
           <!-- <Comments :demand="demand" /> -->
           <div
-            v-if="!preview && ($auth.user.role === 'admin' || !demand.approved)"
+            v-if="!preview && ($auth.user.role === 'provider' || !demand.approved)"
             class="text-right"
           >
             <v-divider class="my-3"></v-divider>
@@ -57,7 +57,7 @@
                   <v-icon left>mdi-pencil</v-icon> Editar
                 </v-btn>
               </div>
-              <div v-if="$auth.user.role === 'admin'">
+              <div v-if="$auth.user.role === 'provider'">
                 <v-btn
                   v-if="demand.status === 'backlog'"
                   color="success"

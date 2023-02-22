@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-btn
-      v-if="$auth.user.role === 'admin'"
+      v-if="$auth.user.role === 'provider'"
       fab
       fixed
       bottom

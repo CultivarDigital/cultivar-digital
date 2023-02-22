@@ -82,7 +82,7 @@
                 />
               </validation-provider>
               <validation-provider
-                v-if="$auth.user.role === 'admin'"
+                v-if="$auth.user.role === 'provider'"
                 v-slot="{ errors }"
                 name="Status da demanda"
                 rules="required"
@@ -98,7 +98,7 @@
                 />
               </validation-provider>
               <validation-provider
-                v-if="$auth.user.role === 'admin'"
+                v-if="$auth.user.role === 'provider'"
                 v-slot="{ errors }"
                 name="Pontos"
                 rules="required|min_value:0"
@@ -113,7 +113,7 @@
                 />
               </validation-provider>
               <v-switch
-                v-if="$auth.user.role === 'admin' && form.points < 1"
+                v-if="$auth.user.role === 'provider' && form.points < 1"
                 v-model="form.estimated"
                 label="Marcar como estimada"
                 color="success"
@@ -127,7 +127,7 @@
                 />
                 <div
                   v-if="
-                    $auth.user.role === 'admin' &&
+                    $auth.user.role === 'provider' &&
                     estimate &&
                     estimate.estimate_in_days > 0
                   "
@@ -138,7 +138,7 @@
               <div class="d-flex justify-space-between align-center">
                 <Remove
                   v-if="
-                    $auth.user.role === 'admin' && demand && !demand.approved
+                    $auth.user.role === 'provider' && demand && !demand.approved
                   "
                   @confirm="remove"
                 />

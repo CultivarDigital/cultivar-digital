@@ -46,7 +46,7 @@
               outlined
             />
             <v-textarea v-model="form.notes" label="Observações" outlined />
-            <div v-if="$auth.user.role === 'admin'">
+            <div v-if="$auth.user.role === 'provider'">
               <v-text-field
                 v-model="form.points_per_day"
                 label="Pontos por dia"
