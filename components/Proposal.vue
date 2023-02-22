@@ -195,7 +195,7 @@
                 Copiar link da proposta
               </v-btn>
               <v-btn
-                v-if="$auth.user.role === 'user'"
+                v-if="$auth.user.role === 'customer'"
                 small
                 color="error"
                 class="mb-6"
@@ -205,7 +205,7 @@
                 Rejeitar esta proposta
               </v-btn>
               <v-btn
-                v-if="$auth.user.role === 'admin'"
+                v-if="$auth.user.role === 'provider'"
                 small
                 class="mb-6"
                 @click="cancel"

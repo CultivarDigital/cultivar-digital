@@ -30,7 +30,7 @@ export default {
   mounted() {
     this.$store.commit('setCustomer', null)
     this.$store.commit('setCustomerSummary', null)
-    if (this.$auth.user.role === 'user') {
+    if (this.$auth.user.role === 'customer') {
       this.$router.push('/' + this.$auth.user.customer + '/demandas')
     } else {
       this.loading = false
