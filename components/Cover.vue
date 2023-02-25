@@ -1,5 +1,5 @@
 <template>
-  <section class="d-flex justify-center align-center page-cover">
+  <section id="cover" class="d-flex justify-center align-center page-cover">
     <v-container>
       <div class="text-center cover">
         <div>

@@ -18,7 +18,7 @@
           v-for="c in filteredCustomers"
           :key="c._id"
           class="mb-3 pa-3"
-          elevation="3"
+          elevation="0"
           :to="'/' + c._id + '/demandas'"
         >
           <h4 class="mb-1">{{ c.name }}</h4>

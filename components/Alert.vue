@@ -8,7 +8,7 @@ export default {
   props: {
     color: {
       type: String,
-      default: 'secondary',
+      default: null,
     },
     message: {
       type: String,

@@ -31,6 +31,7 @@
                 v-if="demand.status === showStatus.value"
                 :key="demand._id"
                 class="mb-3 pa-3"
+                elevation="0"
                 @click="openDemand(demand)"
               >
                 <h4 class="mb-2">{{ demand.title }}</h4>

@@ -1,5 +1,5 @@
 <template>
-  <section id="portfolio" class="py-16">
+  <section id="portfolio" class="py-16 alternative-bg">
     <v-container>
       <h3 class="text-h2 mb-6">Portfólio</h3>
       <h5 class="text-h5 mb-6">
@@ -14,7 +14,10 @@
         de cada cliente.
       </p>
       <p>
-        Não importa qual seja o seu setor de atuação, nós podemos ajudá-lo a alcançar seus objetivos através da tecnologia. Confira alguns dos nossos projetos recentes para ver como nossos aplicativos podem ajudar a sua empresa a prosperar.
+        Não importa qual seja o seu setor de atuação, nós podemos ajudá-lo a
+        alcançar seus objetivos através da tecnologia. Confira alguns dos nossos
+        projetos recentes para ver como nossos aplicativos podem ajudar a sua
+        empresa a prosperar.
       </p>
       <v-list class="details transparent">
         <v-list-item
@@ -32,7 +35,7 @@
               sobre cultivo do próprio alimento.
             </p>
             <p>
-              <v-chip small outlined >Produto próprio</v-chip>
+              <v-chip small outlined>Produto próprio</v-chip>
             </p>
           </v-list-item-content>
         </v-list-item>
@@ -57,7 +60,6 @@
             <p>
               <v-chip
                 outlined
-                
                 small
                 target="_blank"
                 href="https://app.prijorge.com"
@@ -84,7 +86,6 @@
             <p>
               <v-chip
                 outlined
-                
                 target="_blank"
                 href="https://www.terrakrya.com"
                 small
@@ -115,7 +116,6 @@
             <p>
               <v-chip
                 outlined
-                
                 target="_blank"
                 href="https://www.terrakrya.com"
                 small
@@ -144,7 +144,6 @@
             <p>
               <v-chip
                 outlined
-                
                 target="_blank"
                 href="https://www.terrakrya.com"
                 small
@@ -180,7 +179,6 @@
             <p>
               <v-chip
                 outlined
-                
                 target="_blank"
                 href="https://www.terrakrya.com"
                 small
@@ -206,7 +204,6 @@
             <p>
               <v-chip
                 outlined
-                
                 target="_blank"
                 href="https://www.terrakrya.com"
                 small

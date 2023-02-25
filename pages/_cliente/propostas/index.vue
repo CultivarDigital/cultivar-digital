@@ -22,6 +22,7 @@
               v-for="proposal in proposals"
               :key="proposal._id"
               class="mb-3 pa-3"
+              elevation="0"
               :to="'/' + customer._id + '/propostas?proposta=' + proposal._id"
             >
               <div>
@@ -90,9 +91,7 @@
     </v-container>
     <ProposalForm
       v-if="addProposal"
-      @input="
-        proposalCreated
-      "
+      @input="proposalCreated"
       @close="addProposal = false"
     />
     <Proposal
@@ -155,7 +154,7 @@ export default {
       this.proposals.splice(index, 1, proposal)
       this.loadSummary()
     },
-    
+
     closeProposal() {
       this.$router.push('/' + this.customer._id + '/propostas')
     },

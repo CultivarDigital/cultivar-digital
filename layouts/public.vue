@@ -3,13 +3,21 @@
     <v-app-bar fixed app flat>
       <div class="d-flex justify-end align-center w-100" style="width: 100%">
         <n-link to="/" class="text-decoration-none d-flex align-center">
-          <img v-if="provider.logo" :src="filesURL + provider.logo" class="logo" />
+          <img
+            v-if="provider.logo"
+            :src="filesURL + provider.logo"
+            class="logo"
+          />
           <span class="ml-3 text-subtitle-1">{{ provider.name }}</span>
         </n-link>
         <v-spacer />
         <div class="d-flex align-center">
           <div class="d-none d-md-block">
-            <v-btn v-if="provider.about" class="font-weight-light" text small
+            <v-btn
+              v-if="provider.about"
+              class="font-weight-light"
+              text
+              small
               href="#presentation"
               >Sobre nós</v-btn
             >
@@ -38,8 +46,7 @@
         <h6 class="text-h6 mb-6">Fale com a gente</h6>
         <p>
           Nossa equipe está sempre pronta para responder às suas perguntas e
-          ajudá-lo a encontrar a solução perfeita para a sua
-          empresa.
+          ajudá-lo a encontrar a solução perfeita para a sua empresa.
         </p>
         <div class="text-center">
           <div class="mb-3">Fale com a gente pelo WhatsApp:</div>
@@ -64,7 +71,7 @@
                 class="dark text-decoration-none"
                 @click="copy(provider.email)"
               >
-                {{provider.email}}
+                {{ provider.email }}
               </a>
             </h5>
             <v-alert
@@ -90,7 +97,7 @@ export default {
   components: { SwitchTheme },
   data() {
     return {
-      success: '', 
+      success: '',
     }
   },
   head() {
@@ -121,7 +128,8 @@ export default {
         {
           hid: 'og:url',
           property: 'og:url',
-          content: 'https://' + this.provider.slug + '.' + process.env.BASE_DOMAIN,
+          content:
+            'https://' + this.provider.slug + '.' + process.env.BASE_DOMAIN,
         },
         {
           hid: 'twitter:title',

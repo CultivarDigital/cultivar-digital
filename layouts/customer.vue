@@ -13,6 +13,7 @@
                   fab
                   small
                   to="/atendimento"
+                  elevation="0"
                 >
                   <v-icon>mdi-chevron-left</v-icon>
                 </v-btn>
@@ -25,9 +26,18 @@
               </div>
             </div>
             <div>
-              <v-btn icon @click="editCustomer = true">
-                <v-icon small>mdi-pencil</v-icon>
-              </v-btn>
+              <v-menu offset-y>
+                <template #activator="{ on }">
+                  <v-btn icon v-on="on">
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
+                <v-list>
+                  <v-list-item @click="editCustomer = true">
+                    <v-list-item-title>Editar</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
             </div>
           </v-container>
           <v-container class="px-0 px-md-4 py-0">
