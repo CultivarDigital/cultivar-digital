@@ -28,6 +28,9 @@ if (!Vue.__my_mixin__) {
       provider() {
         return this.$store.state.provider
       },
+      customer() {
+        return this.$store.state.customer
+      },
     },
     methods: {
       async getLocalItem(key) {

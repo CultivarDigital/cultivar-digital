@@ -92,9 +92,6 @@ export default {
     }
   },
   computed: {
-    customer() {
-      return this.$store.state.customer
-    },
     totalPrice() {
       return this.selectedItems.reduce((total, item) => {
         return total + item.price

@@ -56,12 +56,10 @@
             </div>
 
             <v-btn
-              v-if="customer"
+              v-if="value"
               class="mb-6"
               small
-              @click="
-                () => copy(baseURL + '/cadastrar?cliente=' + customer._id)
-              "
+              @click="() => copy(baseURL + '/cadastrar?cliente=' + value._id)"
             >
               <v-icon left small> mdi-content-copy </v-icon>
               Copiar link de cadastro
@@ -84,7 +82,7 @@ export default {
     ValidationProvider,
   },
   props: {
-    customer: {
+    value: {
       type: Object,
       default: () => null,
     },
@@ -106,10 +104,10 @@ export default {
     }
   },
   created() {
-    if (this.customer) {
+    if (this.value) {
       Object.keys(this.form).forEach((key) => {
-        if (this.customer[key]) {
-          this.form[key] = this.customer[key]
+        if (this.value[key]) {
+          this.form[key] = this.value[key]
         }
       })
     }
@@ -117,9 +115,9 @@ export default {
   methods: {
     save() {
       const form = { ...this.form }
-      if (this.customer) {
+      if (this.value) {
         this.$axios
-          .$patch('/v1/customers/' + this.customer._id, form)
+          .$patch('/v1/customers/' + this.value._id, form)
           .then((customer) => {
             this.$notifier.success('Atualizado!')
             this.$emit('input', customer)

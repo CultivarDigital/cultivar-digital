@@ -63,7 +63,6 @@
                   item-text="label"
                   outlined
                   :error-messages="errors"
-                  @change="setBillable"
                 />
               </validation-provider>
               <validation-provider
@@ -97,44 +96,7 @@
                   :error-messages="errors"
                 />
               </validation-provider>
-              <validation-provider
-                v-if="$auth.user.role === 'provider'"
-                v-slot="{ errors }"
-                name="Pontos"
-                rules="required|min_value:0"
-              >
-                <v-text-field
-                  v-model="form.points"
-                  label="Pontos"
-                  type="number"
-                  outlined
-                  :error-messages="errors"
-                  @input="pointsChanged"
-                />
-              </validation-provider>
-              <v-switch
-                v-if="$auth.user.role === 'provider' && form.points < 1"
-                v-model="form.estimated"
-                label="Marcar como estimada"
-                color="success"
-              />
-              <div v-if="form.points > 0">
-                <v-switch
-                  v-model="form.billable"
-                  label="Você vai cobrar por essa demanda?"
-                  outlined
-                  color="success"
-                />
-                <div
-                  v-if="
-                    $auth.user.role === 'provider' &&
-                    estimate &&
-                    estimate.estimate_in_days > 0
-                  "
-                >
-                  <EstimateValues :item="estimate" />
-                </div>
-              </div>
+
               <div class="d-flex justify-space-between align-center">
                 <Remove
                   v-if="
@@ -192,21 +154,6 @@ export default {
       },
     }
   },
-  computed: {
-    customer() {
-      return this.$store.state.customer
-    },
-    estimate() {
-      if (!this.form.points || !this.customer) return null
-      return {
-        estimate_in_days: Math.round(
-          this.form.points / this.customer.points_per_day
-        ),
-        price: this.form.points * this.customer.point_price,
-        billable: this.form.billable,
-      }
-    },
-  },
   created() {
     if (this.demand) {
       Object.keys(this.form).forEach((key) => {
@@ -233,28 +180,6 @@ export default {
             this.$notifier.success('Salvo!')
             this.$emit('input', demand)
           })
-      }
-    },
-    toggleMonth(month) {
-      if (this.active_month === month) {
-        this.active_month = null
-      } else {
-        this.active_month = month
-      }
-    },
-    removeItem(month, week, index) {
-      this.form.data[month - 1][week - 1].splice(index, 1)
-    },
-    pointsChanged() {
-      this.setEstimated()
-      this.setBillable()
-    },
-    setEstimated() {
-      this.form.estimated = this.form.points > 0
-    },
-    setBillable() {
-      if (this.form.billable === null) {
-        this.form.billable = this.form.points > 0
       }
     },
     close() {

@@ -19,7 +19,7 @@
                 </v-btn>
                 <div>
                   <h3>{{ customer.name }}</h3>
-                  <div class="caption secondary--text text--lighten-4">
+                  <div class="caption text--secondary">
                     {{ $auth.user.name }}
                   </div>
                 </div>
@@ -41,13 +41,14 @@
             </div>
           </v-container>
           <v-container class="px-0 px-md-4 py-0">
-            <v-tabs :show-arrows="true" class="mb-3">
+            <v-tabs :show-arrows="true" class="mb-3" color="success">
               <v-tab :to="'/' + customer._id + '/demandas'">
                 Demandas
                 <v-badge
                   v-if="customerSummary && customerSummary.pendingDemands"
                   color="error"
                   small
+                  outlined
                   :content="customerSummary.pendingDemands"
                 />
               </v-tab>
@@ -56,6 +57,7 @@
                 <v-badge
                   v-if="customerSummary && customerSummary.pendingProposals"
                   small
+                  outlined
                   color="error"
                   :content="customerSummary.pendingProposals"
                 />
@@ -65,7 +67,7 @@
           </v-container>
           <CustomerForm
             v-if="editCustomer"
-            :customer="customer"
+            :value="customer"
             @input="customerUpdated"
             @close="close"
           />
@@ -97,11 +99,11 @@ export default {
     }
   },
   computed: {
-    customer() {
-      return this.$store.state.customer
-    },
     customerSummary() {
       return this.$store.state.customerSummary
+    },
+    customer() {
+      return this.$store.state.customer
     },
   },
   async mounted() {

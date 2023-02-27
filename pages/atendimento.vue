@@ -21,10 +21,10 @@
           elevation="0"
           :to="'/' + c._id + '/demandas'"
         >
-          <h4 class="mb-1">{{ c.name }}</h4>
+          <h4 class="mb-3 font-weight-medium">{{ c.name }}</h4>
           <div
             v-if="c.backlog_demands_count || c.in_progress_demands_count"
-            class="caption"
+            class="caption text--secondary"
           >
             <div v-if="c.backlog_demands_count" class="d-inline-block mr-1">
               <v-chip x-small left class="px-2" color="alert">{{
@@ -46,7 +46,7 @@
             </div>
           </div>
           <div v-else>
-            <div class="caption pt-1 opaque-2">Sem demandas ativas</div>
+            <div class="caption pt-1 text--disabled">Sem demandas ativas</div>
           </div>
         </v-card>
       </div>
@@ -81,9 +81,6 @@ export default {
         )
       }
       return this.customers
-    },
-    customer() {
-      return this.$store.state.customer
     },
   },
   mounted() {

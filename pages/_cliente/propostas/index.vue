@@ -112,9 +112,6 @@ export default {
     }
   },
   computed: {
-    customer() {
-      return this.$store.state.customer
-    },
     activeProposal() {
       if (this.$route.query.proposta && this.proposals) {
         return this.proposals.find((d) => d._id === this.$route.query.proposta)

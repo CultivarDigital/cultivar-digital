@@ -1,21 +1,19 @@
 <template>
   <div>
-    <div
-      v-if="item.estimate_in_days > 0"
-      class="caption secondary--text text--lighten-4"
-    >
-      <div v-if="item.billable">
+    <span v-if="item.estimate_in_days > 0" class="caption text--secondary">
+      <span v-if="item.billable">
         {{ item.price | moeda }} ({{
           $utils.plural(item.estimate_in_days, 'dia')
         }})
-      </div>
-      <div v-else>
+      </span>
+      <span v-else>
         {{ $utils.plural(item.estimate_in_days, 'dia') }}
-      </div>
-    </div>
-    <div v-else class="caption secondary--text text--lighten-4 opaque">
-      Não será estimada
-    </div>
+      </span>
+    </span>
+    <span v-else class="caption text--disabled">Não será estimada</span>
+    <v-btn v-if="showEditButton" icon small @click="$emit('edit')">
+      <v-icon small>mdi-pencil</v-icon>
+    </v-btn>
   </div>
 </template>
 <script>
@@ -24,6 +22,10 @@ export default {
     item: {
       type: Object,
       default: null,
+    },
+    showEditButton: {
+      type: Boolean,
+      default: false,
     },
   },
 }

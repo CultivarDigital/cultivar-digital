@@ -1,7 +1,7 @@
 const demandPriorities = [
-  { value: 1, label: 'Alta', color: 'error' },
+  { value: 1, label: 'Alta', color: 'orange' },
   { value: 2, label: 'Média', color: 'warning' },
-  { value: 3, label: 'Baixa', color: 'info' },
+  { value: 3, label: 'Baixa', color: 'success' },
 ]
 
 export const getDemandPriority = (value) => {

@@ -5,7 +5,7 @@
       <template v-for="comment in comments">
         <v-list-item :key="comment._id" class="pa-0">
           <v-list-item-content class="pa-0">
-            <div class="mb-3 caption secondary--text text--lighten-4">
+            <div class="mb-3 caption text--secondary">
               {{ comment.user.name }}
             </div>
             <Editor :value="comment.body" />
@@ -38,11 +38,6 @@ export default {
     return {
       comments: null,
     }
-  },
-  computed: {
-    customer() {
-      return this.$store.state.customer
-    },
   },
   created() {
     this.loadComments()

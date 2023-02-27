@@ -11,7 +11,7 @@
           x-small
           :color="
             showStatus.value === status.value
-              ? 'primary'
+              ? 'success'
               : 'secondary lighten-1'
           "
           style="min-width: 32%; padding: 24px 8px"
@@ -46,7 +46,7 @@
                         v-if="demand.type"
                         outlined
                         small
-                        class="secondary--text text--lighten-4"
+                        class="text--secondary"
                       >
                         {{ demandTypeLabel(demand.type) }}
                       </v-chip>
@@ -133,9 +133,6 @@ export default {
     hasDemand() {
       return this.demands.find((d) => this.showStatus.value === d.status)
     },
-    customer() {
-      return this.$store.state.customer
-    },
     demand() {
       if (this.$route.query.demanda && this.demands) {
         return this.demands.find((d) => d._id === this.$route.query.demanda)
@@ -151,7 +148,6 @@ export default {
       return this.activeDemand && this.activeDemand._id === demand._id
     },
     async loadDemands() {
-      this.demands = null
       const params = { ...this.filters, customer: this.customer._id }
       this.demands = await this.$axios.$get('/v1/demands', {
         params,
@@ -165,14 +161,14 @@ export default {
         '/' + this.customer._id + '/demandas?demanda=' + demand._id
       )
     },
-    demandCreated() {
+    async demandCreated(demand) {
       this.addDemand = false
-      this.loadDemands()
+      await this.loadDemands()
       this.loadSummary()
+      this.openDemand(demand)
     },
-    demandUpdated(demand) {
-      const index = this.demands.findIndex((d) => d._id === demand._id)
-      this.demands.splice(index, 1, demand)
+    async demandUpdated(demand) {
+      await this.loadDemands()
       this.loadSummary()
     },
     async removeDemand() {

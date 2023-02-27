@@ -1,8 +1,15 @@
 <template>
   <div>
     <v-form @submit.prevent="save">
-      <Editor v-model="form.body" editable fixed-text :labels="{text: { icon: 'mdi-comment-text-outline', label: 'Comentário' }}" />
-      <div v-if="form.body && form.body.find((block) => block.content)" >
+      <Editor
+        v-model="form.body"
+        editable
+        fixed-text
+        :labels="{
+          text: { icon: 'mdi-comment-text-outline', label: 'Comentário' },
+        }"
+      />
+      <div v-if="form.body && form.body.find((block) => block.content)">
         <Save :block="false" label="Enviar" />
       </div>
     </v-form>
@@ -28,11 +35,6 @@ export default {
         proposal: this.proposal ? this.proposal._id : null,
       },
     }
-  },
-  computed: {
-    customer() {
-      return this.$store.state.customer
-    },
   },
   methods: {
     save() {

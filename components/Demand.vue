@@ -5,20 +5,20 @@
         <DialogHeader @close="close" />
         <v-container>
           <h3 class="mb-3">{{ demand.title }}</h3>
-          <div class="mb-3">
+          <div v-if="demand.body && demand.body.length" class="mb-3">
             <Editor :value="demand.body" />
           </div>
-          <div class="mb-3">
-            <DemandEstimate :demand="demand" />
+          <div class="mb-6">
+            <DemandEstimate
+              :demand="demand"
+              show-estimate-button
+              show-edit-button
+              @input="changed"
+            />
           </div>
           <div class="d-flex justify-space-between align-start">
             <div>
-              <v-chip
-                v-if="demand.type"
-                outlined
-                small
-                class="secondary--text text--lighten-4"
-              >
+              <v-chip v-if="demand.type" outlined small class="text--secondary">
                 {{ demandTypeLabel(demand.type) }}
                 {{
                   demandStatusLabel(demand.status)
@@ -32,8 +32,7 @@
                 small
                 color="success"
               >
-                <v-icon left small> mdi-check </v-icon>
-                Aprovada
+                <v-icon left small> mdi-check </v-icon> Aprovada
               </v-chip>
             </div>
             <v-chip
@@ -57,7 +56,7 @@
             <v-divider class="my-3"></v-divider>
             <div class="d-flex justify-space-between align-center">
               <div>
-                <v-btn  @click="edit = true">
+                <v-btn @click="edit = true">
                   <v-icon left>mdi-pencil</v-icon> Editar
                 </v-btn>
               </div>
