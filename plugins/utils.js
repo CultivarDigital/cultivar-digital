@@ -1,6 +1,15 @@
+const pluralExceptions = { 'dia útil': 'dias úteis' }
 export default ({ app, store }, inject) => {
   const plural = (qtd, word, includeQtd = true) => {
-    const plural = qtd > 1 ? 's' : ''
+    const pluralException = pluralExceptions[word]
+
+    const isPlural = qtd !== 1
+
+    if (isPlural && pluralException) {
+      return `${includeQtd ? qtd + ' ' : ''}${pluralException}`
+    }
+
+    const plural = isPlural ? 's' : ''
     return `${includeQtd ? qtd + ' ' : ''}${word}${plural}`
   }
 

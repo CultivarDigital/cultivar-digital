@@ -4,22 +4,28 @@
       <v-btn fab fixed bottom right color="success" @click="addDemand = true">
         <v-icon>mdi-plus</v-icon>
       </v-btn>
-      <div class="d-flex justify-space-around">
-        <v-btn
+      <v-row no-gutters class="mx-n1">
+        <v-col
           v-for="status in demandStatus"
           :key="status.value"
-          x-small
-          :color="
-            showStatus.value === status.value
-              ? 'success'
-              : 'secondary lighten-1'
-          "
-          style="min-width: 32%; padding: 24px 8px"
-          @click="showStatus = status"
+          cols="4"
+          class="px-1"
         >
-          {{ status.label }}
-        </v-btn>
-      </div>
+          <v-btn
+            x-small
+            block
+            :color="
+              showStatus.value === status.value
+                ? 'success'
+                : 'secondary lighten-1'
+            "
+            style="padding: 24px 8px"
+            @click="showStatus = status"
+          >
+            {{ status.label }}
+          </v-btn>
+        </v-col>
+      </v-row>
       <div class="pt-6">
         <div>
           <div v-if="demands">

@@ -15,9 +15,7 @@
       <DialogHeader @close="() => (dialog = false)" />
       <v-container>
         <div class="contract-view">
-          <h3 class="pt-3 mb-6">
-            CONTRATO DE PRESTAÇÃO DE SERVIÇOS
-          </h3>
+          <h3 class="pt-3 mb-6">CONTRATO DE PRESTAÇÃO DE SERVIÇOS</h3>
           <p>Entre:</p>
           <p>
             <strong>{{ proposal.customer.corporate_name }}</strong
@@ -58,7 +56,8 @@
                 })
               ).format('DD/MM/YYYY')
             }}</strong
-            >. As entregas podem ser feitas e faturadas antes do prazo final da entrega. O Prestador entregará cada etapa do projeto de acordo com o
+            >. As entregas podem ser feitas e faturadas antes do prazo final da
+            entrega. O Prestador entregará cada etapa do projeto de acordo com o
             seguinte cronograma respeitando a ordem de prioridade definida pelo
             Contratante:
           </p>
@@ -76,7 +75,9 @@
                     <small>{{ item.demand.title }}</small>
                   </td>
                   <td class="text-right">
-                    <small>{{ item.estimate_in_days }} dias</small>
+                    <small>{{
+                      $utils.plural(item.estimate_in_days, 'dia útil')
+                    }}</small>
                   </td>
                 </tr>
               </tbody>
@@ -84,7 +85,9 @@
                 <tr>
                   <th><strong>Total</strong></th>
                   <th class="text-right">
-                    <strong>{{ proposal.estimate_in_days }} dias</strong>
+                    <strong>{{
+                      $utils.plural(proposal.estimate_in_days, 'dia útil')
+                    }}</strong>
                   </th>
                 </tr>
               </tfoot>
@@ -111,8 +114,8 @@
           <h4 class="mb-3">Propriedade Intelectual</h4>
           <p>
             Todos os direitos autorais, marcas registradas e outros direitos
-            relacionados ao trabalho desenvolvido serão propriedade exclusiva
-            do Contratante. O Prestador concorda em não utilizar esses direitos
+            relacionados ao trabalho desenvolvido serão propriedade exclusiva do
+            Contratante. O Prestador concorda em não utilizar esses direitos
             para fins comerciais ou outros fins não autorizados.
           </p>
           <h4 class="mb-3">Confidencialidade</h4>
@@ -143,38 +146,39 @@
           </p>
           <h4 class="mb-3">Alterações</h4>
           <p>
-            Este contrato tem escopo fechado. Qualquer alteração no escopo das demandas aqui incluídas deverá ser acordada por escrito entre as partes.
+            Este contrato tem escopo fechado. Qualquer alteração no escopo das
+            demandas aqui incluídas deverá ser acordada por escrito entre as
+            partes.
           </p>
           <h4 class="mb-3">Foro</h4>
           <p>
-            As partes elegem o foro da Comarca de Goiânia, Estado de Goiás, para dirimir quaisquer dúvidas ou controvérsias oriundas deste contrato.
+            As partes elegem o foro da Comarca de Goiânia, Estado de Goiás, para
+            dirimir quaisquer dúvidas ou controvérsias oriundas deste contrato.
           </p>
           <h4 class="mb-3">Leis Aplicáveis</h4>
           <p>
             Este contrato será regido e interpretado de acordo com as leis da
             República Federativa do Brasil.
           </p>
-          
         </div>
         <div>
-            <v-checkbox
+          <v-checkbox
             v-model="accepted"
             color="success"
             x-large
-              
-              label="Li e concordo com o contrato acima."
-            ></v-checkbox>
-            <v-btn
-              :disabled="!accepted"
-              color="success"
-              x-large
-              class="mb-6"
-              block
-              @click="confirm"
-            >
-              Confirmar e aprovar
-            </v-btn>
-          </div>
+            label="Li e concordo com o contrato acima."
+          ></v-checkbox>
+          <v-btn
+            :disabled="!accepted"
+            color="success"
+            x-large
+            class="mb-6"
+            block
+            @click="confirm"
+          >
+            Confirmar e aprovar
+          </v-btn>
+        </div>
       </v-container>
     </v-card>
   </v-dialog>

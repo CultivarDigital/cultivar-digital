@@ -53,7 +53,7 @@
                 />
               </v-tab>
               <v-tab :to="'/' + customer._id + '/propostas'">
-                Propostas
+                Orçamentos
                 <v-badge
                   v-if="customerSummary && customerSummary.pendingProposals"
                   small

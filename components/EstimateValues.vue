@@ -2,12 +2,11 @@
   <div>
     <span v-if="item.estimate_in_days > 0" class="caption text--secondary">
       <span v-if="item.billable">
-        {{ item.price | moeda }} ({{
-          $utils.plural(item.estimate_in_days, 'dia')
-        }})
+        {{ item.price | moeda }} -
+        {{ $utils.plural(item.estimate_in_days, 'dia útil') }}
       </span>
       <span v-else>
-        {{ $utils.plural(item.estimate_in_days, 'dia') }}
+        {{ $utils.plural(item.estimate_in_days, 'dia útil') }}
       </span>
     </span>
     <span v-else class="caption text--disabled">Não será estimada</span>

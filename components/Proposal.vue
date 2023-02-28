@@ -5,7 +5,7 @@
       <div>
         <div v-if="proposal">
           <v-container>
-            <h2 class="mb-6">Proposta comercial</h2>
+            <h2 class="mb-6">Proposta de orçamento</h2>
             <Alert
               v-if="proposal.canceled"
               message="Proposta cancelada"

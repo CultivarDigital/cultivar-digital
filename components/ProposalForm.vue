@@ -8,7 +8,7 @@
       </div>
       <div v-else>
         <v-container>
-          <h3>Gerar proposta comercial</h3>
+          <h3 class="font-weight-medium">Gerar proposta de orçamento</h3>
         </v-container>
         <ValidationObserver v-slot="{ validate, invalid }">
           <v-form @submit.prevent="validate().then(save)">
@@ -30,29 +30,43 @@
                   />
                 </validation-provider>
                 <div v-if="form.items && form.items.length">
-                  <div>
+                  <div class="text-subtitle-2 text--secondary mb-3">
                     Selecione as demandas que deseja incluir na proposta:
                   </div>
-                  <v-list color="secondary">
-                    <v-list-item v-for="item in form.items" :key="item._id">
+                  <div v-if="form.items.length > 1" class="text-right">
+                    <v-btn color="success" x-small @click="toggleSelection"
+                      >Selecionar {{ allChecked ? 'nenhuma' : 'todas' }}</v-btn
+                    >
+                  </div>
+                  <v-list class="mx-n4 mb-3">
+                    <v-list-item
+                      v-for="item in form.items"
+                      :key="item._id"
+                      class="secondary"
+                    >
                       <v-list-item-content>
-                        <v-list-item-title>
-                          {{ item.demand.title }}
-                        </v-list-item-title>
+                        <a class="d-block" @click="previewDemand = item.demand">
+                          <span class="text-subtitle-2">{{
+                            item.demand.title
+                          }}</span>
+                          <EstimateValues :item="{ ...item, billable: true }" />
+                        </a>
                         <v-list-item-subtitle v-if="item.points > 0">
-                          {{ item.price | moeda }} ({{ item.estimate_in_days }}
-                          dias)
                         </v-list-item-subtitle>
                       </v-list-item-content>
                       <v-list-item-action>
-                        <v-checkbox v-model="item.checked" color="primary" />
+                        <v-checkbox
+                          v-model="item.checked"
+                          color="success"
+                          large
+                        />
                       </v-list-item-action>
                     </v-list-item>
                   </v-list>
                   <div v-if="totalPoints > 0" class="text-right">
                     <h3>
-                      Total: {{ totalPrice | moeda }} ({{ totalEstimateInDays }}
-                      dias)
+                      Total: {{ totalPrice | moeda }} -
+                      {{ $utils.plural(totalEstimateInDays, 'dia útil') }}
                     </h3>
                     <Save :invalid="invalid" :block="false" label="Salvar" />
                   </div>
@@ -67,6 +81,13 @@
           </v-form>
         </ValidationObserver>
       </div>
+      <Demand
+        v-if="previewDemand"
+        :demand="previewDemand"
+        preview
+        @close="previewDemand = null"
+        @input="demandUpdated"
+      />
     </v-card>
   </v-dialog>
 </template>
@@ -81,6 +102,7 @@ export default {
     return {
       loading: false,
       demands: [],
+      previewDemand: null,
       form: {
         title: this.$moment().locale('pt-br').format('MMM-YYYY').toUpperCase(),
         status: 'pending',
@@ -119,6 +141,9 @@ export default {
           }
         })
     },
+    allChecked() {
+      return this.form.items.every((item) => item.checked)
+    },
   },
   created() {
     this.loadDemands()
@@ -145,6 +170,10 @@ export default {
           checked: false,
         })
       })
+
+      if (this.demands.length === 1) {
+        this.form.items[0].checked = true
+      }
       this.loading = false
     },
     save() {
@@ -162,15 +191,25 @@ export default {
         })
       this.loading = false
     },
-    toggleMonth(month) {
-      if (this.active_month === month) {
-        this.active_month = null
-      } else {
-        this.active_month = month
-      }
+    demandUpdated(demand) {
+      const item = this.form.items.find(
+        (item) => item.demand._id === demand._id
+      )
+      item.demand = demand
+      item.price = demand.price
+      item.points = demand.points
+      item.estimate_in_days = demand.estimate_in_days
+      this.previewDemand = demand
     },
-    removeItem(month, week, index) {
-      this.form.data[month - 1][week - 1].splice(index, 1)
+    toggleSelection() {
+      let checked = true
+      if (this.allChecked) {
+        checked = false
+      }
+
+      this.form.items.forEach((item) => {
+        item.checked = checked
+      })
     },
     close() {
       this.$emit('close')
