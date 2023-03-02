@@ -4,6 +4,7 @@
     v-money="{ decimal: ',', thousands: '.', precision: 2 }"
     :label="label"
     outlined
+    :error-messages="errorMessages"
     @input="updateValue"
   />
 </template>
@@ -17,6 +18,10 @@ export default {
     label: {
       type: String,
       default: null,
+    },
+    errorMessages: {
+      type: Array,
+      default: () => [],
     },
   },
   data() {

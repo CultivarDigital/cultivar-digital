@@ -1,6 +1,6 @@
 <template>
   <span class="upload-image">
-    <v-btn v-if="button" color="primary" class="mb-1" @click="upload">
+    <v-btn v-if="button" :color="color" class="mb-1" @click="upload">
       <v-progress-circular
         v-if="loading"
         color="white"
@@ -11,7 +11,7 @@
         <v-icon left>{{ icon }}</v-icon> {{ label }}
       </template>
     </v-btn>
-    <v-btn v-else color="primary" icon @click="upload">
+    <v-btn v-else :color="color" icon @click="upload">
       <v-progress-circular
         v-if="loading"
         color="white"
@@ -53,6 +53,10 @@ export default {
     icon: {
       type: String,
       default: 'mdi-image',
+    },
+    color: {
+      type: String,
+      default: 'primary',
     },
     disabled: {
       type: Boolean,

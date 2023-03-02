@@ -1,6 +1,10 @@
 <template>
   <div>
-    <v-alert v-if="invalid" type="error" class="d-flex justify-center">
+    <v-alert
+      v-if="invalid && showErrorAlert"
+      type="error"
+      class="d-flex justify-center"
+    >
       Você deve corrigir os erros acima antes de salvar
     </v-alert>
     <v-btn
@@ -41,6 +45,10 @@ export default {
     label: {
       type: String,
       default: 'Salvar',
+    },
+    showErrorAlert: {
+      type: Boolean,
+      default: true,
     },
   },
 }

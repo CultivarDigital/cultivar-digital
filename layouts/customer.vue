@@ -62,7 +62,16 @@
                   :content="customerSummary.pendingProposals"
                 />
               </v-tab>
-              <v-tab :to="'/' + customer._id + '/faturas'">Faturas</v-tab>
+              <v-tab :to="'/' + customer._id + '/faturas'">
+                Faturas
+                <v-badge
+                  v-if="customerSummary && customerSummary.pendingInvoices"
+                  small
+                  outlined
+                  color="error"
+                  :content="customerSummary.pendingInvoices"
+                />
+              </v-tab>
             </v-tabs>
           </v-container>
           <CustomerForm

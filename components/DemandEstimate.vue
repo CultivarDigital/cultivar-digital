@@ -30,6 +30,7 @@
       v-if="show_form"
       :value="true"
       :overlay-opacity="0.9"
+      max-width="350"
       @click:outside="close"
       @keydown.esc="close"
     >
@@ -77,7 +78,11 @@
                 </div>
               </div>
               <div>
-                <Save :invalid="invalid" label="Salvar estimativa" />
+                <Save
+                  :invalid="invalid"
+                  label="Salvar estimativa"
+                  :show-error-alert="false"
+                />
               </div>
             </v-form>
           </ValidationObserver>
