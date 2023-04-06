@@ -138,7 +138,7 @@ export default {
     save() {
       const form = { ...this.form }
       this.$axios
-        .$patch('/v1/demands/' + this.demand._id, form)
+        .$patch('/v1/demands/' + this.demand._id + '/estimate', form)
         .then((demand) => {
           this.$notifier.success('Estimativa atualizada!')
           this.$emit('input', demand)

@@ -142,15 +142,10 @@ export default {
       form: {
         title: '',
         body: null,
-        points: 0,
-        price: null,
         type: null,
         priority: null,
         progress: 0,
         status: 'backlog',
-        paid: false,
-        billable: null,
-        estimated: null,
       },
     }
   },
