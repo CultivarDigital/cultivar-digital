@@ -213,6 +213,7 @@ export default {
           customer: this.customer._id,
           billable: true,
           with_points: true,
+          paid: false,
         },
       })
 
