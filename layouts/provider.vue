@@ -31,7 +31,11 @@ export default {
     this.$store.commit('setCustomer', null)
     this.$store.commit('setCustomerSummary', null)
     if (this.$auth.user.role === 'customer') {
-      this.$router.push('/' + this.$auth.user.customer + '/demandas')
+      if (this.$auth.user.customer) {
+        this.$router.push('/' + this.$auth.user.customer + '/demandas')
+      } else {
+        this.$router.push('/cadastro-de-cliente')
+      }
     } else {
       this.loading = false
     }
