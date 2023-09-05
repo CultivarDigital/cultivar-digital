@@ -62,59 +62,77 @@
                 </v-chip>
               </div>
             </div>
-            <div>
-              <p>
-                A proposta abaixo foi personalizada por via de um levantamento
-                de requisitos e análise prévia para a execução das demandas
-                solicitadas.
-              </p>
-            </div>
-            <v-simple-table class="mb-6" light>
-              <template #default>
-                <thead>
-                  <tr>
-                    <th class="text-left">Demanda</th>
-                    <th>Estimativa</th>
-                    <th>Valor</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="item in proposal.items" :key="item._id">
-                    <td>
+            <p>
+              A proposta abaixo foi personalizada por meio de um levantamento de
+              requisitos e análise prévia para a execução das demandas
+              solicitadas.
+            </p>
+            <p>
+              Selecione abaixo os itens da proposta que deseja aprovar e clique
+              em aprovar proposta para continuar
+            </p>
+          </v-container>
+          <v-simple-table class="mb-6 rounded-0" light>
+            <template #default>
+              <thead>
+                <tr>
+                  <th class="text-left">Demanda</th>
+                  <th>Estimativa</th>
+                  <th>Valor</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <template v-for="item in proposal.items">
+                  <tr  v-if="proposal.status == 'pending' || item.approved" :key="item._id">
+                    <td @click="previewDemand = item.demand">
                       <small>{{ item.demand.title }}</small>
                     </td>
-                    <td>
+                    <td @click="previewDemand = item.demand">
                       <small>{{
                         $utils.plural(item.estimate_in_days, 'dia')
                       }}</small>
                     </td>
-                    <td>
+                    <td @click="previewDemand = item.demand">
                       <small>{{ item.price | moeda }}</small>
                     </td>
                     <td>
-                      <v-btn x-small icon @click="previewDemand = item.demand">
+                      <v-checkbox
+                        v-if="proposal.status === 'pending'"
+                        v-model="item.approved"
+                        color="success"
+                        hide-details
+                        class="mt-0"
+                      />
+                      <v-btn
+                        v-else
+                        x-small
+                        icon
+                        @click="previewDemand = item.demand"
+                      >
                         <v-icon>mdi-eye</v-icon>
                       </v-btn>
                     </td>
                   </tr>
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th><strong>Total</strong></th>
-                    <th>
-                      <strong>{{
-                        $utils.plural(proposal.estimate_in_days, 'dia')
-                      }}</strong>
-                    </th>
-                    <th>
-                      <strong>{{ proposal.price | moeda }}</strong>
-                    </th>
-                    <th></th>
-                  </tr>
-                </tfoot>
-              </template>
-            </v-simple-table>
+                </template>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th><strong>Total</strong></th>
+                  <th>
+                    <strong>{{
+                      $utils.plural(proposalValues.estimate_in_days, 'dia')
+                    }}</strong>
+                  </th>
+                  <th>
+                    <strong>{{ proposalValues.price | moeda }}</strong>
+                  </th>
+                  <th></th>
+                </tr>
+              </tfoot>
+            </template>
+          </v-simple-table>
+          <v-container>
             <div class="mb-6">
               <h5 class="mb-3">OBSERVAÇÕES:</h5>
               <ul class="mb-10">
@@ -256,8 +274,38 @@ export default {
       previewDemand: null,
     }
   },
-  created() {
-    this.loadProposal()
+  computed: {
+    proposalValues() {
+      if (this.proposal.status !== 'pending') {
+        return {
+          price: this.proposal.price,
+          estimate_in_days: this.proposal.estimate_in_days,
+        }
+      }
+
+      let price = 0
+      let estimateInDays = 0
+      this.proposal.items
+        .filter((item) => item.approved)
+        .forEach((item) => {
+          price += item.price
+          estimateInDays += item.estimate_in_days
+        })
+
+      return {
+        price,
+        estimate_in_days: estimateInDays,
+      }
+    },
+  },
+  async created() {
+    await this.loadProposal()
+
+    if (this.proposal.status === 'pending') {
+      this.proposal.items.forEach((item) => {
+        item.approved = true
+      })
+    }
   },
   methods: {
     async loadProposal() {
@@ -268,7 +316,12 @@ export default {
     },
     async approve() {
       const proposal = await this.$axios.$patch(
-        '/v1/proposals/' + this.proposalId + '/approve'
+        '/v1/proposals/' + this.proposalId + '/approve',
+        {
+          approved_demands: this.proposal.items
+            .filter((item) => item.approved)
+            .map((item) => item.demand._id),
+        }
       )
       this.loadProposal()
       this.$emit('input', proposal)

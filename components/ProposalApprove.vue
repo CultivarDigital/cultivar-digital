@@ -52,7 +52,7 @@
             <strong>{{
               $moment(
                 $momentBusinessDays.addDays({
-                  days: proposal.estimate_in_days + 1,
+                  days: proposalValues.estimate_in_days + 1,
                 })
               ).format('DD/MM/YYYY')
             }}</strong
@@ -70,7 +70,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in proposal.items" :key="item._id">
+                <tr v-for="item in approvedItems" :key="item._id">
                   <td>
                     <small>{{ item.demand.title }}</small>
                   </td>
@@ -86,7 +86,7 @@
                   <th><strong>Total</strong></th>
                   <th class="text-right">
                     <strong>{{
-                      $utils.plural(proposal.estimate_in_days, 'dia útil')
+                      $utils.plural(proposalValues.estimate_in_days, 'dia útil')
                     }}</strong>
                   </th>
                 </tr>
@@ -104,7 +104,7 @@
           <h4 class="mb-3">Preço e Pagamento</h4>
           <p>
             O valor total dos serviços prestados pelo Prestador será de
-            <strong>{{ proposal.price | moeda }}</strong
+            <strong>{{ proposalValues.price | moeda }}</strong
             >. O pagamento será realizado através de fatura gerada mensalmente
             ao final de cada ciclo incluindo as demandas finalizadas e o
             percentual já executado das demandas em andamento. O Contratante
@@ -196,6 +196,26 @@ export default {
     dialog: false,
     accepted: false,
   }),
+  computed: {
+    approvedItems() {
+      return this.proposal.items.filter((item) => item.approved)
+    },
+    proposalValues() {
+      let price = 0
+      let estimateInDays = 0
+      this.proposal.items
+        .filter((item) => item.approved)
+        .forEach((item) => {
+          price += item.price
+          estimateInDays += item.estimate_in_days
+        })
+
+      return {
+        price,
+        estimate_in_days: estimateInDays,
+      }
+    },
+  },
   methods: {
     confirm() {
       this.dialog = false
