@@ -79,7 +79,7 @@
                   <th class="text-left">Demanda</th>
                   <th>Estimativa</th>
                   <th>Valor</th>
-                  <th></th>
+                  <th> <span v-if="proposal.status === 'pending'">Aprovar</span></th>
                 </tr>
               </thead>
               <tbody>
@@ -96,7 +96,7 @@
                     <td @click="previewDemand = item.demand">
                       <small>{{ item.price | moeda }}</small>
                     </td>
-                    <td>
+                    <td class="text-right">
                       <v-checkbox
                         v-if="proposal.status === 'pending'"
                         v-model="item.approved"
