@@ -84,7 +84,7 @@
               </thead>
               <tbody>
                 <template v-for="item in proposal.items">
-                  <tr  v-if="proposal.status == 'pending' || item.approved" :key="item._id">
+                  <tr  v-if="proposal.status != 'approved' || item.approved" :key="item._id">
                     <td @click="previewDemand = item.demand">
                       <small>{{ item.demand.title }}</small>
                     </td>
