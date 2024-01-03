@@ -177,8 +177,8 @@ export default {
       await this.loadDemands()
       this.loadSummary()
     },
-    async removeDemand() {
-      await this.$axios.$delete(`/v1/demands/${this.activeDemand._id}`)
+    async removeDemand(demand) {
+      await this.$axios.$delete(`/v1/demands/${demand._id}`)
       this.closeDemand()
       this.loadDemands()
       this.loadSummary()
