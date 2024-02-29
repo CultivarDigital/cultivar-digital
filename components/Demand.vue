@@ -89,7 +89,7 @@
               @click="
                 () =>
                   copy(
-                    baseURL +
+                    providerURL +
                       '/' +
                       demand.customer +
                       '/demandas?demanda=' +

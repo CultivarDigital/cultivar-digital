@@ -68,7 +68,7 @@
               @click="
                 () =>
                   copy(
-                    baseURL +
+                    providerURL +
                       '/' +
                       recurringService.customer +
                       '/servicos-recorrentes?servico=' +

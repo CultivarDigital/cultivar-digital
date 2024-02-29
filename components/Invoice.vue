@@ -257,7 +257,7 @@
                 @click="
                   () =>
                     copy(
-                      baseURL +
+                      providerURL +
                         '/' +
                         invoice.customer._id +
                         '/faturas?fatura=' +

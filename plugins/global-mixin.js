@@ -19,6 +19,18 @@ if (!Vue.__my_mixin__) {
       filesURL() {
         return process.env.FILES_URL
       },
+      baseDomain() {
+        return process.env.BASE_DOMAIN
+      },
+      providerURL() {
+        if (this.provider) {
+          if (this.provider.domain) {
+            return `https://${this.provider.domain}`
+          } else {
+            return `https://${this.provider.subdomain}.${this.baseDomain}`
+          } 
+        }
+      },
       theme() {
         return this.$vuetify.theme.dark ? 'dark' : 'light'
       },

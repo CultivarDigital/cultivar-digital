@@ -118,10 +118,7 @@
         imobiliários!
       </p>
       <div>
-        <v-btn color="secondary" to="/atendimento" small>
-          <v-icon left class="d-none d-lg-inline">mdi-account-box</v-icon>
-          Fale conosco
-        </v-btn>
+        <WhatsAppButton />
       </div>
     </div>
     <v-dialog
@@ -129,80 +126,97 @@
       fullscreen
       :value="true"
       max-width="600"
+      persistent
       @hide="closePlan"
     >
       <v-card>
-        <v-card-text>
-          <div class="text-right py-6">
-            <v-btn icon @click="closePlan">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-          </div>
-          <div class="pt-6 px-6 text-center mb-10">
-            <img
-              :src="require('~/assets/img/imobiliarias/logo.svg')"
-              style="max-width: 100%"
-              class="mb-12"
-            />
-            <h3 class="primary--text">SOLICITE UMA DEMONSTRAÇÃO</h3>
-            <p>Plano {{ plan }}</p>
-          </div>
-
-          <ValidationObserver v-slot="{ validate, invalid }">
-            <v-form @submit.prevent="validate().then(save)">
-              <v-text-field
-                v-model="form.cnpj"
-                v-mask="['##.###.###/####-##']"
-                label="Informe seu CNPJ"
-                placeholder="00.000.000/0000-00"
-                class="text-center"
-                required
-                @input="loadDataFromCNPJ"
-              />
-              <div v-if="loadingDataFromCNPJ" class="text-center">
-                <v-progress-circular
-                  indeterminate
-                  color="primary"
-                ></v-progress-circular>
+        <div>
+          <v-container>
+            <div class="text-right">
+              <v-btn icon @click="closePlan">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </div>
+            <div class="pa-3">
+              <div class="pt-12 text-center mb-10">
+                <img
+                  :src="require('~/assets/img/imobiliarias/logo.svg')"
+                  style="max-width: 100%"
+                  class="mb-12"
+                />
+                <h3 class="primary--text">SOLICITE UMA DEMONSTRAÇÃO</h3>
+                <p>Plano {{ plan }}</p>
               </div>
-              <div v-if="form.name">
-                <validation-provider
-                  v-slot="{ errors }"
-                  name="Nome da empresa"
-                  rules="required"
-                >
+
+              <ValidationObserver v-slot="{ validate, invalid }">
+                <v-form @submit.prevent="validate().then(save)">
                   <v-text-field
-                    v-model="form.name"
-                    label="Nome da empresa"
-                    :error-messages="errors"
+                    v-model="form.cnpj"
+                    v-mask="['##.###.###/####-##']"
+                    label="Informe seu CNPJ"
+                    placeholder="00.000.000/0000-00"
+                    class="text-center"
+                    required
+                    @input="loadDataFromCNPJ"
                   />
-                </validation-provider>
-                <v-text-field
-                  v-model="form.corporate_name"
-                  label="Razão Social"
-                  required
-                />
+                  <div v-if="loadingDataFromCNPJ" class="text-center">
+                    <v-progress-circular
+                      indeterminate
+                      color="primary"
+                    ></v-progress-circular>
+                  </div>
+                  <div v-if="cnpjIsValid">
+                    <validation-provider
+                      v-slot="{ errors }"
+                      name="Nome da empresa"
+                      rules="required"
+                    >
+                      <v-text-field
+                        v-model="form.name"
+                        label="Nome da empresa"
+                        :error-messages="errors"
+                      />
+                    </validation-provider>
+                    <v-text-field
+                      v-model="form.corporate_name"
+                      label="Razão Social"
+                      required
+                    />
 
-                <v-text-field
-                  v-model="form.phone"
-                  v-mask="['(##) #####-####']"
-                  label="WhatsApp"
-                  required
-                />
-                <v-text-field v-model="form.email" label="E-mail" required />
-                <v-text-field
-                  v-model="form.address"
-                  label="Endereço"
-                  required
-                />
-              </div>
-              <div class="text-center pt-6">
-                <Save :invalid="invalid" label="Continuar" color="primary" :loading="savingProvider" />
-              </div>
-            </v-form>
-          </ValidationObserver>
-        </v-card-text>
-        <v-card-actions class="d-block text-center"> </v-card-actions>
+                    <v-text-field
+                      v-model="form.phone"
+                      v-mask="['(##) #####-####']"
+                      label="WhatsApp"
+                      required
+                    />
+                    <v-text-field
+                      v-model="form.email"
+                      label="E-mail"
+                      required
+                    />
+                    <v-text-field
+                      v-model="form.address"
+                      label="Endereço"
+                      required
+                    />
+                  </div>
+                  <div class="text-center">
+                    <Save
+                      :invalid="invalid"
+                      label="Continuar"
+                      color="primary"
+                      :loading="savingProvider"
+                    />
+                    <br />
+                    <v-btn color="secondary" text @click="closePlan">
+                      Cancelar
+                    </v-btn>
+                  </div>
+                </v-form>
+              </ValidationObserver>
+            </div>
+          </v-container>
+        </div>
       </v-card>
     </v-dialog>
   </v-container>
@@ -237,43 +251,51 @@ export default {
     plan() {
       return this.$route.query.plan
     },
-    baseDomain() {
-      return process.env.BASE_DOMAIN
+
+    cnpjIsValid() {
+      return this.form.cnpj.length === 18
     },
   },
   methods: {
     async loadDataFromCNPJ() {
-      if (this.form.cnpj.length === 18) {
+      if (this.cnpjIsValid) {
         try {
           this.loadingDataFromCNPJ = true
-          const data = await this.$axios.$get(
-            `/v1/utils/cnpj/${this.form.cnpj.replace(/\D/g, '')}`
-          )
+          const data = await this.$axios
+            .$get(`/v1/utils/cnpj/${this.form.cnpj.replace(/\D/g, '')}`).catch(
+              (error) => {
+                this.notify(
+                  'Não foi possível carregar os dados do CNPJ',
+                  'error'
+                )
+                console.log(error)
+              }
+            )
+            
+          if (data) {
+            if (data && data.status === 'ERROR') {
+              throw new Error(data.message)
+            }
 
-          if (data.status === 'ERROR') {
-            throw new Error(data.message)
+            this.form.company_info = data
+
+            this.form.name = data.fantasia
+            this.form.corporate_name = data.nome
+            this.form.phone = data.telefone ? data.telefone.split(' / ')[0] : ''
+            this.form.email = data.email
+            this.form.address = `${[
+              data.logradouro,
+              data.numero,
+              data.complemento,
+              data.bairro,
+              [data.municipio, data.uf].filter(Boolean).join(' - '),
+              data.cep,
+            ]
+              .filter(Boolean)
+              .join(', ')}`
           }
-
-          this.form.company_info = data
-
-          this.form.name = data.fantasia
-          this.form.corporate_name = data.nome
-          this.form.phone = data.telefone ? data.telefone.split(' / ')[0] : ''
-          this.form.email = data.email
-          this.form.address = `${[
-            data.logradouro,
-            data.numero,
-            data.complemento,
-            data.bairro,
-            [data.municipio, data.uf].filter(Boolean).join(' - '),
-            data.cep,
-          ]
-            .filter(Boolean)
-            .join(', ')}`
         } catch (error) {
-          if (error.message) {
-            this.notify(error.message, 'error')
-          }
+          console.log(error)
         }
         this.loadingDataFromCNPJ = false
       }
@@ -281,11 +303,34 @@ export default {
     async save() {
       this.savingProvider = true
       try {
-        const provider = await this.$axios.$post('/v1/providers/public/register', {...this.form, plan: this.plan})
-        window.open('https://' + provider.slug + '.' + this.baseDomain + '/atendimento?at=' + provider.auth_token, '_blank')
+        const provider = await this.$axios.$post(
+          '/v1/providers/public/register',
+          { ...this.form, plan: this.plan }
+        )
+        window.open(
+          'https://' +
+            provider.slug +
+            '.' +
+            this.baseDomain +
+            '/atendimento?at=' +
+            provider.auth_token,
+          '_blank'
+        )
       } catch (error) {
-        this.notify('Erro ao salvar', 'error')
+        const message = error.response.data.message
+        console.log(message)
+        if (message.includes('E11000')) {
+          if (message.includes('slug:')) {
+            this.notify('Este nome já está cadastrado', 'error')
+          } else if (message.includes('cnpj:')) {
+            this.notify('Este CNPJ já está cadastrado', 'error')
+          }
+        } else {
+          console.error(error)
+          this.notify('Erro ao salvar', 'error')
+        }
       }
+      this.savingProvider = false
     },
     openPlan(plan) {
       this.$router.push({ query: { plan } })

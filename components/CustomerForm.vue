@@ -59,7 +59,7 @@
               v-if="value"
               class="mb-6"
               small
-              @click="() => copy(baseURL + '/cadastrar?cliente=' + value._id)"
+              @click="() => copy(providerURL + '/cadastrar?cliente=' + value._id)"
             >
               <v-icon left small> mdi-content-copy </v-icon>
               Copiar link de cadastro

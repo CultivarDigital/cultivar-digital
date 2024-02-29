@@ -17,7 +17,7 @@
           A partir de agora você terá um acesso a um painel exclusivo onde poderá acompanhar o andamento das suas demandas.
         </p>
         <div class="mb-6">
-          <v-btn color="success" large target="_blank" :href="baseURL + '/' + createdCustomer._id + '/demandas'">
+          <v-btn color="success" large target="_blank" :href="providerURL + '/' + createdCustomer._id + '/demandas'">
             Acompanhe suas demandas
           </v-btn>
         </div> 

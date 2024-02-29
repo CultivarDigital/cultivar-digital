@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app flat color="transparent">
+    <v-app-bar :fixed="false" app flat color="white">
       <div class="d-flex justify-end align-center w-100" style="width: 100%">
         <n-link to="/" class="text-decoration-none d-flex align-center">
           <img :src="require('~/assets/img/logo.svg')" width="30" />
@@ -28,10 +28,7 @@
               >Portfólio</v-btn
             >
           </div> -->
-          <v-btn color="primary" to="/atendimento" small>
-            <v-icon left class="d-none d-lg-inline">mdi-account-box</v-icon>
-            Atendimento
-          </v-btn>
+          <WhatsAppButton icon />
         </div>
       </div>
     </v-app-bar>

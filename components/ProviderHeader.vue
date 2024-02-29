@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar fixed app flat>
+  <v-app-bar app flat>
     <n-link to="/" class="text-decoration-none d-flex align-center">
       <img v-if="provider.logo" :src="filesURL + provider.logo" class="logo" />
       <span class="ml-3 text-subtitle-1">{{ provider.name }}</span>

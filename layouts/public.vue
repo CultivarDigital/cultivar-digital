@@ -1,6 +1,6 @@
 <template>
   <v-app v-if="provider" dark>
-    <v-app-bar fixed app flat>
+    <v-app-bar app flat>
       <div class="d-flex justify-end align-center w-100" style="width: 100%">
         <n-link to="/" class="text-decoration-none d-flex align-center">
           <img
@@ -50,20 +50,7 @@
         </p>
         <div class="text-center">
           <div class="mb-3">Fale com a gente pelo WhatsApp:</div>
-          <v-btn
-            v-if="provider.phone"
-            color="primary"
-            x-large
-            target="_blank"
-            :href="`https://api.whatsapp.com/send?phone=55${provider.phone.replace(
-              /\D/g,
-              ''
-            )}`"
-            class="text-decoration-none mb-3"
-          >
-            <v-icon left>mdi-whatsapp</v-icon>
-            {{ provider.phone }}
-          </v-btn>
+          <WhatsAppButton v-if="provider.phone" :phone="provider.phone.replace(/\D/g, '')" />          
           <div v-if="provider.email">
             <p class="pt-3">Ou envie um email para:</p>
             <h5 class="text-h6 mb-6">

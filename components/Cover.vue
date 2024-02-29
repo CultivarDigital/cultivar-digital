@@ -26,17 +26,7 @@
             <v-icon left>mdi-login</v-icon> Já sou cliente
           </v-btn>
           <div class="pt-10 mb-10">
-            <v-btn
-              color="success"
-              :href="`https://api.whatsapp.com/send?phone=55${provider.phone.replace(
-                /\D/g,
-                ''
-              )}`"
-              target="_blank"
-            >
-              <v-icon left>mdi-whatsapp</v-icon>
-              Fale com a gente
-            </v-btn>
+            <WhatsAppButton v-if="provider.phone" :phone="provider.phone.replace(/\D/g, '')" />
           </div>
           <v-btn icon fab class="nav-btn" href="#presentation">
             <v-icon>mdi-chevron-double-down</v-icon>

@@ -2,14 +2,14 @@
   <v-snackbar
     v-model="show"
     :color="color"
-    app
+    
     :timeout="color === 'green' ? 3000 : 10000"
   >
     <v-icon v-if="color === 'green'" left> mdi-checkbox-marked-circle </v-icon>
     <v-icon v-if="color === 'red'" left> mdi-alert-circle </v-icon>
     {{ message }}
-    <template #action="{ attrs }">
-      <v-btn small text v-bind="attrs" @click="show = false">
+    <template #action="{  }">
+      <v-btn small text @click="show = false">
         <v-icon> mdi-close </v-icon>
       </v-btn>
     </template>

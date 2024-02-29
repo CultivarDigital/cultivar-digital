@@ -91,10 +91,7 @@
           alcançar seus objetivos.
         </p>
         <div>
-          <v-btn color="secondary" to="/atendimento" small>
-            <v-icon left class="d-none d-lg-inline">mdi-account-box</v-icon>
-            Fale conosco
-          </v-btn>
+          <WhatsAppButton />
         </div>
       </div>
     </v-container>

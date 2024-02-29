@@ -232,7 +232,7 @@
                 @click="
                   () =>
                     copy(
-                      baseURL +
+                      providerURL +
                         '/' +
                         proposal.customer._id +
                         '/propostas?proposta=' +
