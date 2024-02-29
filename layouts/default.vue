@@ -1,14 +1,10 @@
 <template>
-  <v-app v-if="provider" dark>
+  <v-app light>
     <v-app-bar fixed app flat>
       <div class="d-flex justify-end align-center w-100" style="width: 100%">
         <n-link to="/" class="text-decoration-none d-flex align-center">
-          <img
-            v-if="provider.logo"
-            :src="filesURL + provider.logo"
-            class="logo"
-          />
-          <span class="ml-3 text-subtitle-1">{{ provider.name }}</span>
+          <b-icon icon="mdi-home" />
+          <span class="ml-3 text-subtitle-1">Atendimento simples</span>
         </n-link>
         <v-spacer />
         <div class="d-flex align-center">
@@ -101,7 +97,6 @@ export default {
     }
   },
   head() {
-    if (!this.provider) return
     return {
       titleTemplate: '%s - ' + this.provider.name,
       title: this.provider.description,
@@ -153,11 +148,6 @@ export default {
           content: 'summary_large_image',
         },
       ],
-    }
-  },
-  created() {
-    if (!this.provider) {
-      this.$router.push('/apresentacao')
     }
   },
   methods: {

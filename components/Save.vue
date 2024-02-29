@@ -8,13 +8,13 @@
       Você deve corrigir os erros acima antes de salvar
     </v-alert>
     <v-btn
-      x-large
-      class="mb-4 mt-4 font-weight-bold text-none"
+      large
+      class="mb-4 mt-4 "
       type="submit"
-      color="success"
+      :color="color"
       :disabled="invalid || loading"
       :block="block"
-      rounded
+      
     >
       <v-progress-circular
         v-if="loading"
@@ -49,6 +49,10 @@ export default {
     showErrorAlert: {
       type: Boolean,
       default: true,
+    },
+    color: {
+      type: String,
+      default: 'success',
     },
   },
 }

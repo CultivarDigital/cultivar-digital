@@ -158,6 +158,7 @@ export default {
   },
 
   env: {
+    BASE_DOMAIN: process.env.BASE_DOMAIN,
     BASE_URL: process.env.BASE_URL || 'http://localhost:3000',
     API_URL: process.env.API_URL || 'http://localhost:5001',
     FILES_URL: process.env.FILES_URL || 'http://localhost:5000',
