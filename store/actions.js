@@ -4,13 +4,16 @@ export default {
     const baseDomain = process.env.BASE_DOMAIN
     
     const domain = req.headers.host.split(':')[0]
+    // domain = 'terradoscristais.com.br'
 
     console.log('DOMAIN: ' + domain)
 
     let provider = null
       
     if (domain !== 'localhost' && domain !== baseDomain) {
+      console.log(`/v1/providers/public/${domain}`);
       provider = await $axios.$get(`/v1/providers/public/${domain}`)
+      console.log('PROVIDER: ' + JSON.stringify(provider))
       commit('setProvider', provider)
     } else {
       const subdomain = req.headers.host
