@@ -62,7 +62,7 @@
           </ul>
           <div class="text-center">
             <p><strong>Preço: R$ 399/mês</strong></p>
-            <v-btn color="secondary" @click="openPlan('Básico')"
+            <v-btn small color="secondary" @click="openPlan('Básico')"
               >Assinar Plano Básico</v-btn
             >
           </div>
@@ -83,7 +83,7 @@
           </ul>
           <div class="text-center">
             <p><strong>Preço: R$ 699/mês</strong></p>
-            <v-btn color="secondary" @click="openPlan('Premium')"
+            <v-btn small color="secondary" @click="openPlan('Premium')"
               >Assinar Plano Premium</v-btn
             >
           </div>
@@ -104,7 +104,7 @@
           </ul>
           <div class="text-center">
             <p><strong>Preço: R$ 999/mês</strong></p>
-            <v-btn color="secondary" @click="openPlan('Profissional')"
+            <v-btn small color="secondary" @click="openPlan('Profissional')"
               >Assinar Plano Profissional</v-btn
             >
           </div>
