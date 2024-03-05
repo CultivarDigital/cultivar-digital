@@ -16,9 +16,11 @@ export default {
       console.log('PROVIDER: ' + JSON.stringify(provider))
       commit('setProvider', provider)
     } else {
-      const subdomain = req.headers.host
+      let subdomain = req.headers.host
       .replace(`.${baseDomain}`, '')
       .split(':')[0]
+
+      subdomain = 'imobiliaria-terra-dos-cristais'
       
       const isDefault = ['www', '', 'localhost', baseDomain].includes(subdomain)
 

@@ -4,14 +4,15 @@
       <ValidationObserver v-slot="{ validate, invalid }">
         <v-form @submit.prevent="validate().then(login)">
           <v-icon class="mb-6" size="100">mdi-face-agent</v-icon>
-          <h3 class="mb-3">Central de atendimento</h3>
+          <div class="mb-12">
+            <ProviderLogo />
+          </div>
+          
           <div>
-            <p class="text-subtitle-1 mb-8">
-              <small>Informe seus dados para acessar a área de clientes</small>
-            </p>
+            
             <validation-provider
               v-slot="{ errors }"
-              name="e-mail"
+              name="telefone"
               rules="required"
             >
               <!-- <h4
@@ -22,9 +23,11 @@
             </h4> -->
               <v-text-field
                 v-model="form.login"
+                v-mask="'(##) #####-####'"
                 outlined
-                label="Digite seu e-mail"
+                label="Digite seu telefone"
                 :error-messages="errors"
+                placeholder="(XX) XXXXX-XXXX"
               />
             </validation-provider>
             <validation-provider
@@ -38,6 +41,7 @@
             >
               Senha
             </h4> -->
+            
               <v-text-field
                 v-model="form.password"
                 outlined
@@ -51,20 +55,19 @@
                 </v-icon>
               </v-text-field>
             </validation-provider>
-            <div class="text-right mb-6 mt-2">
-              <!-- <v-btn
-              color="white"
-              outlined
-              small
-              to="/esqueci-minha-senha"
+            <div class="text-right mb-6 mt-1">
+              <v-btn
+              text
+              x-small
+              :to="'/esqueci-minha-senha?login=' + form.login"
               rounded
             >
               Esqueci minha senha
-            </v-btn> -->
+            </v-btn>
             </div>
           </div>
           <Save :invalid="invalid" :loading="loading" label="Entrar" />
-          <v-btn
+          <!-- <v-btn
             color="primary"
             block
             class="mb-2"
@@ -72,7 +75,7 @@
             @click="signInWithGoogle"
           >
             <v-icon left>mdi-google</v-icon> Entrar com o google
-          </v-btn>
+          </v-btn> -->
           <!-- <v-btn
           color="primary"
           plain
@@ -99,10 +102,14 @@ export default {
       showPassword: false,
       loading: false,
       form: {
+        provider: null,
         login: '',
         password: '',
       },
     }
+  },
+  created() {
+    this.form.provider = this.provider._id
   },
   methods: {
     signInWithGoogle(rounded) {
@@ -122,6 +129,7 @@ export default {
             data: {
               token,
               group_id: this.$route.query.codigo,
+              provider: this.provider,
             },
           })
           .catch((error) => {
@@ -132,15 +140,10 @@ export default {
     },
     login() {
       this.loading = true
-      this.$firebase
-        .login(this.form.login.trim(), this.form.password)
-        .then((userCredential) => {
-          this.authenticateApi(userCredential)
-        })
-        .catch((error) => {
-          this.$notifier.firebaseError(error)
-          this.loading = false
-        })
+      this.$auth.loginWith('local', { data: this.form }).catch((error) => {
+        this.$notifier.apiError(error)
+        this.loading = false
+      })
     },
   },
 }

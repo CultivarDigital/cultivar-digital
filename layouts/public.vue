@@ -117,7 +117,7 @@ export default {
           hid: 'og:url',
           property: 'og:url',
           content:
-            'https://' + this.provider.slug + '.' + process.env.BASE_DOMAIN,
+            'https://' + this.provider.slug + '.' + this.baseDomain
         },
         {
           hid: 'twitter:title',

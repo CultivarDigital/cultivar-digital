@@ -3,18 +3,17 @@
     <v-alert
       v-if="invalid && showErrorAlert"
       type="error"
-      class="d-flex justify-center"
+      class="d-flex justify-center mt-6"
     >
       Você deve corrigir os erros acima antes de salvar
     </v-alert>
     <v-btn
       large
-      class="mb-4 mt-4 "
+      class="mb-4 mt-4"
       type="submit"
       :color="color"
       :disabled="invalid || loading"
       :block="block"
-      
     >
       <v-progress-circular
         v-if="loading"

@@ -122,6 +122,7 @@ export default {
             data: {
               token,
               customer_id: this.$route.query.cliente,
+              provider: this.provider
             },
           })
           .then((resp) => {

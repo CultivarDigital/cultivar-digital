@@ -132,7 +132,7 @@ export default {
           // autoFetch: true
         },
         endpoints: {
-          login: { url: '/v1/auth/firebase', method: 'post' },
+          login: { url: '/v1/auth/login', method: 'post' },
           logout: false,
           user: { url: '/v1/users/profile', method: 'get' },
         },

@@ -148,7 +148,8 @@
                 <p>Plano {{ plan }}</p>
               </div>
 
-              <ValidationObserver v-slot="{ validate, invalid }">
+              <div v-if="!createdProvider">
+                <ValidationObserver v-slot="{ validate, invalid }">
                 <v-form @submit.prevent="validate().then(save)">
                   <v-text-field
                     v-model="form.cnpj"
@@ -177,31 +178,99 @@
                         :error-messages="errors"
                       />
                     </validation-provider>
-                    <v-text-field
-                      v-model="form.corporate_name"
-                      label="Razão Social"
-                      required
-                    />
-
-                    <v-text-field
-                      v-model="form.phone"
-                      v-mask="['(##) #####-####']"
-                      label="WhatsApp"
-                      required
-                    />
-                    <v-text-field
-                      v-model="form.email"
-                      label="E-mail"
-                      required
-                    />
-                    <v-text-field
-                      v-model="form.address"
-                      label="Endereço"
-                      required
-                    />
+                    <validation-provider
+                      v-slot="{ errors }"
+                      name="Razão social"
+                      rules="required"
+                    >
+                      <v-text-field
+                        v-model="form.corporate_name"
+                        label="Razão Social"
+                        :error-messages="errors"
+                      />
+                    </validation-provider>
+                    <validation-provider
+                      v-slot="{ errors }"
+                      name="Endereço"
+                      rules="required"
+                    >
+                      <v-text-field
+                        v-model="form.address"
+                        label="Endereço"
+                        :error-messages="errors"
+                      />
+                    </validation-provider>
+                    <validation-provider
+                      v-slot="{ errors }"
+                      name="E-mail de contato"
+                      rules="required"
+                    >
+                      <v-text-field
+                        v-model="form.email"
+                        label="E-mail de contato"
+                        :error-messages="errors"
+                      />
+                    </validation-provider>
+                    <validation-provider
+                      v-slot="{ errors }"
+                      name="WhatsApp"
+                      rules="required|min:15"
+                    >
+                      <v-text-field
+                        v-model="form.phone"
+                        v-mask="['(##) #####-####']"
+                        label="WhatsApp"
+                        :error-messages="errors"
+                        hint="Será o telefone usado para acessar o sistema"
+                      />
+                    </validation-provider>
+                    <div v-if="form.phone">
+                      <validation-provider
+                        v-slot="{ errors }"
+                        name="senha"
+                        rules="required|min:4"
+                        vid="senha"
+                      >
+                        <v-text-field
+                          v-model="form.password"
+                          :type="showPassword ? 'text' : 'password'"
+                          label="Vamos criar uma senha pra você?"
+                          :error-messages="errors"
+                        >
+                          <v-icon
+                            slot="append"
+                            tabindex="-1"
+                            @click="showPassword = !showPassword"
+                          >
+                            mdi-eye
+                          </v-icon>
+                        </v-text-field>
+                      </validation-provider>
+                      <validation-provider
+                        v-slot="{ errors }"
+                        name="confirmação da senha"
+                        rules="required|confirmed:senha"
+                      >
+                        <v-text-field
+                          v-model="form.password_confirmation"
+                          :type="showPassword ? 'text' : 'password'"
+                          label="Confirme sua senha"
+                          :error-messages="errors"
+                        >
+                          <v-icon
+                            slot="append"
+                            tabindex="-1"
+                            @click="showPassword = !showPassword"
+                          >
+                            mdi-eye
+                          </v-icon>
+                        </v-text-field>
+                      </validation-provider>
+                    </div>
                   </div>
                   <div class="text-center">
                     <Save
+                      v-if="cnpjIsValid"
                       :invalid="invalid"
                       label="Continuar"
                       color="primary"
@@ -213,7 +282,32 @@
                     </v-btn>
                   </div>
                 </v-form>
-              </ValidationObserver>
+              </ValidationObserver>  
+              </div>
+              <div v-if="createdProvider">
+                <div class="text-center">
+                  <div>
+                    <v-icon
+                      size="100"
+                      color="primary"
+                      class="mb-6"
+                      >mdi-check-circle</v-icon
+                    >
+                  </div>
+                  <h1 class="primary--text mb-6">Parabéns!</h1>
+                  <h3 class="primary--text mb-6">Seu cadastro foi realizado com sucesso!</h3>
+                  <p>
+                    Agora você já tem um site e um sistema de gestão completo para simplificar e otimizar as rotinas de atendimento e gestão dos seus imóveis.
+                  </p>
+                  <p>
+                    Por enquanto o endereço do seu site é: <a :href="createdProviderURL" target="_blank">{{ createdProviderURL }}</a>
+                  </p>
+                  <p>
+                    Acesse o seu painel administrativo e pode começar a personalizar o seu site e a cadastrar os seus imóveis.
+                  </p>
+                  <v-btn color="primary" :href="createdProviderURL + '/atendimento'" block>Acessar o meu painel</v-btn>
+                </div>
+              </div>
             </div>
           </v-container>
         </div>
@@ -233,6 +327,8 @@ export default {
     return {
       loadingDataFromCNPJ: false,
       savingProvider: false,
+      showPassword: false,
+      createdProvider: null,
       form: {
         cnpj: '',
         name: '',
@@ -240,6 +336,8 @@ export default {
         address: '',
         phone: '',
         email: '',
+        password: '',
+        password_confirmation: '',
         theme: 'light',
         primary_color: '#00335a',
         type: 'Imobiliária',
@@ -251,9 +349,21 @@ export default {
     plan() {
       return this.$route.query.plan
     },
-
     cnpjIsValid() {
       return this.form.cnpj.length === 18
+    },
+    passwordIsValid() {
+      return (
+        this.form.password.length &&
+        this.form.password_confirmation.length &&
+        this.form.password === this.form.password_confirmation
+      )
+    },
+    createdProviderURL() {
+      if (this.createdProvider) {
+        return 'https://' + this.createdProvider.slug + '.' + this.baseDomain
+      }
+      return ''
     },
   },
   methods: {
@@ -262,16 +372,12 @@ export default {
         try {
           this.loadingDataFromCNPJ = true
           const data = await this.$axios
-            .$get(`/v1/utils/cnpj/${this.form.cnpj.replace(/\D/g, '')}`).catch(
-              (error) => {
-                this.notify(
-                  'Não foi possível carregar os dados do CNPJ',
-                  'error'
-                )
-                console.log(error)
-              }
-            )
-            
+            .$get(`/v1/utils/cnpj/${this.form.cnpj.replace(/\D/g, '')}`)
+            .catch((error) => {
+              this.notify('Não foi possível carregar os dados do CNPJ', 'error')
+              console.log(error)
+            })
+
           if (data) {
             if (data && data.status === 'ERROR') {
               throw new Error(data.message)
@@ -307,15 +413,8 @@ export default {
           '/v1/providers/public/register',
           { ...this.form, plan: this.plan }
         )
-        window.open(
-          'https://' +
-            provider.slug +
-            '.' +
-            this.baseDomain +
-            '/atendimento?at=' +
-            provider.auth_token,
-          '_blank'
-        )
+       
+        this.createdProvider = provider
       } catch (error) {
         const message = error.response.data.message
         console.log(message)
