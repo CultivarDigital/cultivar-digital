@@ -438,6 +438,7 @@
 </template>
 <script>
 export default {
+  layout: 'main',
   data() {
     return {
       name: 'Cultivar Digital',
