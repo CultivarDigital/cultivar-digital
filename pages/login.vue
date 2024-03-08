@@ -23,7 +23,7 @@
             </h4> -->
               <v-text-field
                 v-model="form.login"
-                v-mask="'(##) #####-####'"
+                
                 outlined
                 label="Digite seu telefone"
                 :error-messages="errors"
