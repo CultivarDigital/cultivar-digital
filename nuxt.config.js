@@ -140,9 +140,9 @@ export default {
     },
     scopeKey: 'role',
     redirect: {
-      login: '/login',
+      login: '/entrar',
       logout: '/',
-      callback: '/login',
+      callback: '/entrar',
       home: '/atendimento',
     },
     rewriteRedirects: true,

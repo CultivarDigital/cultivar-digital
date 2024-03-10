@@ -2,11 +2,21 @@
   <section class="d-flex align-center">
     <v-container class="pt-10 text-center" style="max-width: 340px">
       <ValidationObserver v-slot="{ validate, invalid }">
-        <v-form @submit.prevent="validate().then(sendPasswordReset)">
-          <div class="mb-12">
+        <v-form
+          v-if="!success"
+          @submit.prevent="validate().then(sendPasswordReset)"
+        >
+          <div>
             <ProviderLogo />
+            <h4 class="text-subtitle-1 font-weight-black mb-3">
+              {{ provider.name }}
+            </h4>
           </div>
-          <p class="mb-3">Esqueci minha senha</p>
+          <p class="mb-6">
+            <small
+              >Digite seu telefone de acesso para redefinir sua senha</small
+            >
+          </p>
           <div>
             <validation-provider
               v-slot="{ errors }"
@@ -22,7 +32,7 @@
               <v-text-field
                 v-model="form.login"
                 v-mask="'(##) #####-####'"
-                label="Digite seu telefone"
+                label="Telefone de acesso"
                 :error-messages="errors"
                 placeholder="(XX) XXXXX-XXXX"
               />
@@ -31,24 +41,19 @@
           <Save :invalid="invalid" :loading="loading" label="Continuar" />
 
           <br />
-          <v-btn color="secondary" small text to="/login"> Cancelar </v-btn>
-          <!-- <v-btn
-            color="primary"
-            block
-            class="mb-2"
-            rounded
-            @click="signInWithGoogle"
-          >
-            <v-icon left>mdi-google</v-icon> Entrar com o google
-          </v-btn> -->
-          <!-- <v-btn
-          color="primary"
-          plain
-          :to="{ path: '/cadastro', query: $route.query }"
-        >
-          Cadastre-se
-        </v-btn> -->
+          <v-btn small text to="/entrar"> Cancelar </v-btn>
         </v-form>
+        <div v-else>
+          <v-icon color="success" size="100" class="mb-6">mdi-check-circle</v-icon>
+          <p>
+            Enviamos um link para redefinir sua senha para o WhatsApp do
+            telefone informado.
+          </p>
+          <p>
+            Verifique seu WhatsApp e siga as instruções para redefinir sua
+            senha.
+          </p>
+        </div>
       </ValidationObserver>
     </v-container>
   </section>
@@ -79,9 +84,12 @@ export default {
   methods: {
     async sendPasswordReset() {
       this.loading = true
-      await this.$axios.$post('/v1/auth/send-password-reset', this.form)
-
-      this.success = true
+      try {
+        await this.$axios.$post('/v1/auth/send-password-reset', this.form)
+        this.success = true
+      } catch (error) {
+        this.$notifier.apiError(error)
+      }
       this.loading = false
     },
   },

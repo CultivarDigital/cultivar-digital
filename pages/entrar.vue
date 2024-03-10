@@ -3,11 +3,15 @@
     <v-container class="pt-10 text-center" style="max-width: 340px">
       <ValidationObserver v-slot="{ validate, invalid }">
         <v-form @submit.prevent="validate().then(login)">
-          <v-icon class="mb-6" size="100">mdi-face-agent</v-icon>
-          <div class="mb-12">
-            <ProviderLogo />
-          </div>
-          
+          <div>
+          <ProviderLogo />
+          <h4 class="text-subtitle-1 font-weight-black mb-3">
+            {{ provider.name }}
+          </h4>
+        </div>
+        <p class="mb-6">
+          <small>Digite seu telefone e senha de acesso para entrar</small>
+        </p>
           <div>
             
             <validation-provider
@@ -23,8 +27,7 @@
             </h4> -->
               <v-text-field
                 v-model="form.login"
-                
-                outlined
+                v-mask="'(##) #####-####'"
                 label="Digite seu telefone"
                 :error-messages="errors"
                 placeholder="(XX) XXXXX-XXXX"
@@ -44,7 +47,6 @@
             
               <v-text-field
                 v-model="form.password"
-                outlined
                 :type="showPassword ? 'text' : 'password'"
                 :error-messages="errors"
                 label="Digite sua senha"
@@ -90,7 +92,7 @@
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { getAuth, getIdToken } from 'firebase/auth'
+
 export default {
   components: {
     ValidationObserver,
@@ -112,32 +114,6 @@ export default {
     this.form.provider = this.provider._id
   },
   methods: {
-    signInWithGoogle(rounded) {
-      this.$firebase
-        .loginWithGoogle()
-        .then((userCredential) => {
-          if (userCredential && userCredential.user) {
-            this.authenticateApi(userCredential)
-          }
-        })
-        .catch(this.$notifier.firebaseError)
-    },
-    authenticateApi(userCredential) {
-      getIdToken(getAuth().currentUser).then((token) => {
-        this.$auth
-          .loginWith('local', {
-            data: {
-              token,
-              group_id: this.$route.query.codigo,
-              provider: this.provider,
-            },
-          })
-          .catch((error) => {
-            this.$notifier.apiError(error)
-            this.loading = false
-          })
-      })
-    },
     login() {
       this.loading = true
       this.$auth.loginWith('local', { data: this.form }).catch((error) => {

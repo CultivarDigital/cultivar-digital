@@ -65,7 +65,7 @@
           <v-btn
             color="primary"
             plain
-            :to="{ path: '/login', query: $route.query }"
+            :to="{ path: '/entrar', query: $route.query }"
             >Entre</v-btn
           >
         </div>
