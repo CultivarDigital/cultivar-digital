@@ -27,7 +27,7 @@ if (!Vue.__my_mixin__) {
           if (this.provider.domain) {
             return `https://${this.provider.domain}`
           } else {
-            return `https://${this.provider.subdomain}.${this.baseDomain}`
+            return `https://${this.provider.slug}.${this.baseDomain}`
           } 
         }
       },
