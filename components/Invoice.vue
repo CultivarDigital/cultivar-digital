@@ -149,6 +149,32 @@
                 </small>
               </div>
             </div>
+            <div v-if="invoice.nfe" class="text-center mb-6">
+              <h3 class="mb-3 text-left text-center">
+                NOTA FISCAL ELETRÔNICA
+              </h3>
+              <img
+                :src="
+                  filesURL +
+                  invoice.nfe.replace('/images', '/averages')
+                "
+                style="max-width: 100%"
+              />
+              <div
+                v-if="
+                  invoice.nfe_sent_by && invoice.paymentProofSentAt
+                "
+              >
+                <small>
+                  Comprovante enviado por
+                  <strong>{{ invoice.nfe_sent_by.name }}</strong>
+                  em
+                  <strong>{{
+                    $moment(invoice.nfeSentAt).format('DD/MM/YYYY')
+                  }}</strong>
+                </small>
+              </div>
+            </div>
             <div class="mb-6">
               <div
                 v-if="invoice.status === 'paid' && invoice.paid_by"
