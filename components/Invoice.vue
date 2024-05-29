@@ -50,7 +50,11 @@
                 </v-chip>
                 <v-chip v-if="invoice.status === 'pending'" small outlined>
                   <v-icon left small> mdi-cash-clock </v-icon>
-                  {{invoice.payment_proof ? 'Aguardando confirmação do pagamento' : 'Aguardando pagamento'}}
+                  {{
+                    invoice.payment_proof
+                      ? 'Aguardando confirmação do pagamento'
+                      : 'Aguardando pagamento'
+                  }}
                 </v-chip>
               </div>
             </div>
@@ -150,27 +154,18 @@
               </div>
             </div>
             <div v-if="invoice.nfe" class="text-center mb-6">
-              <h3 class="mb-3 text-left text-center">
-                NOTA FISCAL ELETRÔNICA
-              </h3>
+              <h3 class="mb-3 text-left text-center">NOTA FISCAL ELETRÔNICA</h3>
               <img
-                :src="
-                  filesURL +
-                  invoice.nfe.replace('/images', '/averages')
-                "
+                :src="filesURL + invoice.nfe.replace('/images', '/averages')"
                 style="max-width: 100%"
               />
-              <div
-                v-if="
-                  invoice.nfe_sent_by && invoice.paymentProofSentAt
-                "
-              >
+              <div v-if="invoice.nfe_sent_by && invoice.nfe_sent_at">
                 <small>
-                  Comprovante enviado por
+                  Nota fiscal enviada por
                   <strong>{{ invoice.nfe_sent_by.name }}</strong>
                   em
                   <strong>{{
-                    $moment(invoice.nfeSentAt).format('DD/MM/YYYY')
+                    $moment(invoice.nfe_sent_at).format('DD/MM/YYYY')
                   }}</strong>
                 </small>
               </div>
@@ -224,18 +219,38 @@
               color="error"
             />
 
+            <div
+              v-if="$auth.user.role === 'provider' && invoice.status === 'paid'"
+              class="text-center"
+            >
+              <div class="mb-6">
+                <UploadImage
+                  prefix="invoices/nfes"
+                  button
+                  :label="
+                    invoice.nfe ? 'Reenviar nota fiscal' : 'Enviar nota fiscal'
+                  "
+                  class="mb-6"
+                  color="success"
+                  icon="mdi-upload"
+                  @input="uploadNfe"
+                />
+              </div>
+            </div>
             <div v-if="invoice.status === 'pending'" class="text-center">
               <div class="mb-6">
                 <UploadImage
                   prefix="invoices/payment-proofs"
                   button
                   :label="
-                    (invoice.payment_proof ? 'Reenviar comprovante' : 'Enviar comprovante de pagamento') 
+                    invoice.payment_proof
+                      ? 'Reenviar comprovante'
+                      : 'Enviar comprovante de pagamento'
                   "
                   class="mb-6"
                   color="success"
                   icon="mdi-upload"
-                  @input="markAsPaid"
+                  @input="uploadPaymentProof"
                 />
               </div>
               <div class="mb-6">
@@ -342,12 +357,20 @@ export default {
         '/v1/invoices/' + this.invoiceId + '/info'
       )
     },
-    async markAsPaid(paymentProof) {
+    async uploadPaymentProof(paymentProof) {
       const body = paymentProof ? { payment_proof: paymentProof } : {}
 
       const invoice = await this.$axios.$patch(
         '/v1/invoices/' + this.invoiceId + '/mark-as-paid',
         body
+      )
+      this.loadInvoice()
+      this.$emit('input', invoice)
+    },
+    async markAsPaid() {
+      const invoice = await this.$axios.$patch(
+        '/v1/invoices/' + this.invoiceId + '/mark-as-paid',
+        {}
       )
       this.loadInvoice()
       this.$emit('input', invoice)
@@ -374,8 +397,8 @@ export default {
       this.notify('Copiado!')
     },
     preview(item) {
-      console.log('item');
-      console.log(item);
+      console.log('item')
+      console.log(item)
       if (item.demand) {
         this.previewDemand = item.demand
       } else if (item.recurringService) {
