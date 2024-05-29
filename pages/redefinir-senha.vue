@@ -84,7 +84,7 @@ export default {
       showPassword: false,
       form: {
         provider: null,
-        token: this.$route.query.token,
+        resetToken: this.$route.query.token,
         phone: this.$route.query.phone,
         password: '',
         password_confirmation: '',
